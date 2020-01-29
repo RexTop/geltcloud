@@ -1,0 +1,52 @@
+enum CashAccountType {
+    CASH_ACCOUNT
+    CREDIT_CARD
+    GIFT_CARD
+}
+
+type CashAccount
+@model
+@auth(rules: [{allow: owner}])
+{
+    id: ID!
+    name: String!
+    balance: Float!
+    type: CashAccountType!
+    credit: Float!
+    closingDay: Int!
+    paymentDay: Int!
+    last4: String!
+    active: Boolean!
+}
+
+type FlowOperation
+@model
+@auth(rules: [{allow: owner}])
+{
+    id: ID!
+    amount: Float!
+    dateIssued: AWSDateTime!
+    description: String!
+    tags: [String!]!
+    bankNote: String
+    issuerCashAccountID: ID!
+    issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
+}
+
+type TransferOperation
+@model
+@auth(rules: [{allow: owner}])
+{
+    id: ID!
+    amount: Float!
+    dateIssued: AWSDateTime!
+    dateAcquired: AWSDateTime!
+    description: String!
+    tags: [String!]!
+    issuerBankNote: String
+    acquirerBankNote: String
+    issuerCashAccountID: ID!
+    issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
+    acquirerCashAccountID: ID!
+    acquirerCashAccount: CashAccount @connection(fields: ["acquirerCashAccountID"])
+}
