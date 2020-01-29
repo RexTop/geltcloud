@@ -16,5 +16,23 @@
                 "geltclouddddaace8": {}
             }
         }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-geltcloud-prod-04328-authRole",
+            "UnauthRoleArn": "arn:aws:iam::771239353283:role/amplify-geltcloud-prod-04328-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::771239353283:role/amplify-geltcloud-prod-04328-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-geltcloud-prod-04328-deployment",
+            "UnauthRoleName": "amplify-geltcloud-prod-04328-unauthRole",
+            "StackName": "amplify-geltcloud-prod-04328",
+            "StackId": "arn:aws:cloudformation:us-east-1:771239353283:stack/amplify-geltcloud-prod-04328/aaab6950-4262-11ea-8af7-12a640cb526e",
+            "AmplifyAppId": "d2vrzg71uzog70"
+        },
+        "categories": {
+            "auth": {
+                "geltclouddddaace8": {}
+            }
+        }
     }
 }
