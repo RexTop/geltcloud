@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "geltcloud",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authgeltclouddddaace8",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

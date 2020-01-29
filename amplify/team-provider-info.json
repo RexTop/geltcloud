@@ -10,6 +10,11 @@
             "StackName": "amplify-geltcloud-dev-224033",
             "StackId": "arn:aws:cloudformation:us-east-1:771239353283:stack/amplify-geltcloud-dev-224033/7e6b5910-4251-11ea-828d-12f8925a37c4",
             "AmplifyAppId": "d2vrzg71uzog70"
+        },
+        "categories": {
+            "auth": {
+                "geltclouddddaace8": {}
+            }
         }
     }
 }
