@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
+import {easyDate} from "../../../utils/date-util";
 
 type Props = CardProps & {
   flowOperation: FlowOperationModel
@@ -41,6 +42,8 @@ export const FlowOperationCard = (props: Props) => {
             {' - '}
             {(flowOperation as any)?.issuerCashAccount?.name ||
             <span className={classes.unknownAccount}>Unknown account</span>}
+            {' - '}
+            {easyDate(flowOperation.dateIssued)}
           </>
         )}
       />
