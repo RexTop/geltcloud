@@ -138,6 +138,7 @@ export const FlowOperationList = () => {
   const fetchFlowOperations = async (withDateFilter?: DateFilter, reset = false) => {
     try {
       setLoading(true);
+      if (reset) setNextToken(null);
       if (!withDateFilter) withDateFilter = dateFilter;
       const filter: ModelFlowOperationFilterInput = {
         dateIssued: {
@@ -145,7 +146,7 @@ export const FlowOperationList = () => {
           le: moment(withDateFilter.toDateLocal).endOf('day').utc().format(),
         },
       };
-      const variables: ListFlowOperationsQueryVariables = {filter, limit: 5, nextToken: nextToken};
+      const variables: ListFlowOperationsQueryVariables = {filter, limit: 5, nextToken: reset ? null : nextToken};
       const result = await API.graphql(graphqlOperation(listFlowOperations, variables)) as GraphQLResult<ListFlowOperationsQuery>;
       if (!result.data || !result.data.listFlowOperations) return;
       setNextToken(result.data.listFlowOperations.nextToken);
