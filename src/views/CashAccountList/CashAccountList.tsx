@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/styles';
-import {Grid} from '@material-ui/core';
+import {Grid, Typography} from '@material-ui/core';
 import {Theme} from "@material-ui/core/styles";
 import {CashAccountCard, CashAccountFormDialog} from './components';
 import {FetchLoadingButton} from '../../components/FetchLoadingButton';
@@ -140,6 +140,9 @@ export const CashAccountList = () => {
     <div className={classes.root}>
       <CashAccountFormDialog open={open} handleClose={handleClose} item={selectedItem}/>
       <h1>Cash Accounts</h1>
+      {!loading && !items.length && (
+        <Typography color="textSecondary" gutterBottom variant="body2">No cash accounts</Typography>
+      )}
       <div className={classes.content}>
         <Grid
           container
