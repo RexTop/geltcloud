@@ -18,7 +18,7 @@ export const CreateCashAccountModel = (): CashAccountModel => (
     id: '',
     name: '',
     balance: 0,
-    active: false,
+    active: true,
     type: CashAccountType.CASH_ACCOUNT,
     credit: 0,
     closingDay: 0,
