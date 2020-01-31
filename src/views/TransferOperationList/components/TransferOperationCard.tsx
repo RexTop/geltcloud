@@ -6,7 +6,8 @@ import {TransferOperationModel} from "../../../models/TransferOperationModel";
 import {money} from "../../../utils/money";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import TrendingDown from "@material-ui/icons/TrendingDown";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
@@ -37,7 +38,7 @@ export const TransferOperationCard = (props: Props) => {
   return (
     <ListItem button onClick={() => onEditClick(transferOperation)}>
       <ListItemIcon>
-        <TrendingUpIcon/>
+        {transferOperation.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
       </ListItemIcon>
       <ListItemText
         primary={<>{money(transferOperation.amount) + ' '}<b>{transferOperation.description}</b></>}
