@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export type TransferOperationModel = {
   id: string
   amount: number
@@ -16,7 +18,7 @@ export const CreateTransferOperationModel = (): TransferOperationModel => (
   {
     id: '',
     amount: 0,
-    dateIssued: '',
+    dateIssued: moment().startOf('day').utc().format(),
     description: '',
     tags: [],
     acquirerBankNote: '',
@@ -24,6 +26,6 @@ export const CreateTransferOperationModel = (): TransferOperationModel => (
     issuerCashAccountID: '',
     owner: '',
     acquirerCashAccountID: '',
-    dateAcquired: '',
+    dateAcquired: moment().startOf('day').utc().format(),
   }
 );
