@@ -40,16 +40,21 @@ export const TransferOperationCard = (props: Props) => {
         <TrendingUpIcon/>
       </ListItemIcon>
       <ListItemText
-        primary={transferOperation.description}
+        primary={<>{money(transferOperation.amount) + ' '}<b>{transferOperation.description}</b></>}
         secondary={(
           <span className={classes.secondaryText}>
-            {money(transferOperation.amount)}
-            {' - '}
+            {/*Issued*/}
             {(transferOperation as any)?.issuerCashAccount?.name ||
             <span className={classes.unknownAccount}>Unknown account</span>}
-            {' - '}
+            {' '}
             {easyDate(transferOperation.dateIssued)}
+
             <ChevronRightIcon/>
+
+            {/*Acquired*/}
+            {(transferOperation as any)?.acquirerCashAccount?.name ||
+            <span className={classes.unknownAccount}>Unknown account</span>}
+            {' '}
             {easyDate(transferOperation.dateAcquired)}
           </span>
         )}
