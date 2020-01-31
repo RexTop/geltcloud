@@ -19,6 +19,7 @@ import {
   ListCashAccountsQueryVariables,
   ListTransferOperationsQuery,
   ListTransferOperationsQueryVariables,
+  ModelTransferOperationFilterInput,
   OnCreateTransferOperationSubscription,
   OnCreateTransferOperationSubscriptionVariables,
   OnDeleteTransferOperationSubscription,
@@ -32,6 +33,9 @@ import {deleteTransferOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
 import {CashAccountModel} from "../../models/CashAccountModel";
 import List from '@material-ui/core/List';
+import {DateFiltersWidget} from "../common/DateFiltersWidget";
+import {DateFilter, todayFilter} from "../common/DateFiltersWidget/DateFiltersWidget";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -56,6 +60,12 @@ export const TransferOperationList = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(CreateTransferOperationModel());
+  const [dateFilter, setDateFilter] = useState(todayFilter());
+
+  const onDatesChange = (dates: DateFilter) => {
+    setDateFilter(dates);
+    fetchTransferOperations(dates, true);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -129,14 +139,25 @@ export const TransferOperationList = () => {
     };
   }, []);
 
-  const fetchTransferOperations = async () => {
+  const fetchTransferOperations = async (withDateFilter?: DateFilter, reset = false) => {
     try {
       setLoading(true);
-      const variables: ListTransferOperationsQueryVariables = {filter: void 0, limit: 5, nextToken: nextToken};
+      if (!withDateFilter) withDateFilter = dateFilter;
+      const filter: ModelTransferOperationFilterInput = {
+        dateIssued: {
+          ge: moment(withDateFilter.fromDateLocal).startOf('day').utc().format(),
+          le: moment(withDateFilter.toDateLocal).endOf('day').utc().format(),
+        },
+      };
+      const variables: ListTransferOperationsQueryVariables = {filter, limit: 5, nextToken: nextToken};
       const result = await API.graphql(graphqlOperation(listTransferOperations, variables)) as GraphQLResult<ListTransferOperationsQuery>;
       if (!result.data || !result.data.listTransferOperations) return;
       setNextToken(result.data.listTransferOperations.nextToken);
-      setItems([...items, ...result.data.listTransferOperations.items as any]);
+      if (reset) {
+        setItems(result.data.listTransferOperations.items as any);
+      } else {
+        setItems([...items, ...result.data.listTransferOperations.items as any]);
+      }
     } catch (error) {
       console.error("Could not load transfer operations", {error});
     } finally {
@@ -164,6 +185,7 @@ export const TransferOperationList = () => {
         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
       />
       <h1>Transfer Operations</h1>
+      <DateFiltersWidget onDatesChange={onDatesChange} dates={dateFilter}/>
       <div className={classes.content}>
         <List component="nav">
           {items.map(item => (

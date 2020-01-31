@@ -15,6 +15,7 @@ import {
   ListCashAccountsQueryVariables,
   ListFlowOperationsQuery,
   ListFlowOperationsQueryVariables,
+  ModelFlowOperationFilterInput,
   OnCreateFlowOperationSubscription,
   OnCreateFlowOperationSubscriptionVariables,
   OnDeleteFlowOperationSubscription,
@@ -28,6 +29,9 @@ import {deleteFlowOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
 import {CashAccountModel} from "../../models/CashAccountModel";
 import List from '@material-ui/core/List';
+import {DateFiltersWidget} from "../common/DateFiltersWidget";
+import {DateFilter, todayFilter} from "../common/DateFiltersWidget/DateFiltersWidget";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -52,6 +56,12 @@ export const FlowOperationList = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(CreateFlowOperationModel());
+  const [dateFilter, setDateFilter] = useState(todayFilter());
+
+  const onDatesChange = (dates: DateFilter) => {
+    setDateFilter(dates);
+    fetchFlowOperations(dates, true);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -125,14 +135,25 @@ export const FlowOperationList = () => {
     };
   }, []);
 
-  const fetchFlowOperations = async () => {
+  const fetchFlowOperations = async (withDateFilter?: DateFilter, reset = false) => {
     try {
       setLoading(true);
-      const variables: ListFlowOperationsQueryVariables = {filter: void 0, limit: 5, nextToken: nextToken};
+      if (!withDateFilter) withDateFilter = dateFilter;
+      const filter: ModelFlowOperationFilterInput = {
+        dateIssued: {
+          ge: moment(withDateFilter.fromDateLocal).startOf('day').utc().format(),
+          le: moment(withDateFilter.toDateLocal).endOf('day').utc().format(),
+        },
+      };
+      const variables: ListFlowOperationsQueryVariables = {filter, limit: 5, nextToken: nextToken};
       const result = await API.graphql(graphqlOperation(listFlowOperations, variables)) as GraphQLResult<ListFlowOperationsQuery>;
       if (!result.data || !result.data.listFlowOperations) return;
       setNextToken(result.data.listFlowOperations.nextToken);
-      setItems([...items, ...result.data.listFlowOperations.items as any]);
+      if (reset) {
+        setItems(result.data.listFlowOperations.items as any);
+      } else {
+        setItems([...items, ...result.data.listFlowOperations.items as any]);
+      }
     } catch (error) {
       console.error("Could not load flow operations", {error});
     } finally {
@@ -160,6 +181,7 @@ export const FlowOperationList = () => {
         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
       />
       <h1>Flow Operations</h1>
+      <DateFiltersWidget onDatesChange={onDatesChange} dates={dateFilter}/>
       <div className={classes.content}>
         <List component="nav">
           {items.map(item => (
