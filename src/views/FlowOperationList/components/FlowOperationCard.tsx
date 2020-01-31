@@ -7,10 +7,12 @@ import {money} from "../../../utils/money";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import TrendingDown from "@material-ui/icons/TrendingDown";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
+import {easyDate} from "../../../utils/date-util";
 
 type Props = CardProps & {
   flowOperation: FlowOperationModel
@@ -31,7 +33,7 @@ export const FlowOperationCard = (props: Props) => {
   return (
     <ListItem button onClick={() => onEditClick(flowOperation)}>
       <ListItemIcon>
-        <TrendingUpIcon/>
+        {flowOperation.amount < 0 ? <TrendingDown/> : <TrendingUpIcon/>}
       </ListItemIcon>
       <ListItemText
         primary={flowOperation.description}
@@ -41,6 +43,8 @@ export const FlowOperationCard = (props: Props) => {
             {' - '}
             {(flowOperation as any)?.issuerCashAccount?.name ||
             <span className={classes.unknownAccount}>Unknown account</span>}
+            {' - '}
+            {easyDate(flowOperation.dateIssued)}
           </>
         )}
       />

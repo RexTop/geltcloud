@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export type FlowOperationModel = {
   id: string
   amount: number
@@ -13,7 +15,7 @@ export const CreateFlowOperationModel = (): FlowOperationModel => (
   {
     id: '',
     amount: 0,
-    dateIssued: '',
+    dateIssued: moment().startOf('day').utc().format(),
     description: '',
     tags: [],
     bankNote: '',
