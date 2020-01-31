@@ -36,6 +36,7 @@ import List from '@material-ui/core/List';
 import {DateFiltersWidget} from "../common/DateFiltersWidget";
 import {DateFilter, todayFilter} from "../common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
+import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -188,6 +189,9 @@ export const TransferOperationList = () => {
       <h1>Transfer Operations</h1>
       <DateFiltersWidget onDatesChange={onDatesChange} dates={dateFilter}/>
       <div className={classes.content}>
+        {!loading && !items.length && (
+          <Typography color="textSecondary" gutterBottom variant="body2">No operations</Typography>
+        )}
         <List component="nav">
           {items.map(item => (
             <TransferOperationCard
