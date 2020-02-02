@@ -70,7 +70,7 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
         break;
       case DateFiltersWidgetTab.MONTH:
         onDatesChange({
-          fromDateLocal: moment().startOf('month').format('YYYY-MM-DD'),
+          fromDateLocal: moment().subtract(30, 'days').startOf('month').format('YYYY-MM-DD'),
           toDateLocal: moment().endOf('month').format('YYYY-MM-DD'),
         });
         break;
@@ -96,7 +96,7 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
           variant={tab === DateFiltersWidgetTab.MONTH ? 'contained' : void 0}
           onClick={() => onTabClick(DateFiltersWidgetTab.MONTH)}
         >
-          Month
+          30 days
         </Button>
         <Button
           variant={tab === DateFiltersWidgetTab.CUSTOM ? 'contained' : void 0}
