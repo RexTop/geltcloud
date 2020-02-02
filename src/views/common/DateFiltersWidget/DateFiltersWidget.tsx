@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 enum DateFiltersWidgetTab {
   TODAY,
+  WEEK,
   MONTH,
   CUSTOM,
 }
@@ -68,9 +69,15 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
           toDateLocal: moment().format('YYYY-MM-DD'),
         });
         break;
+      case DateFiltersWidgetTab.WEEK:
+        onDatesChange({
+          fromDateLocal: moment().subtract(7, 'days').startOf('month').format('YYYY-MM-DD'),
+          toDateLocal: moment().endOf('month').format('YYYY-MM-DD'),
+        });
+        break;
       case DateFiltersWidgetTab.MONTH:
         onDatesChange({
-          fromDateLocal: moment().startOf('month').format('YYYY-MM-DD'),
+          fromDateLocal: moment().subtract(30, 'days').startOf('month').format('YYYY-MM-DD'),
           toDateLocal: moment().endOf('month').format('YYYY-MM-DD'),
         });
         break;
@@ -93,10 +100,16 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
           Today
         </Button>
         <Button
+          variant={tab === DateFiltersWidgetTab.WEEK ? 'contained' : void 0}
+          onClick={() => onTabClick(DateFiltersWidgetTab.WEEK)}
+        >
+          7 days
+        </Button>
+        <Button
           variant={tab === DateFiltersWidgetTab.MONTH ? 'contained' : void 0}
           onClick={() => onTabClick(DateFiltersWidgetTab.MONTH)}
         >
-          Month
+          30 days
         </Button>
         <Button
           variant={tab === DateFiltersWidgetTab.CUSTOM ? 'contained' : void 0}
