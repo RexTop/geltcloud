@@ -105,7 +105,7 @@ export class TransferOperationList extends React.Component<Props, State> {
       };
       const variables: ListTransferOperationsQueryVariables = {
         filter,
-        limit: 5,
+        limit: 50,
         nextToken: reset ? null : this.state.nextToken
       };
       const result = await API.graphql(graphqlOperation(listTransferOperations, variables)) as GraphQLResult<ListTransferOperationsQuery>;

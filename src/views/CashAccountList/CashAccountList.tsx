@@ -124,7 +124,7 @@ export const CashAccountList = () => {
     try {
       setLoading(true);
       const filter: ModelCashAccountFilterInput | undefined = void 0;
-      const input = {filter, limit: 10, nextToken: nextToken};
+      const input = {filter, limit: 50, nextToken: nextToken};
       const result = await API.graphql(graphqlOperation(listCashAccounts, input)) as GraphQLResult<ListCashAccountsQuery>;
       if (!result.data || !result.data.listCashAccounts) return;
       setNextToken(result.data.listCashAccounts.nextToken);

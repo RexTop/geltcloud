@@ -101,7 +101,7 @@ export class FlowOperationList extends React.Component<Props, State> {
       };
       const variables: ListFlowOperationsQueryVariables = {
         filter,
-        limit: 5,
+        limit: 50,
         nextToken: reset ? null : this.state.nextToken
       };
       const result = await API.graphql(graphqlOperation(listFlowOperations, variables)) as GraphQLResult<ListFlowOperationsQuery>;
