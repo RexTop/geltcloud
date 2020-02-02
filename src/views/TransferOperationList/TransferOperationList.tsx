@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from "@material-ui/core/styles";
 import {TransferOperationCard, TransferOperationFormDialog} from './components';
@@ -10,7 +10,7 @@ import {API, graphqlOperation} from "aws-amplify";
 import {
   onCreateTransferOperation,
   onDeleteTransferOperation,
-  onUpdateTransferOperation,
+  onUpdateTransferOperation
 } from "../../graphql/subscriptions";
 import {currentUsername} from "../../utils/auth-util";
 import {
@@ -52,32 +52,138 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const TransferOperationList = () => {
-  const classes = useStyles();
+type Props = {}
 
-  const [nextToken, setNextToken] = useState(null as string | null);
-  const [items, setItems] = useState([] as TransferOperationModel[]);
-  const [dropDownDataForCashAccounts, setDropDownDataForCashAccounts] = useState([] as CashAccountModel[]);
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(CreateTransferOperationModel());
-  const [dateFilter, setDateFilter] = useState(todayFilter());
+type State = {
+  nextToken: string | null
+  items: TransferOperationModel[]
+  dropDownDataForCashAccounts: CashAccountModel[]
+  loading: boolean
+  open: boolean
+  selectedItem: TransferOperationModel
+  dateFilter: DateFilter
+}
 
-  const onDatesChange = (dates: DateFilter) => {
-    setDateFilter(dates);
-    fetchTransferOperations(dates, true);
+export class TransferOperationList extends React.Component<Props, State> {
+
+  state: State = {
+    nextToken: null,
+    items: [],
+    dropDownDataForCashAccounts: [],
+    loading: false,
+    open: false,
+    selectedItem: CreateTransferOperationModel(),
+    dateFilter: todayFilter(),
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  private handleClose = () => {
+    this.setState({open: false});
   };
 
-  const onEditItemClick = (item: TransferOperationModel) => {
-    setOpen(true);
-    setSelectedItem(item);
+  private onDatesChange = (dates: DateFilter) => {
+    this.setState({dateFilter: dates});
+    this.fetchTransferOperations(dates, true);
   };
 
-  const handleDeleteClick = async (item: TransferOperationModel) => {
+  private onEditItemClick = (item: TransferOperationModel) => {
+    this.setState({open: true, selectedItem: item});
+  };
+
+  private fetchTransferOperations = async (withLocalDateFilter: DateFilter, reset: boolean) => {
+    try {
+      if (reset) {
+        this.setState({loading: true, nextToken: null, items: []});
+      } else {
+        this.setState({loading: true});
+      }
+
+      const filter: ModelTransferOperationFilterInput = {
+        dateIssued: {
+          ge: moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+          le: moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+        },
+      };
+      const variables: ListTransferOperationsQueryVariables = {
+        filter,
+        limit: 5,
+        nextToken: reset ? null : this.state.nextToken
+      };
+      const result = await API.graphql(graphqlOperation(listTransferOperations, variables)) as GraphQLResult<ListTransferOperationsQuery>;
+      if (!result.data || !result.data.listTransferOperations) return;
+      this.setState({nextToken: result.data.listTransferOperations.nextToken});
+      if (reset) {
+        this.setState({items: result.data.listTransferOperations.items as any});
+      } else {
+        this.setState({items: [...this.state.items, ...result.data.listTransferOperations.items as any]});
+      }
+    } catch (error) {
+      console.error("Could not load transfer operations", {error});
+    } finally {
+      this.setState({loading: false});
+    }
+  };
+
+  componentDidMount() {
+    this.fetchTransferOperations(this.state.dateFilter, true);
+    this.fetchDropdownDataForCashAccounts();
+    this.setupListeners();
+  }
+
+  private setupListeners = () => {
+    const onCreateVariables: OnCreateTransferOperationSubscriptionVariables = {owner: currentUsername()};
+    this.onCreateListener = API.graphql(graphqlOperation(onCreateTransferOperation, onCreateVariables)).subscribe({
+      next: (data: { value: { data: OnCreateTransferOperationSubscription } }) => {
+        const newItem = data.value.data.onCreateTransferOperation;
+        if (!newItem) return;
+        const prevItems = this.state.items;
+        this.setState({items: [...prevItems.filter(item => item.id !== newItem.id), newItem]});
+      }
+    });
+
+    const onDeleteVariables: OnDeleteTransferOperationSubscriptionVariables = {owner: currentUsername()};
+    this.onDeleteListener = API.graphql(graphqlOperation(onDeleteTransferOperation, onDeleteVariables)).subscribe({
+      next: (data: { value: { data: OnDeleteTransferOperationSubscription } }) => {
+        const deletedItem = data.value.data.onDeleteTransferOperation;
+        if (!deletedItem) return;
+        const prevItems = this.state.items;
+        this.setState({items: prevItems.filter(item => item.id !== deletedItem.id)});
+      }
+    });
+
+    const onUpdateVariables: OnUpdateTransferOperationSubscriptionVariables = {owner: currentUsername()};
+    this.onUpdateListener = API.graphql(graphqlOperation(onUpdateTransferOperation, onUpdateVariables)).subscribe({
+      next: (data: { value: { data: OnUpdateTransferOperationSubscription } }) => {
+        const updatedItem = data.value.data.onUpdateTransferOperation;
+        if (!updatedItem) return;
+        const prevItems = this.state.items;
+        const index = prevItems.findIndex(item => item.id === updatedItem.id);
+        this.setState({items: index !== -1 ? [...prevItems.slice(0, index), updatedItem, ...prevItems.slice(index + 1)] : prevItems})
+      }
+    });
+  };
+
+  componentWillUnmount() {
+    if (this.onCreateListener) this.onCreateListener.unsubscribe();
+    if (this.onDeleteListener) this.onDeleteListener.unsubscribe();
+    if (this.onUpdateListener) this.onUpdateListener.unsubscribe();
+  }
+
+  private onCreateListener: any;
+  private onDeleteListener: any;
+  private onUpdateListener: any;
+
+  private fetchDropdownDataForCashAccounts = async () => {
+    try {
+      const variables: ListCashAccountsQueryVariables = {filter: void 0, limit: 50, nextToken: null};
+      const result = await API.graphql(graphqlOperation(listCashAccounts, variables)) as GraphQLResult<ListCashAccountsQuery>;
+      if (!result.data || !result.data.listCashAccounts) return;
+      this.setState({dropDownDataForCashAccounts: result.data.listCashAccounts.items as any});
+    } catch (error) {
+      console.error("Could not load drop down data for cash accounts", {error});
+    }
+  };
+
+  private handleDeleteClick = async (item: TransferOperationModel) => {
     if (!window.confirm(`Delete transfer operation "${item.description}"?`)) return;
     try {
       const input: DeleteTransferOperationInput = {id: item.id};
@@ -89,124 +195,76 @@ export const TransferOperationList = () => {
     }
   };
 
-  const handleNewClick = () => {
-    setOpen(true);
-    setSelectedItem(CreateTransferOperationModel());
+  private handleNewClick = () => {
+    this.setState({open: true, selectedItem: CreateTransferOperationModel()});
   };
 
-  React.useEffect(() => {
-    fetchTransferOperations();
-    fetchDropdownDataForCashAccounts();
+  render() {
+    const {open, loading, items, dateFilter, dropDownDataForCashAccounts, nextToken, selectedItem} = this.state;
 
-    const onCreateVariables: OnCreateTransferOperationSubscriptionVariables = {owner: currentUsername()};
-    const onCreateListener = API.graphql(graphqlOperation(onCreateTransferOperation, onCreateVariables)).subscribe({
-      next: (data: { value: { data: OnCreateTransferOperationSubscription } }) => {
-        const newItem = data.value.data.onCreateTransferOperation;
-        if (!newItem) return;
-        setItems(prevItems => {
-          return [...prevItems.filter(item => item.id !== newItem.id), newItem];
-        });
-      }
-    });
+    return (
+      <ComponentRoot>
+        <TransferOperationFormDialog
+          open={open}
+          handleClose={this.handleClose}
+          item={selectedItem}
+          dropDownDataForCashAccounts={dropDownDataForCashAccounts}
+        />
+        <h1>Transfer Operations</h1>
+        <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
+        <ComponentContent>
+          {!loading && !items.length && (
+            <Typography color="textSecondary" gutterBottom variant="body2">No operations</Typography>
+          )}
+          <List component="nav">
+            {items.map(item => (
+              <TransferOperationCard
+                key={`TransferOperationList-${item.id}`}
+                transferOperation={item}
+                onEditClick={() => this.onEditItemClick(item)}
+                onDeleteClick={() => this.handleDeleteClick(item)}
+              />
+            ))}
+          </List>
+          <FetchLoadingButton
+            loading={loading}
+            disabled={!nextToken}
+            onClick={() => this.fetchTransferOperations(this.state.dateFilter, false)}
+          />
+        </ComponentContent>
+        <ComponentFab onClick={this.handleNewClick}>
+          <AddIcon/>
+        </ComponentFab>
+      </ComponentRoot>
+    );
+  }
+}
 
-    const onDeleteVariables: OnDeleteTransferOperationSubscriptionVariables = {owner: currentUsername()};
-    const onDeleteListener = API.graphql(graphqlOperation(onDeleteTransferOperation, onDeleteVariables)).subscribe({
-      next: (data: { value: { data: OnDeleteTransferOperationSubscription } }) => {
-        const deletedItem = data.value.data.onDeleteTransferOperation;
-        if (!deletedItem) return;
-        setItems(prevItems => prevItems.filter(item => item.id !== deletedItem.id));
-      }
-    });
-
-    const onUpdateVariables: OnUpdateTransferOperationSubscriptionVariables = {owner: currentUsername()};
-    const onUpdateListener = API.graphql(graphqlOperation(onUpdateTransferOperation, onUpdateVariables)).subscribe({
-      next: (data: { value: { data: OnUpdateTransferOperationSubscription } }) => {
-        const updatedItem = data.value.data.onUpdateTransferOperation;
-        if (!updatedItem) return;
-        setItems(prevItems => {
-          const index = prevItems.findIndex(item => item.id === updatedItem.id);
-          if (index !== -1) {
-            return [...prevItems.slice(0, index), updatedItem, ...prevItems.slice(index + 1)];
-          }
-          return prevItems;
-        });
-      }
-    });
-
-    return () => {
-      if (onCreateListener) onCreateListener.unsubscribe();
-      if (onDeleteListener) onDeleteListener.unsubscribe();
-      if (onUpdateListener) onUpdateListener.unsubscribe();
-    };
-  }, []);
-
-  const fetchTransferOperations = async (withDateFilter?: DateFilter, reset = false) => {
-    try {
-      setLoading(true);
-      if (reset) setNextToken(null);
-      if (!withDateFilter) withDateFilter = dateFilter;
-      const filter: ModelTransferOperationFilterInput = {
-        dateIssued: {
-          ge: moment(withDateFilter.fromDateLocal).startOf('day').utc().format(),
-          le: moment(withDateFilter.toDateLocal).endOf('day').utc().format(),
-        },
-      };
-      const variables: ListTransferOperationsQueryVariables = {filter, limit: 5, nextToken: reset ? null : nextToken};
-      const result = await API.graphql(graphqlOperation(listTransferOperations, variables)) as GraphQLResult<ListTransferOperationsQuery>;
-      if (!result.data || !result.data.listTransferOperations) return;
-      setNextToken(result.data.listTransferOperations.nextToken);
-      if (reset) {
-        setItems(result.data.listTransferOperations.items as any);
-      } else {
-        setItems([...items, ...result.data.listTransferOperations.items as any]);
-      }
-    } catch (error) {
-      console.error("Could not load transfer operations", {error});
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchDropdownDataForCashAccounts = async () => {
-    try {
-      const variables: ListCashAccountsQueryVariables = {filter: void 0, limit: 50, nextToken: null};
-      const result = await API.graphql(graphqlOperation(listCashAccounts, variables)) as GraphQLResult<ListCashAccountsQuery>;
-      if (!result.data || !result.data.listCashAccounts) return;
-      setDropDownDataForCashAccounts(result.data.listCashAccounts.items as any);
-    } catch (error) {
-      console.error("Could not load drop down data for cash accounts", {error});
-    }
-  };
-
+const ComponentRoot = ({children}: { children: React.ReactNode }) => {
+  const classes = useStyles();
   return (
     <div className={classes.root}>
-      <TransferOperationFormDialog
-        open={open}
-        handleClose={handleClose}
-        item={selectedItem}
-        dropDownDataForCashAccounts={dropDownDataForCashAccounts}
-      />
-      <h1>Transfer Operations</h1>
-      <DateFiltersWidget onDatesChange={onDatesChange} dates={dateFilter}/>
-      <div className={classes.content}>
-        {!loading && !items.length && (
-          <Typography color="textSecondary" gutterBottom variant="body2">No operations</Typography>
-        )}
-        <List component="nav">
-          {items.map(item => (
-            <TransferOperationCard
-              key={`TransferOperationList-${item.id}`}
-              transferOperation={item}
-              onEditClick={() => onEditItemClick(item)}
-              onDeleteClick={() => handleDeleteClick(item)}
-            />
-          ))}
-        </List>
-        <FetchLoadingButton loading={loading} disabled={!nextToken} onClick={fetchTransferOperations}/>
-      </div>
-      <Fab aria-label="add" className={classes.fab} color="primary" onClick={handleNewClick}>
-        <AddIcon/>
-      </Fab>
+      {children}
     </div>
+  );
+};
+
+const ComponentContent = ({children}: { children: React.ReactNode }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.content}>
+      {children}
+    </div>
+  );
+};
+
+const ComponentFab = ({onClick, children}: { onClick: () => void, children: React.ReactNode }) => {
+  const classes = useStyles();
+
+  return (
+    <Fab aria-label="add" className={classes.fab} color="primary" onClick={onClick}>
+      {children}
+    </Fab>
   );
 };
