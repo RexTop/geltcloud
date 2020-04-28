@@ -139,7 +139,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
         />
         <TextField
           margin="dense"
-          label="Bank Note"
+          label="Note"
           type="text"
           fullWidth
           value={dirty.bankNote}

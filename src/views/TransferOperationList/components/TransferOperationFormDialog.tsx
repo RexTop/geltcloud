@@ -162,7 +162,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
         />
         <TextField
           margin="dense"
-          label="Issuer Bank Note"
+          label="Issuer Note"
           type="text"
           fullWidth
           value={dirty.issuerBankNote}
@@ -170,7 +170,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
         />
         <TextField
           margin="dense"
-          label="Acquirer Bank Note"
+          label="Acquirer Note"
           type="text"
           fullWidth
           value={dirty.acquirerBankNote}
