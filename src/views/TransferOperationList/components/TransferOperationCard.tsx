@@ -14,6 +14,7 @@ import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
 import {easyDate} from "../../../utils/date-util";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 
 type Props = CardProps & {
   transferOperation: TransferOperationModel
@@ -31,6 +32,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const Amount = ({operation}: { operation: TransferOperationModel }) => {
+    const color = operation.amount < 0 ? notStonksTextColor : stonksTextColor;
+    return <span style={{color}}>{money(operation.amount)}</span>
+};
+
+const Description = ({operation}: { operation: TransferOperationModel }) => {
+    return <b>{operation.description}</b>
+};
+
 export const TransferOperationCard = (props: Props) => {
   const {transferOperation, onEditClick, onDeleteClick} = props;
   const classes = useStyles();
@@ -41,7 +51,7 @@ export const TransferOperationCard = (props: Props) => {
         {transferOperation.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
       </ListItemIcon>
       <ListItemText
-        primary={<>{money(transferOperation.amount) + ' '}<b>{transferOperation.description}</b></>}
+        primary={<><Amount operation={transferOperation}/>{' '}<Description operation={transferOperation}/></>}
         secondary={(
           <span className={classes.secondaryText}>
             {/*Issued*/}
