@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 export const getCashAccount = /* GraphQL */ `
@@ -13,6 +14,8 @@ export const getCashAccount = /* GraphQL */ `
       paymentDay
       last4
       active
+      currency
+      precision
       owner
     }
   }
@@ -34,6 +37,8 @@ export const listCashAccounts = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       nextToken
@@ -60,6 +65,8 @@ export const getFlowOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       owner
@@ -91,6 +98,8 @@ export const listFlowOperations = /* GraphQL */ `
           paymentDay
           last4
           active
+          currency
+          precision
           owner
         }
         owner
@@ -121,6 +130,8 @@ export const getTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       acquirerCashAccountID
@@ -134,8 +145,11 @@ export const getTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
+      fee
       owner
     }
   }
@@ -171,6 +185,8 @@ export const listTransferOperations = /* GraphQL */ `
           paymentDay
           last4
           active
+          currency
+          precision
           owner
         }
         acquirerCashAccountID
@@ -184,8 +200,120 @@ export const listTransferOperations = /* GraphQL */ `
           paymentDay
           last4
           active
+          currency
+          precision
           owner
         }
+        fee
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getTradeOperation = /* GraphQL */ `
+  query GetTradeOperation($id: ID!) {
+    getTradeOperation(id: $id) {
+      id
+      note
+      issuerNote
+      acquirerNote
+      issuerCashAccountID
+      issuerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      issuerCurrency
+      acquirerCashAccountID
+      acquirerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      acquirerCurrency
+      amount
+      price
+      fee
+      exchangeRate
+      issuerExchangeRateInUsd
+      acquirerExchangeRateInUsd
+      dateIssued
+      dateAcquired
+      owner
+    }
+  }
+`;
+export const listTradeOperations = /* GraphQL */ `
+  query ListTradeOperations(
+    $filter: ModelTradeOperationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTradeOperations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        note
+        issuerNote
+        acquirerNote
+        issuerCashAccountID
+        issuerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        issuerCurrency
+        acquirerCashAccountID
+        acquirerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        acquirerCurrency
+        amount
+        price
+        fee
+        exchangeRate
+        issuerExchangeRateInUsd
+        acquirerExchangeRateInUsd
+        dateIssued
+        dateAcquired
         owner
       }
       nextToken
