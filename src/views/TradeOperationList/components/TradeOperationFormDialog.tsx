@@ -17,8 +17,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {Grid} from "@material-ui/core";
-import { Divider } from '@material-ui/core';
+import {Divider, Grid} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -136,127 +135,127 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 <Divider/>
 
                 <Grid container justify="flex-start">
-                {/*Issuer*/}
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="TradeOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
-                    <Select
-                        labelId="TradeOperationFromDialog-IssuerCashAccountId-Label"
-                        value={dirty.issuerCashAccountID}
-                        onChange={e => onTextFieldChange(e.target.value + '', 'issuerCashAccountID')}
-                    >
-                        {dropDownDataForCashAccounts.map(cashAccount => (
-                            <MenuItem key={`TradeOperationFormDialog-Issuer-${cashAccount.id}`}
-                                      value={cashAccount.id}>
-                                {cashAccount.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <TextField
-                    margin="dense"
-                    label="Issuer currency"
-                    type="text"
-                    value={dirty.issuerCurrency}
-                    onChange={e => onTextFieldChange(e.target.value, 'issuerCurrency')}
-                />
+                    {/*Issuer*/}
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="TradeOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
+                        <Select
+                            labelId="TradeOperationFromDialog-IssuerCashAccountId-Label"
+                            value={dirty.issuerCashAccountID}
+                            onChange={e => onTextFieldChange(e.target.value + '', 'issuerCashAccountID')}
+                        >
+                            {dropDownDataForCashAccounts.map(cashAccount => (
+                                <MenuItem key={`TradeOperationFormDialog-Issuer-${cashAccount.id}`}
+                                          value={cashAccount.id}>
+                                    {cashAccount.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Issuer currency"
+                        type="text"
+                        value={dirty.issuerCurrency}
+                        onChange={e => onTextFieldChange(e.target.value, 'issuerCurrency')}
+                    />
                 </Grid>
 
                 <Grid container justify="flex-start">
-                {/*Acquirer*/}
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="TradeOperationFromDialog-AcquirerCashAccountId-Label">Acquirer</InputLabel>
-                    <Select
-                        labelId="TradeOperationFromDialog-AcquirerCashAccountId-Label"
-                        value={dirty.acquirerCashAccountID}
-                        onChange={e => onTextFieldChange(e.target.value + '', 'acquirerCashAccountID')}
-                    >
-                        {dropDownDataForCashAccounts.map(cashAccount => (
-                            <MenuItem key={`TradeOperationFormDialog-Acquirer-${cashAccount.id}`}
-                                      value={cashAccount.id}>
-                                {cashAccount.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <TextField
-                    margin="dense"
-                    label="Acquirer currency"
-                    type="text"
-                    value={dirty.acquirerCurrency}
-                    onChange={e => onTextFieldChange(e.target.value, 'acquirerCurrency')}
-                />
+                    {/*Acquirer*/}
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="TradeOperationFromDialog-AcquirerCashAccountId-Label">Acquirer</InputLabel>
+                        <Select
+                            labelId="TradeOperationFromDialog-AcquirerCashAccountId-Label"
+                            value={dirty.acquirerCashAccountID}
+                            onChange={e => onTextFieldChange(e.target.value + '', 'acquirerCashAccountID')}
+                        >
+                            {dropDownDataForCashAccounts.map(cashAccount => (
+                                <MenuItem key={`TradeOperationFormDialog-Acquirer-${cashAccount.id}`}
+                                          value={cashAccount.id}>
+                                    {cashAccount.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Acquirer currency"
+                        type="text"
+                        value={dirty.acquirerCurrency}
+                        onChange={e => onTextFieldChange(e.target.value, 'acquirerCurrency')}
+                    />
                 </Grid>
 
                 <h2>Prices</h2>
                 <Divider/>
 
                 <Grid container justify="flex-start">
-                {/*Price*/}
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Price"
-                        type="number"
-                        value={dirty.price}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'price')}
-                    />
-                </FormControl>
+                    {/*Price*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Price"
+                            type="number"
+                            value={dirty.price}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'price')}
+                        />
+                    </FormControl>
 
-                {/*Amount*/}
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Amount"
-                        type="number"
-                        value={dirty.amount}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
-                    />
-                </FormControl>
+                    {/*Amount*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Amount"
+                            type="number"
+                            value={dirty.amount}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
+                        />
+                    </FormControl>
 
-                {/*Fee*/}
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Fee"
-                        type="number"
-                        value={dirty.fee}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
-                    />
-                </FormControl>
+                    {/*Fee*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Fee"
+                            type="number"
+                            value={dirty.fee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
+                        />
+                    </FormControl>
                 </Grid>
 
                 <h2>Exchange rates</h2>
                 <Divider/>
 
                 <Grid container justify="flex-start">
-                {/*Exchange Rates*/}
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Exchange rate"
-                        type="number"
-                        value={dirty.exchangeRate}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
-                    />
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Issuer exchange rate (USD)"
-                        type="number"
-                        value={dirty.issuerExchangeRateInUsd}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
-                    />
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
-                        label="Acquirer exchange rate (USD)"
-                        type="number"
-                        value={dirty.acquirerExchangeRateInUsd}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
-                    />
-                </FormControl>
+                    {/*Exchange Rates*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Exchange rate"
+                            type="number"
+                            value={dirty.exchangeRate}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Issuer exchange rate (USD)"
+                            type="number"
+                            value={dirty.issuerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Acquirer exchange rate (USD)"
+                            type="number"
+                            value={dirty.acquirerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
+                        />
+                    </FormControl>
                 </Grid>
 
                 <h2>Notes</h2>

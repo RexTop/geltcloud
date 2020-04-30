@@ -5,7 +5,7 @@ import {Main as MainLayout, Minimal as MinimalLayout} from './layouts';
 
 import {NotFound as NotFoundView,} from './example-views';
 
-import {CashAccountList, FlowOperationList, TransferOperationList, TradeOperationList} from './views';
+import {CashAccountList, FlowOperationList, TradeOperationList, TransferOperationList} from './views';
 
 export const Routes = () => {
     return (

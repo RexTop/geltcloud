@@ -7,11 +7,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import {CreateTradeOperationModel, TradeOperationModel} from "../../models/TradeOperationModel";
 import {API, graphqlOperation} from "aws-amplify";
-import {
-    onCreateTradeOperation,
-    onDeleteTradeOperation,
-    onUpdateTradeOperation
-} from "../../graphql/subscriptions";
+import {onCreateTradeOperation, onDeleteTradeOperation, onUpdateTradeOperation} from "../../graphql/subscriptions";
 import {currentUsername} from "../../utils/auth-util";
 import {
     DeleteTradeOperationInput,
