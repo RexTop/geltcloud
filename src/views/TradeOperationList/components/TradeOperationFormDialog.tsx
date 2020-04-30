@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Divider, Grid} from "@material-ui/core";
+import AnimateHeight from "react-animate-height";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,6 +39,10 @@ type Props = {
 export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, item}: Props) => {
 
     const [dirty, setDirty] = React.useState(item);
+    const [notesSectionHeight, setNotesSectionHeight] = React.useState(0 as string | number);
+    const [datesSectionHeight, setDatesSectionHeight] = React.useState(0 as string | number);
+    const [accountsSectionHeight, setAccountsSectionHeight] = React.useState('auto' as string | number);
+    const [priceSectionHeight, setPriceSectionHeight] = React.useState('auto' as string | number);
 
     React.useEffect(() => {
         setDirty(item);
@@ -131,9 +136,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
             <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} trade operation</DialogTitle>
             <DialogContent>
 
-                <h2>Accounts</h2>
+                <h2 style={{cursor: 'pointer'}} onClick={() => setAccountsSectionHeight(accountsSectionHeight === 0 ? 'auto' : 0)}>Accounts</h2>
                 <Divider/>
-
+                <AnimateHeight duration={500} height={accountsSectionHeight}>
                 <Grid container justify="flex-start">
                     {/*Issuer*/}
                     <FormControl className={classes.formControl}>
@@ -186,8 +191,11 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     />
                 </Grid>
 
-                <h2>Prices</h2>
+                </AnimateHeight>
+
+                <h2 style={{cursor: 'pointer'}} onClick={() => setPriceSectionHeight(priceSectionHeight === 0 ? 'auto' : 0)}>Prices</h2>
                 <Divider/>
+                <AnimateHeight duration={500} height={priceSectionHeight}>
 
                 <Grid container justify="flex-start">
                     {/*Price*/}
@@ -224,9 +232,6 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     </FormControl>
                 </Grid>
 
-                <h2>Exchange rates</h2>
-                <Divider/>
-
                 <Grid container justify="flex-start">
                     {/*Exchange Rates*/}
                     <FormControl className={classes.formControl}>
@@ -257,10 +262,11 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         />
                     </FormControl>
                 </Grid>
+                </AnimateHeight>
 
-                <h2>Notes</h2>
+                <h2 style={{cursor: 'pointer'}} onClick={() => setNotesSectionHeight(notesSectionHeight === 0 ? 'auto' : 0)}>Notes</h2>
                 <Divider/>
-
+                <AnimateHeight duration={500} height={notesSectionHeight}>
                 {/*Notes*/}
                 <TextField
                     autoFocus
@@ -287,10 +293,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     value={dirty.acquirerNote}
                     onChange={e => onTextFieldChange(e.target.value, 'acquirerNote')}
                 />
+                </AnimateHeight>
 
-                <h2>Dates</h2>
+                <h2 style={{cursor: 'pointer'}} onClick={() => setDatesSectionHeight(datesSectionHeight === 0 ? 'auto' : 0)}>Dates</h2>
                 <Divider/>
 
+                <AnimateHeight duration={500} height={datesSectionHeight}>
                 {/*Dates*/}
                 <TextField
                     margin="dense"
@@ -308,6 +316,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     value={moment(dirty.dateAcquired).format('YYYY-MM-DD')}
                     onChange={e => onTextFieldChange(e.target.value, 'dateAcquired')}
                 />
+                </AnimateHeight>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
