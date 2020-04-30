@@ -162,7 +162,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
           value={dirty.amount}
           onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
         />
-        <RadioGroup row aria-label="position" name="position" defaultValue="top">
+        <RadioGroup row defaultValue="top">
           <FormControlLabel
               control={<Radio color="primary" checked={dirty.amount >= 0} onChange={e => setDirty({...dirty, amount: e.target.checked ? Math.abs(dirty.amount) : -Math.abs(dirty.amount)})}/>}
               label={<span style={{color: stonksTextColor}}>
