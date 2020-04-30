@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CreateTradeOperationModel, TradeOperationModel} from "../../../models/TradeOperationModel";
 import {API, graphqlOperation} from "aws-amplify";
@@ -18,6 +17,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {Grid} from "@material-ui/core";
+import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -130,10 +131,11 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} trade operation</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {item.id ? 'Update' : 'Create'} trade operation
-                </DialogContentText>
 
+                <h2>Accounts</h2>
+                <Divider/>
+
+                <Grid container justify="flex-start">
                 {/*Issuer*/}
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TradeOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
@@ -154,11 +156,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     margin="dense"
                     label="Issuer currency"
                     type="text"
-                    fullWidth
                     value={dirty.issuerCurrency}
                     onChange={e => onTextFieldChange(e.target.value, 'issuerCurrency')}
                 />
+                </Grid>
 
+                <Grid container justify="flex-start">
                 {/*Acquirer*/}
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TradeOperationFromDialog-AcquirerCashAccountId-Label">Acquirer</InputLabel>
@@ -179,11 +182,15 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     margin="dense"
                     label="Acquirer currency"
                     type="text"
-                    fullWidth
                     value={dirty.acquirerCurrency}
                     onChange={e => onTextFieldChange(e.target.value, 'acquirerCurrency')}
                 />
+                </Grid>
 
+                <h2>Prices</h2>
+                <Divider/>
+
+                <Grid container justify="flex-start">
                 {/*Price*/}
                 <FormControl className={classes.formControl}>
                     <TextField
@@ -216,7 +223,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
                     />
                 </FormControl>
+                </Grid>
 
+                <h2>Exchange rates</h2>
+                <Divider/>
+
+                <Grid container justify="flex-start">
                 {/*Exchange Rates*/}
                 <FormControl className={classes.formControl}>
                     <TextField
@@ -230,7 +242,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 <FormControl className={classes.formControl}>
                     <TextField
                         margin="dense"
-                        label="Issuer exchange rate in USD"
+                        label="Issuer exchange rate (USD)"
                         type="number"
                         value={dirty.issuerExchangeRateInUsd}
                         onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
@@ -239,12 +251,16 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 <FormControl className={classes.formControl}>
                     <TextField
                         margin="dense"
-                        label="Acquirer exchange rate in USD"
+                        label="Acquirer exchange rate (USD)"
                         type="number"
                         value={dirty.acquirerExchangeRateInUsd}
                         onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
                     />
                 </FormControl>
+                </Grid>
+
+                <h2>Notes</h2>
+                <Divider/>
 
                 {/*Notes*/}
                 <TextField
@@ -272,6 +288,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     value={dirty.acquirerNote}
                     onChange={e => onTextFieldChange(e.target.value, 'acquirerNote')}
                 />
+
+                <h2>Dates</h2>
+                <Divider/>
 
                 {/*Dates*/}
                 <TextField
