@@ -19,7 +19,7 @@ export const Routes = () => {
       <Redirect
         exact
         from="/"
-        to="/cash-accounts"
+        to="/flow-operations"
       />
       <RouteWithLayout
         component={CashAccountList}

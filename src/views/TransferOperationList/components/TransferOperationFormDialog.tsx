@@ -18,6 +18,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
+import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import {ToggleFlowType} from "../../../components/ToggleFlowType";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -160,9 +163,10 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
           value={dirty.amount}
           onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
         />
+        <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
         <TextField
           margin="dense"
-          label="Issuer Bank Note"
+          label="Issuer Note"
           type="text"
           fullWidth
           value={dirty.issuerBankNote}
@@ -170,7 +174,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
         />
         <TextField
           margin="dense"
-          label="Acquirer Bank Note"
+          label="Acquirer Note"
           type="text"
           fullWidth
           value={dirty.acquirerBankNote}

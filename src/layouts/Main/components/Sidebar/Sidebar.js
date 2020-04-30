@@ -39,11 +39,6 @@ const Sidebar = props => {
 
     const pages = [
         {
-            title: 'Cash Accounts',
-            href: '/cash-accounts',
-            icon: <AccountBalanceIcon/>
-        },
-        {
             title: 'Flow Operations',
             href: '/flow-operations',
             icon: <ImportExportIcon/>
@@ -52,6 +47,11 @@ const Sidebar = props => {
             title: 'Transfer Operations',
             href: '/transfer-operations',
             icon: <AutorenewIcon/>
+        },
+        {
+            title: 'Cash Accounts',
+            href: '/cash-accounts',
+            icon: <AccountBalanceIcon/>
         },
     ];
 

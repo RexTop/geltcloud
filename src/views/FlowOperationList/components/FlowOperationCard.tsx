@@ -13,6 +13,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
 import {easyDate} from "../../../utils/date-util";
+import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 
 type Props = CardProps & {
   flowOperation: FlowOperationModel
@@ -25,6 +26,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.error.main,
   },
 }));
+
+const Amount = ({operation}: { operation: FlowOperationModel }) => {
+    const color = operation.amount < 0 ? notStonksTextColor : stonksTextColor;
+    return <span style={{color}}>{money(operation.amount)}</span>
+};
 
 export const FlowOperationCard = (props: Props) => {
   const {flowOperation, onEditClick, onDeleteClick} = props;
@@ -39,7 +45,7 @@ export const FlowOperationCard = (props: Props) => {
         primary={flowOperation.description}
         secondary={(
           <>
-            {money(flowOperation.amount)}
+            <Amount operation={flowOperation}/>
             {' - '}
             {(flowOperation as any)?.issuerCashAccount?.name ||
             <span className={classes.unknownAccount}>Unknown account</span>}
