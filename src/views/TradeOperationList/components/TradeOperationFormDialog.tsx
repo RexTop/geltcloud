@@ -49,7 +49,21 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     }, [item]);
 
     const onTextFieldChange = (value: string, key: keyof TradeOperationModel) => {
-        setDirty({...dirty, [key]: value});
+        const updatedDirty = {...dirty, [key]: value};
+
+        if (key === "acquirerCashAccountID") {
+            const account = dropDownDataForCashAccounts.find(account => account.id === value);
+            if (account) {
+                updatedDirty.acquirerCurrency = account.currency;
+            }
+        } else if (key === "issuerCashAccountID") {
+            const account = dropDownDataForCashAccounts.find(account => account.id === value);
+            if (account) {
+                updatedDirty.issuerCurrency = account.currency;
+            }
+        }
+
+        setDirty(updatedDirty);
     };
 
     const onNumericFieldChange = (value: number, key: keyof TradeOperationModel) => {
@@ -167,11 +181,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             />
                         </FormControl>
                         <TextField
+                            disabled
                             margin="dense"
                             label="Issuer currency"
                             type="text"
                             value={dirty.issuerCurrency}
-                            onChange={e => onTextFieldChange(e.target.value, 'issuerCurrency')}
+                            onChange={() => void 0}
                         />
                     </Grid>
 
@@ -202,11 +217,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             />
                         </FormControl>
                         <TextField
+                            disabled
                             margin="dense"
                             label="Acquirer currency"
                             type="text"
                             value={dirty.acquirerCurrency}
-                            onChange={e => onTextFieldChange(e.target.value, 'acquirerCurrency')}
+                            onChange={() => void 0}
                         />
                     </Grid>
 
