@@ -167,6 +167,7 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
           onChange={onNameChange}
         />
         <Grid container justify="space-between">
+          {/*TODO: Add a dropdown of valid currencies with an option to add a custom currency if it's not present in the dropdown*/}
           <TextField
               autoFocus
               margin="dense"
@@ -175,6 +176,7 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
               value={dirty.currency}
               onChange={e => onTextFieldChange(e.target.value, 'currency')}
           />
+          {/*TODO: Automatically set the precision for known currencies. If currency is not known, let the user choose the precision manually.*/}
           <TextField
               autoFocus
               margin="dense"
