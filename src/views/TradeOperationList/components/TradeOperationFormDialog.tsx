@@ -157,6 +157,15 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                                 ))}
                             </Select>
                         </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <TextField
+                                margin="dense"
+                                label="Price"
+                                type="number"
+                                value={dirty.price}
+                                onChange={e => onNumericFieldChange(+e.target.value, 'price')}
+                            />
+                        </FormControl>
                         <TextField
                             margin="dense"
                             label="Issuer currency"
@@ -183,6 +192,15 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                                 ))}
                             </Select>
                         </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <TextField
+                                margin="dense"
+                                label="Amount"
+                                type="number"
+                                value={dirty.amount}
+                                onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
+                            />
+                        </FormControl>
                         <TextField
                             margin="dense"
                             label="Acquirer currency"
@@ -195,33 +213,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 </AnimateHeight>
 
                 <h2 style={{cursor: 'pointer'}}
-                    onClick={() => setPriceSectionHeight(priceSectionHeight === 0 ? 'auto' : 0)}>Prices</h2>
+                    onClick={() => setPriceSectionHeight(priceSectionHeight === 0 ? 'auto' : 0)}>Fee and exchanges</h2>
                 <Divider/>
                 <AnimateHeight duration={500} height={priceSectionHeight}>
-
-                    <Grid container justify="flex-start">
-                        {/*Price*/}
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Price"
-                                type="number"
-                                value={dirty.price}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'price')}
-                            />
-                        </FormControl>
-
-                        {/*Amount*/}
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Amount"
-                                type="number"
-                                value={dirty.amount}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
-                            />
-                        </FormControl>
-
                         {/*Fee*/}
                         <FormControl className={classes.formControl}>
                             <TextField
@@ -232,9 +226,6 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                                 onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
                             />
                         </FormControl>
-                    </Grid>
-
-                    <Grid container justify="flex-start">
                         {/*Exchange Rates*/}
                         <FormControl className={classes.formControl}>
                             <TextField
@@ -263,7 +254,6 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                                 onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
                             />
                         </FormControl>
-                    </Grid>
                 </AnimateHeight>
 
                 <h2 style={{cursor: 'pointer'}}
