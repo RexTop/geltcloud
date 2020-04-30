@@ -216,44 +216,44 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     onClick={() => setPriceSectionHeight(priceSectionHeight === 0 ? 'auto' : 0)}>Fee and exchanges</h2>
                 <Divider/>
                 <AnimateHeight duration={500} height={priceSectionHeight}>
-                        {/*Fee*/}
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Fee"
-                                type="number"
-                                value={dirty.fee}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
-                            />
-                        </FormControl>
-                        {/*Exchange Rates*/}
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Exchange rate"
-                                type="number"
-                                value={dirty.exchangeRate}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
-                            />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Issuer exchange rate (USD)"
-                                type="number"
-                                value={dirty.issuerExchangeRateInUsd}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
-                            />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                margin="dense"
-                                label="Acquirer exchange rate (USD)"
-                                type="number"
-                                value={dirty.acquirerExchangeRateInUsd}
-                                onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
-                            />
-                        </FormControl>
+                    {/*Fee*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Fee"
+                            type="number"
+                            value={dirty.fee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
+                        />
+                    </FormControl>
+                    {/*Exchange Rates*/}
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Exchange rate"
+                            type="number"
+                            value={dirty.exchangeRate}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Issuer exchange rate (USD)"
+                            type="number"
+                            value={dirty.issuerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Acquirer exchange rate (USD)"
+                            type="number"
+                            value={dirty.acquirerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
+                        />
+                    </FormControl>
                 </AnimateHeight>
 
                 <h2 style={{cursor: 'pointer'}}
