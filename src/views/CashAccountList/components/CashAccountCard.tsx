@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
-import {Card, CardActions, CardContent, Divider, Grid, Typography} from '@material-ui/core';
+import {Card, CardActions, CardContent, Chip, Divider, Grid, Typography} from '@material-ui/core';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import EditIcon from "@material-ui/icons/Edit";
@@ -40,7 +40,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     buttonIcon: {
         color: (theme.palette as any).icon, // TODO: Use the type of the return type of the custom theme
-    }
+    },
+    currency: {
+        marginLeft: theme.spacing(1)
+    },
 }));
 
 type Props = CardProps & {
@@ -69,6 +72,7 @@ const CreditCardInfo = ({item}: { item: CashAccountModel }) => {
             <Typography align="center" gutterBottom variant="h4" className={classes.title}>
                 <CashAccountTypeIcon type={item.type} className={classes.titleIcon}/>
                 {item.name} ****{item.last4}
+                <Chip className={classes.currency} label={`${item.currency}@${item.precision}`}/>
             </Typography>
             <Typography align="center" variant="body1">Balance: {money(item.balance)}</Typography>
             <Typography align="center" variant="body1">Credit: {money(item.credit)}</Typography>
@@ -83,6 +87,7 @@ const CashAccountInfo = ({item}: { item: CashAccountModel }) => {
             <Typography align="center" gutterBottom variant="h4" className={classes.title}>
                 <CashAccountTypeIcon type={item.type} className={classes.titleIcon}/>
                 {item.name}
+                <Chip className={classes.currency} label={`${item.currency}@${item.precision}`}/>
             </Typography>
             <Typography align="center" variant="body1">{money(item.balance)}</Typography>
         </CardContent>
