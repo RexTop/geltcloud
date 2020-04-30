@@ -11,6 +11,8 @@ export type CashAccountModel = {
   paymentDay: number,
   last4: string,
   owner: string | null,
+  currency: string,
+  precision: number,
 }
 
 export const CreateCashAccountModel = (): CashAccountModel => (
@@ -25,5 +27,7 @@ export const CreateCashAccountModel = (): CashAccountModel => (
     paymentDay: 0,
     last4: '',
     owner: '',
+    currency: '',
+    precision: 0,
   }
 );

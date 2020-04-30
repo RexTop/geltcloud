@@ -19,6 +19,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {Grid} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,6 +73,8 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
     if (item.last4 !== dirty.last4) return true;
     if (item.paymentDay !== dirty.paymentDay) return true;
     if (item.closingDay !== dirty.closingDay) return true;
+    if (item.currency !== dirty.currency) return true;
+    if (item.precision !== dirty.precision) return true;
     return false;
   };
 
@@ -89,6 +92,8 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
           last4: dirty.last4 || '-',
           paymentDay: dirty.paymentDay,
           closingDay: dirty.closingDay,
+          currency: dirty.currency,
+          precision: dirty.precision,
         };
         await API.graphql(graphqlOperation(updateCashAccount, {input}));
         setDirty(CreateCashAccountModel());
@@ -103,6 +108,8 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
           last4: dirty.last4 || '-',
           paymentDay: dirty.paymentDay,
           closingDay: dirty.closingDay,
+          currency: dirty.currency,
+          precision: dirty.precision,
         };
         await API.graphql(graphqlOperation(createCashAccount, {input}));
         setDirty(CreateCashAccountModel());
@@ -150,6 +157,24 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
           value={dirty.name}
           onChange={onNameChange}
         />
+        <Grid container justify="space-between">
+          <TextField
+              autoFocus
+              margin="dense"
+              label="Currency"
+              type="text"
+              value={dirty.currency}
+              onChange={e => onTextFieldChange(e.target.value, 'currency')}
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              label="Precision"
+              type="number"
+              value={dirty.precision}
+              onChange={e => onTextFieldChange(e.target.value, 'precision')}
+          />
+        </Grid>
         <TextField
           margin="dense"
           label="Balance $"
