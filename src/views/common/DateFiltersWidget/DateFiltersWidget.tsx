@@ -63,30 +63,39 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
 
   const onDateInfoChange = (tab: DateFiltersWidgetTab, localFrom: string, localTo: string) => {
     switch (tab) {
-      case DateFiltersWidgetTab.TODAY:
+      case DateFiltersWidgetTab.TODAY: {
+        const today = moment().format('YYYY-MM-DD');
         onDatesChange({
-          fromDateLocal: moment().format('YYYY-MM-DD'),
-          toDateLocal: moment().format('YYYY-MM-DD'),
+          fromDateLocal: today,
+          toDateLocal: today,
         });
         break;
-      case DateFiltersWidgetTab.WEEK:
+      }
+      case DateFiltersWidgetTab.WEEK: {
+        const aWeekAgo = moment().subtract(7, 'days').format('YYYY-MM-DD');
+        const today = moment().format('YYYY-MM-DD');
         onDatesChange({
-          fromDateLocal: moment().subtract(7, 'days').startOf('month').format('YYYY-MM-DD'),
-          toDateLocal: moment().endOf('month').format('YYYY-MM-DD'),
+          fromDateLocal: aWeekAgo,
+          toDateLocal: today,
         });
         break;
-      case DateFiltersWidgetTab.MONTH:
+      }
+      case DateFiltersWidgetTab.MONTH: {
+        const aMonthAgo = moment().subtract(30, 'days').format('YYYY-MM-DD');
+        const today = moment().format('YYYY-MM-DD');
         onDatesChange({
-          fromDateLocal: moment().subtract(30, 'days').startOf('month').format('YYYY-MM-DD'),
-          toDateLocal: moment().endOf('month').format('YYYY-MM-DD'),
+          fromDateLocal: aMonthAgo,
+          toDateLocal: today,
         });
         break;
-      case DateFiltersWidgetTab.CUSTOM:
+      }
+      case DateFiltersWidgetTab.CUSTOM: {
         onDatesChange({
           fromDateLocal: moment(localFrom).format('YYYY-MM-DD'),
           toDateLocal: moment(localTo).format('YYYY-MM-DD'),
         });
         break;
+      }
     }
   };
 
@@ -103,13 +112,13 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
           variant={tab === DateFiltersWidgetTab.WEEK ? 'contained' : void 0}
           onClick={() => onTabClick(DateFiltersWidgetTab.WEEK)}
         >
-          7 days
+          -7 days
         </Button>
         <Button
           variant={tab === DateFiltersWidgetTab.MONTH ? 'contained' : void 0}
           onClick={() => onTabClick(DateFiltersWidgetTab.MONTH)}
         >
-          30 days
+          -30 days
         </Button>
         <Button
           variant={tab === DateFiltersWidgetTab.CUSTOM ? 'contained' : void 0}
