@@ -4,13 +4,13 @@ import {Grid} from '@material-ui/core';
 
 import {
     Budget,
-    TotalUsers,
+    LatestOrders,
+    LatestProducts,
+    LatestSales,
     TasksProgress,
     TotalProfit,
-    LatestSales,
-    UsersByDevice,
-    LatestProducts,
-    LatestOrders
+    TotalUsers,
+    UsersByDevice
 } from './components';
 
 const useStyles = makeStyles(theme => ({

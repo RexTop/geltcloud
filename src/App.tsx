@@ -16,18 +16,18 @@ Amplify.configure(awsconfig);
 const browserHistory = createBrowserHistory();
 
 class App extends React.Component {
-  render() {
+    render() {
 
-    return (
-      <ThemeProvider theme={theme}>
-        <Router history={browserHistory}>
-          <Routes/>
-        </Router>
-        <CssBaseline/>
-        <SnackbarComponent/>
-      </ThemeProvider>
-    );
-  }
+        return (
+            <ThemeProvider theme={theme}>
+                <Router history={browserHistory}>
+                    <Routes/>
+                </Router>
+                <CssBaseline/>
+                <SnackbarComponent/>
+            </ThemeProvider>
+        );
+    }
 }
 
 export default withAuthenticator(App);

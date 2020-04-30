@@ -3,17 +3,17 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import {
-    Card,
-    CardHeader,
-    CardContent,
-    CardActions,
     Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
     Divider,
+    IconButton,
     List,
     ListItem,
     ListItemAvatar,
-    ListItemText,
-    IconButton
+    ListItemText
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import MoreVertIcon from '@material-ui/icons/MoreVert';

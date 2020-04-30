@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import {
+    Button,
     Card,
-    CardHeader,
-    CardContent,
     CardActions,
-    Grid,
+    CardContent,
+    CardHeader,
+    Checkbox,
     Divider,
     FormControlLabel,
-    Checkbox,
-    Typography,
-    Button
+    Grid,
+    Typography
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({

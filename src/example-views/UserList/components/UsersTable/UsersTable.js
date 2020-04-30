@@ -5,18 +5,18 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {makeStyles} from '@material-ui/styles';
 import {
+    Avatar,
     Card,
     CardActions,
     CardContent,
-    Avatar,
     Checkbox,
     Table,
     TableBody,
     TableCell,
     TableHead,
+    TablePagination,
     TableRow,
-    Typography,
-    TablePagination
+    Typography
 } from '@material-ui/core';
 
 import {getInitials} from '../../../../helpers';

@@ -1,20 +1,20 @@
 import React from 'react';
-import {Switch, Redirect} from 'react-router-dom';
+import {Redirect, Switch} from 'react-router-dom';
 
 import {RouteWithLayout} from './components';
 import {Main as MainLayout, Minimal as MinimalLayout} from './layouts';
 
 import {
-    Dashboard as DashboardView,
-    ProductList as ProductListView,
-    UserList as UserListView,
-    Typography as TypographyView,
-    Icons as IconsView,
     Account as AccountView,
+    Dashboard as DashboardView,
+    Icons as IconsView,
+    NotFound as NotFoundView,
+    ProductList as ProductListView,
     Settings as SettingsView,
-    SignUp as SignUpView,
     SignIn as SignInView,
-    NotFound as NotFoundView
+    SignUp as SignUpView,
+    Typography as TypographyView,
+    UserList as UserListView
 } from './example-views';
 
 const ExampleRoutes = () => {

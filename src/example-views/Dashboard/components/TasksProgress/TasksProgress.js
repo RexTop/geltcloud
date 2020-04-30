@@ -2,14 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
-import {
-    Card,
-    CardContent,
-    Grid,
-    Typography,
-    Avatar,
-    LinearProgress
-} from '@material-ui/core';
+import {Avatar, Card, CardContent, Grid, LinearProgress, Typography} from '@material-ui/core';
 import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 
 const useStyles = makeStyles(theme => ({

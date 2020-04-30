@@ -2,5 +2,5 @@ import {UIShowAlertMessageEvent, UIShowAlertMessageEventArgs} from "../custom-ev
 import {dispatch} from "../lib/GenericEvent";
 
 export const showAlert = (args: UIShowAlertMessageEventArgs) => {
-  dispatch<UIShowAlertMessageEventArgs>(UIShowAlertMessageEvent, args);
+    dispatch<UIShowAlertMessageEventArgs>(UIShowAlertMessageEvent, args);
 };

@@ -5,19 +5,19 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import {
+    Button,
     Card,
     CardActions,
-    CardHeader,
     CardContent,
-    Button,
+    CardHeader,
     Divider,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableRow,
-    Tooltip,
-    TableSortLabel
+    TableSortLabel,
+    Tooltip
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 

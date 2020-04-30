@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
-import {Typography, Button, colors} from '@material-ui/core';
+import {Button, colors, Typography} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
