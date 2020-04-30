@@ -3,11 +3,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import {CardProps} from "@material-ui/core/Card/Card";
 import {TradeOperationModel} from "../../../models/TradeOperationModel";
-import {money} from "../../../utils/money";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import TrendingDown from "@material-ui/icons/TrendingDown";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
@@ -26,16 +22,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     unknownAccount: {
         color: theme.palette.error.main,
     },
+    primaryText: {
+        display: 'flex',
+        alignItems: 'center',
+    },
     secondaryText: {
         display: 'flex',
         alignItems: 'center',
     },
 }));
-
-const Amount = ({operation}: { operation: TradeOperationModel }) => {
-    const color = operation.amount < 0 ? notStonksTextColor : stonksTextColor;
-    return <span style={{color}}>{money(operation.amount)}</span>
-};
 
 export const TradeOperationCard = (props: Props) => {
     const {tradeOperation, onEditClick, onDeleteClick} = props;
@@ -43,26 +38,31 @@ export const TradeOperationCard = (props: Props) => {
 
     return (
         <ListItem button onClick={() => onEditClick(tradeOperation)}>
-            <ListItemIcon>
-                {tradeOperation.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
-            </ListItemIcon>
             <ListItemText
-                primary={<><Amount operation={tradeOperation}/></>}
+                primary={<span className={classes.primaryText}>
+                    <span
+                        style={{color: notStonksTextColor}}>{tradeOperation.price}{tradeOperation.issuerCurrency}</span>
+                    <ChevronRightIcon/>
+                    <span
+                        style={{color: stonksTextColor}}>{tradeOperation.amount}{tradeOperation.acquirerCurrency}</span>
+                </span>}
                 secondary={(
                     <span className={classes.secondaryText}>
-            {/*Issued*/}
+                        <span style={{color: notStonksTextColor}}>
                         {(tradeOperation as any)?.issuerCashAccount?.name ||
                         <span className={classes.unknownAccount}>Unknown account</span>}
-                        {' '}
-                        {easyDate(tradeOperation.dateIssued)}
+                            {' '}
+                            {easyDate(tradeOperation.dateIssued)}
+                        </span>
 
                         <ChevronRightIcon/>
 
-                        {/*Acquired*/}
+                        <span style={{color: stonksTextColor}}>
                         {(tradeOperation as any)?.acquirerCashAccount?.name ||
                         <span className={classes.unknownAccount}>Unknown account</span>}
-                        {' '}
-                        {easyDate(tradeOperation.dateAcquired)}
+                            {' '}
+                            {easyDate(tradeOperation.dateAcquired)}
+                        </span>
           </span>
                 )}
             />
