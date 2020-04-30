@@ -130,6 +130,7 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
         <DialogContentText>
           {item.id ? 'Update' : 'Create'} cash account
         </DialogContentText>
+        <Grid container justify="space-between">
         <FormControl className={classes.formControl}>
           <InputLabel id="CashAccountFromDialog-Type-Label">Type</InputLabel>
           <Select
@@ -148,6 +149,14 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
             </MenuItem>
           </Select>
         </FormControl>
+          <TextField
+            margin="dense"
+            label="Balance $"
+            type="number"
+            value={dirty.balance}
+            onChange={onBalanceChange}
+        />
+        </Grid>
         <TextField
           autoFocus
           margin="dense"
@@ -175,14 +184,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
               onChange={e => onTextFieldChange(e.target.value, 'precision')}
           />
         </Grid>
-        <TextField
-          margin="dense"
-          label="Balance $"
-          type="number"
-          fullWidth
-          value={dirty.balance}
-          onChange={onBalanceChange}
-        />
         {dirty.type === CashAccountType.CREDIT_CARD && (
           <>
             <TextField
