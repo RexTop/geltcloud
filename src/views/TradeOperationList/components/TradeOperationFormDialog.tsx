@@ -133,6 +133,8 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 <DialogContentText>
                     {item.id ? 'Update' : 'Create'} trade operation
                 </DialogContentText>
+
+                {/*Issuer*/}
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TradeOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
                     <Select
@@ -148,6 +150,16 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         ))}
                     </Select>
                 </FormControl>
+                <TextField
+                    margin="dense"
+                    label="Issuer currency"
+                    type="text"
+                    fullWidth
+                    value={dirty.issuerCurrency}
+                    onChange={e => onTextFieldChange(e.target.value, 'issuerCurrency')}
+                />
+
+                {/*Acquirer*/}
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TradeOperationFromDialog-AcquirerCashAccountId-Label">Acquirer</InputLabel>
                     <Select
@@ -164,14 +176,26 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     </Select>
                 </FormControl>
                 <TextField
-                    autoFocus
                     margin="dense"
-                    label="Description"
+                    label="Acquirer currency"
                     type="text"
                     fullWidth
-                    value={dirty.note}
-                    onChange={e => onTextFieldChange(e.target.value, 'note')}
+                    value={dirty.acquirerCurrency}
+                    onChange={e => onTextFieldChange(e.target.value, 'acquirerCurrency')}
                 />
+
+                {/*Price*/}
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Price"
+                        type="number"
+                        value={dirty.price}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'price')}
+                    />
+                </FormControl>
+
+                {/*Amount*/}
                 <FormControl className={classes.formControl}>
                     <TextField
                         margin="dense"
@@ -181,6 +205,8 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
                     />
                 </FormControl>
+
+                {/*Fee*/}
                 <FormControl className={classes.formControl}>
                     <TextField
                         margin="dense"
@@ -190,6 +216,46 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
                     />
                 </FormControl>
+
+                {/*Exchange Rates*/}
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Exchange rate"
+                        type="number"
+                        value={dirty.exchangeRate}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
+                    />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Issuer exchange rate in USD"
+                        type="number"
+                        value={dirty.issuerExchangeRateInUsd}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
+                    />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Acquirer exchange rate in USD"
+                        type="number"
+                        value={dirty.acquirerExchangeRateInUsd}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
+                    />
+                </FormControl>
+
+                {/*Notes*/}
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label="Note"
+                    type="text"
+                    fullWidth
+                    value={dirty.note}
+                    onChange={e => onTextFieldChange(e.target.value, 'note')}
+                />
                 <TextField
                     margin="dense"
                     label="Issuer Note"
@@ -206,6 +272,8 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     value={dirty.acquirerNote}
                     onChange={e => onTextFieldChange(e.target.value, 'acquirerNote')}
                 />
+
+                {/*Dates*/}
                 <TextField
                     margin="dense"
                     label="Date Issued"
