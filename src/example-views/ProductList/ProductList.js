@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/styles';
-import {IconButton, Grid, Typography} from '@material-ui/core';
+import {Grid, IconButton, Typography} from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import {ProductsToolbar, ProductCard} from './components';
+import {ProductCard, ProductsToolbar} from './components';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({

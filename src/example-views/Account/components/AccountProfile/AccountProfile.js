@@ -3,16 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import {makeStyles} from '@material-ui/styles';
-import {
-    Card,
-    CardActions,
-    CardContent,
-    Avatar,
-    Typography,
-    Divider,
-    Button,
-    LinearProgress
-} from '@material-ui/core';
+import {Avatar, Button, Card, CardActions, CardContent, Divider, LinearProgress, Typography} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {},

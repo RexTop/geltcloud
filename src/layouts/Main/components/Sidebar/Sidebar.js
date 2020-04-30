@@ -6,6 +6,7 @@ import {Divider, Drawer} from '@material-ui/core';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import {Profile, SidebarNav} from './components';
 
@@ -39,17 +40,22 @@ const Sidebar = props => {
 
     const pages = [
         {
-            title: 'Flow Operations',
+            title: 'Trade',
+            href: '/trade-operations',
+            icon: <ShoppingCartIcon/>
+        },
+        {
+            title: 'Flow',
             href: '/flow-operations',
             icon: <ImportExportIcon/>
         },
         {
-            title: 'Transfer Operations',
+            title: 'Transfers',
             href: '/transfer-operations',
             icon: <AutorenewIcon/>
         },
         {
-            title: 'Cash Accounts',
+            title: 'Accounts',
             href: '/cash-accounts',
             icon: <AccountBalanceIcon/>
         },

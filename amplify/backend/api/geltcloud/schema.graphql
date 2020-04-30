@@ -17,6 +17,8 @@ type CashAccount
     paymentDay: Int!
     last4: String!
     active: Boolean!
+    currency: String!
+    precision: Int!
 }
 
 type FlowOperation
@@ -33,6 +35,7 @@ type FlowOperation
     issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
 }
 
+# Transfer between accounts of the same currency
 type TransferOperation
 @model
 @auth(rules: [{allow: owner}])
@@ -49,4 +52,37 @@ type TransferOperation
     issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
     acquirerCashAccountID: ID!
     acquirerCashAccount: CashAccount @connection(fields: ["acquirerCashAccountID"])
+    fee: Float
+}
+
+type TradeOperation
+@model
+@auth(rules: [{allow: owner}])
+{
+    id: ID!
+    note: String
+    issuerNote: String
+    acquirerNote: String
+
+    issuerCashAccountID: ID!
+    issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
+    issuerCurrency: String!
+
+    acquirerCashAccountID: ID!
+    acquirerCashAccount: CashAccount @connection(fields: ["acquirerCashAccountID"])
+    acquirerCurrency: String!
+
+    # Amount bought
+    amount: Float!
+    # Price payed
+    price: Float!
+    # Fee payed. Expressed in the currency of the 'amount' value.
+    fee: Float!
+
+    exchangeRate: Float!
+    issuerExchangeRateInUsd: Float!
+    acquirerExchangeRateInUsd: Float!
+
+    dateIssued: AWSDateTime!
+    dateAcquired: AWSDateTime!
 }

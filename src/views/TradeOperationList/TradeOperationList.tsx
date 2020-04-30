@@ -1,31 +1,31 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from "@material-ui/core/styles";
-import {FlowOperationCard, FlowOperationFormDialog} from './components';
+import {TradeOperationCard, TradeOperationFormDialog} from './components';
 import {FetchLoadingButton} from '../../components/FetchLoadingButton';
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import {CreateFlowOperationModel, FlowOperationModel} from "../../models/FlowOperationModel";
+import {CreateTradeOperationModel, TradeOperationModel} from "../../models/TradeOperationModel";
 import {API, graphqlOperation} from "aws-amplify";
-import {onCreateFlowOperation, onDeleteFlowOperation, onUpdateFlowOperation} from "../../graphql/subscriptions";
+import {onCreateTradeOperation, onDeleteTradeOperation, onUpdateTradeOperation} from "../../graphql/subscriptions";
 import {currentUsername} from "../../utils/auth-util";
 import {
-    DeleteFlowOperationInput,
+    DeleteTradeOperationInput,
     ListCashAccountsQuery,
     ListCashAccountsQueryVariables,
-    ListFlowOperationsQuery,
-    ListFlowOperationsQueryVariables,
-    ModelFlowOperationFilterInput,
-    OnCreateFlowOperationSubscription,
-    OnCreateFlowOperationSubscriptionVariables,
-    OnDeleteFlowOperationSubscription,
-    OnDeleteFlowOperationSubscriptionVariables,
-    OnUpdateFlowOperationSubscription,
-    OnUpdateFlowOperationSubscriptionVariables,
+    ListTradeOperationsQuery,
+    ListTradeOperationsQueryVariables,
+    ModelTradeOperationFilterInput,
+    OnCreateTradeOperationSubscription,
+    OnCreateTradeOperationSubscriptionVariables,
+    OnDeleteTradeOperationSubscription,
+    OnDeleteTradeOperationSubscriptionVariables,
+    OnUpdateTradeOperationSubscription,
+    OnUpdateTradeOperationSubscriptionVariables,
 } from "../../API";
-import {listCashAccounts, listFlowOperations} from "../../graphql/queries";
+import {listCashAccounts, listTradeOperations} from "../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
-import {deleteFlowOperation} from "../../graphql/mutations";
+import {deleteTradeOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
 import {CashAccountModel} from "../../models/CashAccountModel";
 import List from '@material-ui/core/List';
@@ -52,15 +52,15 @@ type Props = {}
 
 type State = {
     nextToken: string | null
-    items: FlowOperationModel[]
+    items: TradeOperationModel[]
     dropDownDataForCashAccounts: CashAccountModel[]
     loading: boolean
     open: boolean
-    selectedItem: FlowOperationModel
+    selectedItem: TradeOperationModel
     dateFilter: DateFilter
 }
 
-export class FlowOperationList extends React.Component<Props, State> {
+export class TradeOperationList extends React.Component<Props, State> {
 
     state: State = {
         nextToken: null,
@@ -68,7 +68,7 @@ export class FlowOperationList extends React.Component<Props, State> {
         dropDownDataForCashAccounts: [],
         loading: false,
         open: false,
-        selectedItem: CreateFlowOperationModel(),
+        selectedItem: CreateTradeOperationModel(),
         dateFilter: todayFilter(),
     };
     private onCreateListener: any;
@@ -76,7 +76,7 @@ export class FlowOperationList extends React.Component<Props, State> {
     private onUpdateListener: any;
 
     componentDidMount() {
-        this.fetchFlowOperations(this.state.dateFilter, true);
+        this.fetchTradeOperations(this.state.dateFilter, true);
         this.fetchDropdownDataForCashAccounts();
         this.setupListeners();
     }
@@ -92,13 +92,13 @@ export class FlowOperationList extends React.Component<Props, State> {
 
         return (
             <ComponentRoot>
-                <FlowOperationFormDialog
+                <TradeOperationFormDialog
                     open={open}
                     handleClose={this.handleClose}
                     item={selectedItem}
                     dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                 />
-                <h1>Flow Operations</h1>
+                <h1>Trade Operations</h1>
                 <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
                 <ComponentContent>
                     {!loading && !items.length && (
@@ -106,9 +106,9 @@ export class FlowOperationList extends React.Component<Props, State> {
                     )}
                     <List component="nav">
                         {items.map(item => (
-                            <FlowOperationCard
-                                key={`FlowOperationList-${item.id}`}
-                                flowOperation={item}
+                            <TradeOperationCard
+                                key={`TradeOperationList-${item.id}`}
+                                tradeOperation={item}
                                 onEditClick={() => this.onEditItemClick(item)}
                                 onDeleteClick={() => this.handleDeleteClick(item)}
                             />
@@ -117,7 +117,7 @@ export class FlowOperationList extends React.Component<Props, State> {
                     <FetchLoadingButton
                         loading={loading}
                         disabled={!nextToken}
-                        onClick={() => this.fetchFlowOperations(this.state.dateFilter, false)}
+                        onClick={() => this.fetchTradeOperations(this.state.dateFilter, false)}
                     />
                 </ComponentContent>
                 <ComponentFab onClick={this.handleNewClick}>
@@ -133,14 +133,14 @@ export class FlowOperationList extends React.Component<Props, State> {
 
     private onDatesChange = (dates: DateFilter) => {
         this.setState({dateFilter: dates});
-        this.fetchFlowOperations(dates, true);
+        this.fetchTradeOperations(dates, true);
     };
 
-    private onEditItemClick = (item: FlowOperationModel) => {
+    private onEditItemClick = (item: TradeOperationModel) => {
         this.setState({open: true, selectedItem: item});
     };
 
-    private fetchFlowOperations = async (withLocalDateFilter: DateFilter, reset: boolean) => {
+    private fetchTradeOperations = async (withLocalDateFilter: DateFilter, reset: boolean) => {
         try {
             if (reset) {
                 this.setState({loading: true, nextToken: null, items: []});
@@ -148,57 +148,57 @@ export class FlowOperationList extends React.Component<Props, State> {
                 this.setState({loading: true});
             }
 
-            const filter: ModelFlowOperationFilterInput = {
+            const filter: ModelTradeOperationFilterInput = {
                 dateIssued: {
                     ge: moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
                     le: moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
                 },
             };
-            const variables: ListFlowOperationsQueryVariables = {
+            const variables: ListTradeOperationsQueryVariables = {
                 filter,
                 limit: 50,
                 nextToken: reset ? null : this.state.nextToken
             };
-            const result = await API.graphql(graphqlOperation(listFlowOperations, variables)) as GraphQLResult<ListFlowOperationsQuery>;
-            if (!result.data || !result.data.listFlowOperations) return;
-            this.setState({nextToken: result.data.listFlowOperations.nextToken});
+            const result = await API.graphql(graphqlOperation(listTradeOperations, variables)) as GraphQLResult<ListTradeOperationsQuery>;
+            if (!result.data || !result.data.listTradeOperations) return;
+            this.setState({nextToken: result.data.listTradeOperations.nextToken});
             if (reset) {
-                this.setState({items: result.data.listFlowOperations.items as any});
+                this.setState({items: result.data.listTradeOperations.items as any});
             } else {
-                this.setState({items: [...this.state.items, ...result.data.listFlowOperations.items as any]});
+                this.setState({items: [...this.state.items, ...result.data.listTradeOperations.items as any]});
             }
         } catch (error) {
-            console.error("Could not load flow operations", {error});
+            console.error("Could not load trade operations", {error});
         } finally {
             this.setState({loading: false});
         }
     };
 
     private setupListeners = () => {
-        const onCreateVariables: OnCreateFlowOperationSubscriptionVariables = {owner: currentUsername()};
-        this.onCreateListener = API.graphql(graphqlOperation(onCreateFlowOperation, onCreateVariables)).subscribe({
-            next: (data: { value: { data: OnCreateFlowOperationSubscription } }) => {
-                const newItem = data.value.data.onCreateFlowOperation;
+        const onCreateVariables: OnCreateTradeOperationSubscriptionVariables = {owner: currentUsername()};
+        this.onCreateListener = API.graphql(graphqlOperation(onCreateTradeOperation, onCreateVariables)).subscribe({
+            next: (data: { value: { data: OnCreateTradeOperationSubscription } }) => {
+                const newItem = data.value.data.onCreateTradeOperation;
                 if (!newItem) return;
                 const prevItems = this.state.items;
                 this.setState({items: [...prevItems.filter(item => item.id !== newItem.id), newItem]});
             }
         });
 
-        const onDeleteVariables: OnDeleteFlowOperationSubscriptionVariables = {owner: currentUsername()};
-        this.onDeleteListener = API.graphql(graphqlOperation(onDeleteFlowOperation, onDeleteVariables)).subscribe({
-            next: (data: { value: { data: OnDeleteFlowOperationSubscription } }) => {
-                const deletedItem = data.value.data.onDeleteFlowOperation;
+        const onDeleteVariables: OnDeleteTradeOperationSubscriptionVariables = {owner: currentUsername()};
+        this.onDeleteListener = API.graphql(graphqlOperation(onDeleteTradeOperation, onDeleteVariables)).subscribe({
+            next: (data: { value: { data: OnDeleteTradeOperationSubscription } }) => {
+                const deletedItem = data.value.data.onDeleteTradeOperation;
                 if (!deletedItem) return;
                 const prevItems = this.state.items;
                 this.setState({items: prevItems.filter(item => item.id !== deletedItem.id)});
             }
         });
 
-        const onUpdateVariables: OnUpdateFlowOperationSubscriptionVariables = {owner: currentUsername()};
-        this.onUpdateListener = API.graphql(graphqlOperation(onUpdateFlowOperation, onUpdateVariables)).subscribe({
-            next: (data: { value: { data: OnUpdateFlowOperationSubscription } }) => {
-                const updatedItem = data.value.data.onUpdateFlowOperation;
+        const onUpdateVariables: OnUpdateTradeOperationSubscriptionVariables = {owner: currentUsername()};
+        this.onUpdateListener = API.graphql(graphqlOperation(onUpdateTradeOperation, onUpdateVariables)).subscribe({
+            next: (data: { value: { data: OnUpdateTradeOperationSubscription } }) => {
+                const updatedItem = data.value.data.onUpdateTradeOperation;
                 if (!updatedItem) return;
                 const prevItems = this.state.items;
                 const index = prevItems.findIndex(item => item.id === updatedItem.id);
@@ -218,20 +218,20 @@ export class FlowOperationList extends React.Component<Props, State> {
         }
     };
 
-    private handleDeleteClick = async (item: FlowOperationModel) => {
-        if (!window.confirm(`Delete flow operation "${item.description}"?`)) return;
+    private handleDeleteClick = async (item: TradeOperationModel) => {
+        if (!window.confirm(`Delete trade operation?`)) return;
         try {
-            const input: DeleteFlowOperationInput = {id: item.id};
-            await API.graphql(graphqlOperation(deleteFlowOperation, {input}));
+            const input: DeleteTradeOperationInput = {id: item.id};
+            await API.graphql(graphqlOperation(deleteTradeOperation, {input}));
             showAlert({message: 'Cash account deleted', severity: 'success'});
         } catch (error) {
-            showAlert({message: 'Can not delete flow operation', severity: 'error'});
+            showAlert({message: 'Can not delete trade operation', severity: 'error'});
             console.error('Error deleting item', {error});
         }
     };
 
     private handleNewClick = () => {
-        this.setState({open: true, selectedItem: CreateFlowOperationModel()});
+        this.setState({open: true, selectedItem: CreateTradeOperationModel()});
     };
 }
 

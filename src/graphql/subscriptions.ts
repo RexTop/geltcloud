@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 export const onCreateCashAccount = /* GraphQL */ `
@@ -13,6 +14,8 @@ export const onCreateCashAccount = /* GraphQL */ `
       paymentDay
       last4
       active
+      currency
+      precision
       owner
     }
   }
@@ -29,6 +32,8 @@ export const onUpdateCashAccount = /* GraphQL */ `
       paymentDay
       last4
       active
+      currency
+      precision
       owner
     }
   }
@@ -45,6 +50,8 @@ export const onDeleteCashAccount = /* GraphQL */ `
       paymentDay
       last4
       active
+      currency
+      precision
       owner
     }
   }
@@ -69,6 +76,8 @@ export const onCreateFlowOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       owner
@@ -95,6 +104,8 @@ export const onUpdateFlowOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       owner
@@ -121,6 +132,8 @@ export const onDeleteFlowOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       owner
@@ -149,6 +162,8 @@ export const onCreateTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       acquirerCashAccountID
@@ -162,8 +177,11 @@ export const onCreateTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
+      fee
       owner
     }
   }
@@ -190,6 +208,8 @@ export const onUpdateTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       acquirerCashAccountID
@@ -203,8 +223,11 @@ export const onUpdateTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
+      fee
       owner
     }
   }
@@ -231,6 +254,8 @@ export const onDeleteTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
       acquirerCashAccountID
@@ -244,8 +269,164 @@ export const onDeleteTransferOperation = /* GraphQL */ `
         paymentDay
         last4
         active
+        currency
+        precision
         owner
       }
+      fee
+      owner
+    }
+  }
+`;
+export const onCreateTradeOperation = /* GraphQL */ `
+  subscription OnCreateTradeOperation($owner: String!) {
+    onCreateTradeOperation(owner: $owner) {
+      id
+      note
+      issuerNote
+      acquirerNote
+      issuerCashAccountID
+      issuerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      issuerCurrency
+      acquirerCashAccountID
+      acquirerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      acquirerCurrency
+      amount
+      price
+      fee
+      exchangeRate
+      issuerExchangeRateInUsd
+      acquirerExchangeRateInUsd
+      dateIssued
+      dateAcquired
+      owner
+    }
+  }
+`;
+export const onUpdateTradeOperation = /* GraphQL */ `
+  subscription OnUpdateTradeOperation($owner: String!) {
+    onUpdateTradeOperation(owner: $owner) {
+      id
+      note
+      issuerNote
+      acquirerNote
+      issuerCashAccountID
+      issuerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      issuerCurrency
+      acquirerCashAccountID
+      acquirerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      acquirerCurrency
+      amount
+      price
+      fee
+      exchangeRate
+      issuerExchangeRateInUsd
+      acquirerExchangeRateInUsd
+      dateIssued
+      dateAcquired
+      owner
+    }
+  }
+`;
+export const onDeleteTradeOperation = /* GraphQL */ `
+  subscription OnDeleteTradeOperation($owner: String!) {
+    onDeleteTradeOperation(owner: $owner) {
+      id
+      note
+      issuerNote
+      acquirerNote
+      issuerCashAccountID
+      issuerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      issuerCurrency
+      acquirerCashAccountID
+      acquirerCashAccount {
+        id
+        name
+        balance
+        type
+        credit
+        closingDay
+        paymentDay
+        last4
+        active
+        currency
+        precision
+        owner
+      }
+      acquirerCurrency
+      amount
+      price
+      fee
+      exchangeRate
+      issuerExchangeRateInUsd
+      acquirerExchangeRateInUsd
+      dateIssued
+      dateAcquired
       owner
     }
   }
