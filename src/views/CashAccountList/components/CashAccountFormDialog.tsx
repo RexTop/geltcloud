@@ -183,7 +183,7 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
                         label="Precision"
                         type="number"
                         value={dirty.precision}
-                        onChange={e => onTextFieldChange(e.target.value, 'precision')}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'precision')}
                     />
                 </Grid>
                 {dirty.type === CashAccountType.CREDIT_CARD && (
