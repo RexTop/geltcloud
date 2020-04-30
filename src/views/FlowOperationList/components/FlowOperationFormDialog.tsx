@@ -20,6 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import {ToggleFlowType} from "../../../components/ToggleFlowType";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,20 +140,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
           value={dirty.amount}
           onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
         />
-        <RadioGroup row defaultValue="top">
-          <FormControlLabel
-              control={<Radio color="primary" checked={dirty.amount >= 0} onChange={e => setDirty({...dirty, amount: e.target.checked ? Math.abs(dirty.amount) : -Math.abs(dirty.amount)})}/>}
-              label={<span style={{color: stonksTextColor}}>
-                Income
-              </span>}
-          />
-          <FormControlLabel
-              control={<Radio color="primary" checked={dirty.amount < 0} onChange={e => setDirty({...dirty, amount: e.target.checked ? -Math.abs(dirty.amount) : Math.abs(dirty.amount)})}/>}
-              label={<span style={{color: notStonksTextColor}}>
-                Expense
-              </span>}
-          />
-        </RadioGroup>
+        <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
         <TextField
           margin="dense"
           label="Note"
