@@ -61,6 +61,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
         if (item.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
         if (item.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
         if (item.dateAcquired !== dirty.dateAcquired) return true;
+        if (item.fee !== dirty.fee) return true;
         if (JSON.stringify(item.tags) !== JSON.stringify(dirty.tags)) return true;
         return false;
     };
@@ -81,6 +82,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     tags: dirty.tags,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
                     dateAcquired: moment(dirty.dateAcquired).utc().format(),
+                    fee: dirty.fee,
                 };
                 await API.graphql(graphqlOperation(updateTransferOperation, {input}));
                 setDirty(CreateTransferOperationModel());
@@ -96,6 +98,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     tags: dirty.tags,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
                     dateAcquired: moment(dirty.dateAcquired).utc().format(),
+                    fee: dirty.fee,
                 };
                 await API.graphql(graphqlOperation(createTransferOperation, {input}));
                 setDirty(CreateTransferOperationModel());
@@ -155,14 +158,24 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     value={dirty.description}
                     onChange={e => onTextFieldChange(e.target.value, 'description')}
                 />
-                <TextField
-                    margin="dense"
-                    label="Amount"
-                    type="number"
-                    fullWidth
-                    value={dirty.amount}
-                    onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
-                />
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Amount"
+                        type="number"
+                        value={dirty.amount}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
+                    />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <TextField
+                        margin="dense"
+                        label="Fee"
+                        type="number"
+                        value={dirty.fee}
+                        onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
+                    />
+                </FormControl>
                 <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
                 <TextField
                     margin="dense"

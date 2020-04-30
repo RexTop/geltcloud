@@ -12,6 +12,7 @@ export type TransferOperationModel = {
     owner: string | null
     acquirerCashAccountID: string
     dateAcquired: string
+    fee: number | null
 }
 
 export const CreateTransferOperationModel = (): TransferOperationModel => (
@@ -27,5 +28,6 @@ export const CreateTransferOperationModel = (): TransferOperationModel => (
         owner: '',
         acquirerCashAccountID: '',
         dateAcquired: moment().startOf('day').utc().format(),
+        fee: 0,
     }
 );
