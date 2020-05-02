@@ -32,17 +32,17 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     open: boolean,
     handleClose: () => void,
-    item: TransferOperationModel,
+    model: TransferOperationModel,
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, item}: Props) => {
+export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(item);
+    const [dirty, setDirty] = React.useState(model);
 
     React.useEffect(() => {
-        setDirty(item);
-    }, [item]);
+        setDirty(model);
+    }, [model]);
 
     const onTextFieldChange = (value: string, key: keyof TransferOperationModel) => {
         setDirty({...dirty, [key]: value});
@@ -53,16 +53,16 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
     };
 
     const isDirty = () => {
-        if (item.amount !== dirty.amount) return true;
-        if (item.dateIssued !== dirty.dateIssued) return true;
-        if (item.description !== dirty.description) return true;
-        if (item.acquirerBankNote !== dirty.acquirerBankNote) return true;
-        if (item.issuerBankNote !== dirty.issuerBankNote) return true;
-        if (item.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
-        if (item.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
-        if (item.dateAcquired !== dirty.dateAcquired) return true;
-        if (item.fee !== dirty.fee) return true;
-        if (JSON.stringify(item.tags) !== JSON.stringify(dirty.tags)) return true;
+        if (model.amount !== dirty.amount) return true;
+        if (model.dateIssued !== dirty.dateIssued) return true;
+        if (model.description !== dirty.description) return true;
+        if (model.acquirerBankNote !== dirty.acquirerBankNote) return true;
+        if (model.issuerBankNote !== dirty.issuerBankNote) return true;
+        if (model.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
+        if (model.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
+        if (model.dateAcquired !== dirty.dateAcquired) return true;
+        if (model.fee !== dirty.fee) return true;
+        if (JSON.stringify(model.tags) !== JSON.stringify(dirty.tags)) return true;
         return false;
     };
 
@@ -113,10 +113,10 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} transfer operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} transfer operation</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {item.id ? 'Update' : 'Create'} transfer operation
+                    {model.id ? 'Update' : 'Create'} transfer operation
                 </DialogContentText>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TransferOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
@@ -214,7 +214,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     Cancel
                 </Button>
                 <Button onClick={onSaveClick} color="primary" disabled={!isDirty()}>
-                    {item.id ? 'Update' : 'Create'}
+                    {model.id ? 'Update' : 'Create'}
                 </Button>
             </DialogActions>
         </Dialog>
