@@ -23,7 +23,7 @@ type CashAccount
 
 type FlowOperation
 @model
-@key(name: "byOwner", fields: ["owner", "dateIssued"], queryField: "flowOperationsByOwner")
+@key(name: "byOwner", fields: ["owner", "dateIssued"], queryField: "listFlowOperationsByOwner")
 @auth(
     rules: [
         {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},

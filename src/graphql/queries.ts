@@ -320,8 +320,8 @@ export const listTradeOperations = /* GraphQL */ `
     }
   }
 `;
-export const flowOperationsByOwner = /* GraphQL */ `
-  query FlowOperationsByOwner(
+export const listFlowOperationsByOwner = /* GraphQL */ `
+  query ListFlowOperationsByOwner(
     $owner: String
     $dateIssued: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
@@ -329,7 +329,7 @@ export const flowOperationsByOwner = /* GraphQL */ `
     $limit: Int
     $nextToken: String
   ) {
-    flowOperationsByOwner(
+    listFlowOperationsByOwner(
       owner: $owner
       dateIssued: $dateIssued
       sortDirection: $sortDirection

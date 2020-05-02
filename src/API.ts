@@ -1240,7 +1240,7 @@ export type ListTradeOperationsQuery = {
   } | null,
 };
 
-export type FlowOperationsByOwnerQueryVariables = {
+export type ListFlowOperationsByOwnerQueryVariables = {
   owner?: string | null,
   dateIssued?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
@@ -1249,8 +1249,8 @@ export type FlowOperationsByOwnerQueryVariables = {
   nextToken?: string | null,
 };
 
-export type FlowOperationsByOwnerQuery = {
-  flowOperationsByOwner:  {
+export type ListFlowOperationsByOwnerQuery = {
+  listFlowOperationsByOwner:  {
     __typename: "ModelFlowOperationConnection",
     items:  Array< {
       __typename: "FlowOperation",
