@@ -43,7 +43,11 @@ type FlowOperation
 # Transfer between accounts of the same currency
 type TransferOperation
 @model
-@auth(rules: [{allow: owner}])
+@key(name: "byOwner", fields: ["owner", "dateIssued"], queryField: "listTransferOperationsByOwner")
+@auth(
+    rules: [
+        {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+    ])
 {
     id: ID!
     amount: Float!
@@ -58,11 +62,16 @@ type TransferOperation
     acquirerCashAccountID: ID!
     acquirerCashAccount: CashAccount @connection(fields: ["acquirerCashAccountID"])
     fee: Float
+    owner: String
 }
 
 type TradeOperation
 @model
-@auth(rules: [{allow: owner}])
+@key(name: "byOwner", fields: ["owner", "dateIssued"], queryField: "listTradeOperationsByOwner")
+@auth(
+    rules: [
+        {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+    ])
 {
     id: ID!
     note: String
@@ -90,4 +99,6 @@ type TradeOperation
 
     dateIssued: AWSDateTime!
     dateAcquired: AWSDateTime!
+
+    owner: String
 }

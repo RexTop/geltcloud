@@ -365,3 +365,134 @@ export const listFlowOperationsByOwner = /* GraphQL */ `
     }
   }
 `;
+export const listTransferOperationsByOwner = /* GraphQL */ `
+  query ListTransferOperationsByOwner(
+    $owner: String
+    $dateIssued: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTransferOperationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTransferOperationsByOwner(
+      owner: $owner
+      dateIssued: $dateIssued
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        amount
+        dateIssued
+        dateAcquired
+        description
+        tags
+        issuerBankNote
+        acquirerBankNote
+        issuerCashAccountID
+        issuerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        acquirerCashAccountID
+        acquirerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        fee
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const listTradeOperationsByOwner = /* GraphQL */ `
+  query ListTradeOperationsByOwner(
+    $owner: String
+    $dateIssued: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTradeOperationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTradeOperationsByOwner(
+      owner: $owner
+      dateIssued: $dateIssued
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        note
+        issuerNote
+        acquirerNote
+        issuerCashAccountID
+        issuerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        issuerCurrency
+        acquirerCashAccountID
+        acquirerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        acquirerCurrency
+        amount
+        price
+        fee
+        exchangeRate
+        issuerExchangeRateInUsd
+        acquirerExchangeRateInUsd
+        dateIssued
+        dateAcquired
+        owner
+      }
+      nextToken
+    }
+  }
+`;

@@ -199,6 +199,7 @@ export type CreateTransferOperationInput = {
   issuerCashAccountID: string,
   acquirerCashAccountID: string,
   fee?: number | null,
+  owner?: string | null,
 };
 
 export type ModelTransferOperationConditionInput = {
@@ -229,6 +230,7 @@ export type UpdateTransferOperationInput = {
   issuerCashAccountID?: string | null,
   acquirerCashAccountID?: string | null,
   fee?: number | null,
+  owner?: string | null,
 };
 
 export type DeleteTransferOperationInput = {
@@ -252,6 +254,7 @@ export type CreateTradeOperationInput = {
   acquirerExchangeRateInUsd: number,
   dateIssued: string,
   dateAcquired: string,
+  owner?: string | null,
 };
 
 export type ModelTradeOperationConditionInput = {
@@ -292,6 +295,7 @@ export type UpdateTradeOperationInput = {
   acquirerExchangeRateInUsd?: number | null,
   dateIssued?: string | null,
   dateAcquired?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteTradeOperationInput = {
@@ -341,6 +345,7 @@ export type ModelTransferOperationFilterInput = {
   issuerCashAccountID?: ModelIDInput | null,
   acquirerCashAccountID?: ModelIDInput | null,
   fee?: ModelFloatInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelTransferOperationFilterInput | null > | null,
   or?: Array< ModelTransferOperationFilterInput | null > | null,
   not?: ModelTransferOperationFilterInput | null,
@@ -363,6 +368,7 @@ export type ModelTradeOperationFilterInput = {
   acquirerExchangeRateInUsd?: ModelFloatInput | null,
   dateIssued?: ModelStringInput | null,
   dateAcquired?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelTradeOperationFilterInput | null > | null,
   or?: Array< ModelTradeOperationFilterInput | null > | null,
   not?: ModelTradeOperationFilterInput | null,
@@ -1276,6 +1282,133 @@ export type ListFlowOperationsByOwnerQuery = {
         precision: number,
         owner: string | null,
       } | null,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type ListTransferOperationsByOwnerQueryVariables = {
+  owner?: string | null,
+  dateIssued?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTransferOperationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTransferOperationsByOwnerQuery = {
+  listTransferOperationsByOwner:  {
+    __typename: "ModelTransferOperationConnection",
+    items:  Array< {
+      __typename: "TransferOperation",
+      id: string,
+      amount: number,
+      dateIssued: string,
+      dateAcquired: string,
+      description: string,
+      tags: Array< string >,
+      issuerBankNote: string | null,
+      acquirerBankNote: string | null,
+      issuerCashAccountID: string,
+      issuerCashAccount:  {
+        __typename: "CashAccount",
+        id: string,
+        name: string,
+        balance: number,
+        type: CashAccountType,
+        credit: number,
+        closingDay: number,
+        paymentDay: number,
+        last4: string,
+        active: boolean,
+        currency: string,
+        precision: number,
+        owner: string | null,
+      } | null,
+      acquirerCashAccountID: string,
+      acquirerCashAccount:  {
+        __typename: "CashAccount",
+        id: string,
+        name: string,
+        balance: number,
+        type: CashAccountType,
+        credit: number,
+        closingDay: number,
+        paymentDay: number,
+        last4: string,
+        active: boolean,
+        currency: string,
+        precision: number,
+        owner: string | null,
+      } | null,
+      fee: number | null,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type ListTradeOperationsByOwnerQueryVariables = {
+  owner?: string | null,
+  dateIssued?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTradeOperationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTradeOperationsByOwnerQuery = {
+  listTradeOperationsByOwner:  {
+    __typename: "ModelTradeOperationConnection",
+    items:  Array< {
+      __typename: "TradeOperation",
+      id: string,
+      note: string | null,
+      issuerNote: string | null,
+      acquirerNote: string | null,
+      issuerCashAccountID: string,
+      issuerCashAccount:  {
+        __typename: "CashAccount",
+        id: string,
+        name: string,
+        balance: number,
+        type: CashAccountType,
+        credit: number,
+        closingDay: number,
+        paymentDay: number,
+        last4: string,
+        active: boolean,
+        currency: string,
+        precision: number,
+        owner: string | null,
+      } | null,
+      issuerCurrency: string,
+      acquirerCashAccountID: string,
+      acquirerCashAccount:  {
+        __typename: "CashAccount",
+        id: string,
+        name: string,
+        balance: number,
+        type: CashAccountType,
+        credit: number,
+        closingDay: number,
+        paymentDay: number,
+        last4: string,
+        active: boolean,
+        currency: string,
+        precision: number,
+        owner: string | null,
+      } | null,
+      acquirerCurrency: string,
+      amount: number,
+      price: number,
+      fee: number,
+      exchangeRate: number,
+      issuerExchangeRateInUsd: number,
+      acquirerExchangeRateInUsd: number,
+      dateIssued: string,
+      dateAcquired: string,
       owner: string | null,
     } | null > | null,
     nextToken: string | null,
