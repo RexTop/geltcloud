@@ -4,7 +4,12 @@ Just run
 
 ```shell script
 amplify env checkout prod
+
+# If there are API changes
+amplify push
+
 npm run build
+
 firebase deploy -m ""
 ```
 
