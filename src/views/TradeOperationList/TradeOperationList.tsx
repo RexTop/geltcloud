@@ -13,9 +13,9 @@ import {
     DeleteTradeOperationInput,
     ListCashAccountsQuery,
     ListCashAccountsQueryVariables,
-    ListTradeOperationsQuery,
-    ListTradeOperationsQueryVariables,
-    ModelTradeOperationFilterInput,
+    ListTradeOperationsByOwnerQuery,
+    ListTradeOperationsByOwnerQueryVariables,
+    ModelSortDirection,
     OnCreateTradeOperationSubscription,
     OnCreateTradeOperationSubscriptionVariables,
     OnDeleteTradeOperationSubscription,
@@ -23,7 +23,7 @@ import {
     OnUpdateTradeOperationSubscription,
     OnUpdateTradeOperationSubscriptionVariables,
 } from "../../API";
-import {listCashAccounts, listTradeOperations} from "../../graphql/queries";
+import {listCashAccounts, listTradeOperationsByOwner} from "../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {deleteTradeOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
@@ -148,24 +148,25 @@ export class TradeOperationList extends React.Component<Props, State> {
                 this.setState({loading: true});
             }
 
-            const filter: ModelTradeOperationFilterInput = {
+            const variables: ListTradeOperationsByOwnerQueryVariables = {
+                owner: currentUsername(),
                 dateIssued: {
-                    ge: moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
-                    le: moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    between: [
+                        moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+                        moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    ],
                 },
-            };
-            const variables: ListTradeOperationsQueryVariables = {
-                filter,
+                sortDirection: ModelSortDirection.DESC,
                 limit: 50,
-                nextToken: reset ? null : this.state.nextToken
+                nextToken: reset ? null : this.state.nextToken,
             };
-            const result = await API.graphql(graphqlOperation(listTradeOperations, variables)) as GraphQLResult<ListTradeOperationsQuery>;
-            if (!result.data || !result.data.listTradeOperations) return;
-            this.setState({nextToken: result.data.listTradeOperations.nextToken});
+            const result = await API.graphql(graphqlOperation(listTradeOperationsByOwner, variables)) as GraphQLResult<ListTradeOperationsByOwnerQuery>;
+            if (!result.data || !result.data.listTradeOperationsByOwner) return;
+            this.setState({nextToken: result.data.listTradeOperationsByOwner.nextToken});
             if (reset) {
-                this.setState({items: result.data.listTradeOperations.items as any});
+                this.setState({items: result.data.listTradeOperationsByOwner.items as any});
             } else {
-                this.setState({items: [...this.state.items, ...result.data.listTradeOperations.items as any]});
+                this.setState({items: [...this.state.items, ...result.data.listTradeOperationsByOwner.items as any]});
             }
         } catch (error) {
             console.error("Could not load trade operations", {error});
