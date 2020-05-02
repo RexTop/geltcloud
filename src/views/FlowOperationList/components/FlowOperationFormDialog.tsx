@@ -32,17 +32,17 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     open: boolean,
     handleClose: () => void,
-    item: FlowOperationModel,
+    model: FlowOperationModel,
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, item}: Props) => {
+export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(item);
+    const [dirty, setDirty] = React.useState(model);
 
     React.useEffect(() => {
-        setDirty(item);
-    }, [item]);
+        setDirty(model);
+    }, [model]);
 
     const onTextFieldChange = (value: string, key: keyof FlowOperationModel) => {
         setDirty({...dirty, [key]: value});
@@ -53,12 +53,12 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
     };
 
     const isDirty = () => {
-        if (item.amount !== dirty.amount) return true;
-        if (item.dateIssued !== dirty.dateIssued) return true;
-        if (item.description !== dirty.description) return true;
-        if (item.bankNote !== dirty.bankNote) return true;
-        if (item.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
-        if (JSON.stringify(item.tags) !== JSON.stringify(dirty.tags)) return true;
+        if (model.amount !== dirty.amount) return true;
+        if (model.dateIssued !== dirty.dateIssued) return true;
+        if (model.description !== dirty.description) return true;
+        if (model.bankNote !== dirty.bankNote) return true;
+        if (model.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
+        if (JSON.stringify(model.tags) !== JSON.stringify(dirty.tags)) return true;
         return false;
     };
 
@@ -101,10 +101,10 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} flow operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} flow operation</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {item.id ? 'Update' : 'Create'} flow operation
+                    {model.id ? 'Update' : 'Create'} flow operation
                 </DialogContentText>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
@@ -160,7 +160,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     Cancel
                 </Button>
                 <Button onClick={onSaveClick} color="primary" disabled={!isDirty()}>
-                    {item.id ? 'Update' : 'Create'}
+                    {model.id ? 'Update' : 'Create'}
                 </Button>
             </DialogActions>
         </Dialog>
