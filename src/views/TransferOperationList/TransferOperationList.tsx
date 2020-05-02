@@ -17,9 +17,9 @@ import {
     DeleteTransferOperationInput,
     ListCashAccountsQuery,
     ListCashAccountsQueryVariables,
-    ListTransferOperationsQuery,
-    ListTransferOperationsQueryVariables,
-    ModelTransferOperationFilterInput,
+    ListTransferOperationsByOwnerQuery,
+    ListTransferOperationsByOwnerQueryVariables,
+    ModelSortDirection,
     OnCreateTransferOperationSubscription,
     OnCreateTransferOperationSubscriptionVariables,
     OnDeleteTransferOperationSubscription,
@@ -27,7 +27,7 @@ import {
     OnUpdateTransferOperationSubscription,
     OnUpdateTransferOperationSubscriptionVariables,
 } from "../../API";
-import {listCashAccounts, listTransferOperations} from "../../graphql/queries";
+import {listCashAccounts, listTransferOperationsByOwner} from "../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {deleteTransferOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
@@ -152,24 +152,25 @@ export class TransferOperationList extends React.Component<Props, State> {
                 this.setState({loading: true});
             }
 
-            const filter: ModelTransferOperationFilterInput = {
+            const variables: ListTransferOperationsByOwnerQueryVariables = {
+                owner: currentUsername(),
                 dateIssued: {
-                    ge: moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
-                    le: moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    between: [
+                        moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+                        moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    ],
                 },
-            };
-            const variables: ListTransferOperationsQueryVariables = {
-                filter,
+                sortDirection: ModelSortDirection.DESC,
                 limit: 50,
-                nextToken: reset ? null : this.state.nextToken
+                nextToken: reset ? null : this.state.nextToken,
             };
-            const result = await API.graphql(graphqlOperation(listTransferOperations, variables)) as GraphQLResult<ListTransferOperationsQuery>;
-            if (!result.data || !result.data.listTransferOperations) return;
-            this.setState({nextToken: result.data.listTransferOperations.nextToken});
+            const result = await API.graphql(graphqlOperation(listTransferOperationsByOwner, variables)) as GraphQLResult<ListTransferOperationsByOwnerQuery>;
+            if (!result.data || !result.data.listTransferOperationsByOwner) return;
+            this.setState({nextToken: result.data.listTransferOperationsByOwner.nextToken});
             if (reset) {
-                this.setState({items: result.data.listTransferOperations.items as any});
+                this.setState({items: result.data.listTransferOperationsByOwner.items as any});
             } else {
-                this.setState({items: [...this.state.items, ...result.data.listTransferOperations.items as any]});
+                this.setState({items: [...this.state.items, ...result.data.listTransferOperationsByOwner.items as any]});
             }
         } catch (error) {
             console.error("Could not load transfer operations", {error});
