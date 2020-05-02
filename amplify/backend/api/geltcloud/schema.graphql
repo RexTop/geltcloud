@@ -23,7 +23,11 @@ type CashAccount
 
 type FlowOperation
 @model
-@auth(rules: [{allow: owner}])
+@key(name: "byOwner", fields: ["owner", "dateIssued"], queryField: "flowOperationsByOwner")
+@auth(
+    rules: [
+        {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+    ])
 {
     id: ID!
     amount: Float!
@@ -33,6 +37,7 @@ type FlowOperation
     bankNote: String
     issuerCashAccountID: ID!
     issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
+    owner: String
 }
 
 # Transfer between accounts of the same currency

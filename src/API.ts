@@ -141,6 +141,7 @@ export type CreateFlowOperationInput = {
   tags: Array< string >,
   bankNote?: string | null,
   issuerCashAccountID: string,
+  owner?: string | null,
 };
 
 export type ModelFlowOperationConditionInput = {
@@ -179,6 +180,7 @@ export type UpdateFlowOperationInput = {
   tags?: Array< string > | null,
   bankNote?: string | null,
   issuerCashAccountID?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteFlowOperationInput = {
@@ -321,6 +323,7 @@ export type ModelFlowOperationFilterInput = {
   tags?: ModelStringInput | null,
   bankNote?: ModelStringInput | null,
   issuerCashAccountID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelFlowOperationFilterInput | null > | null,
   or?: Array< ModelFlowOperationFilterInput | null > | null,
   not?: ModelFlowOperationFilterInput | null,
@@ -364,6 +367,22 @@ export type ModelTradeOperationFilterInput = {
   or?: Array< ModelTradeOperationFilterInput | null > | null,
   not?: ModelTradeOperationFilterInput | null,
 };
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type CreateCashAccountMutationVariables = {
   input: CreateCashAccountInput,
@@ -1215,6 +1234,48 @@ export type ListTradeOperationsQuery = {
       acquirerExchangeRateInUsd: number,
       dateIssued: string,
       dateAcquired: string,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type FlowOperationsByOwnerQueryVariables = {
+  owner?: string | null,
+  dateIssued?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFlowOperationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FlowOperationsByOwnerQuery = {
+  flowOperationsByOwner:  {
+    __typename: "ModelFlowOperationConnection",
+    items:  Array< {
+      __typename: "FlowOperation",
+      id: string,
+      amount: number,
+      dateIssued: string,
+      description: string,
+      tags: Array< string >,
+      bankNote: string | null,
+      issuerCashAccountID: string,
+      issuerCashAccount:  {
+        __typename: "CashAccount",
+        id: string,
+        name: string,
+        balance: number,
+        type: CashAccountType,
+        credit: number,
+        closingDay: number,
+        paymentDay: number,
+        last4: string,
+        active: boolean,
+        currency: string,
+        precision: number,
+        owner: string | null,
+      } | null,
       owner: string | null,
     } | null > | null,
     nextToken: string | null,

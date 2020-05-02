@@ -320,3 +320,48 @@ export const listTradeOperations = /* GraphQL */ `
     }
   }
 `;
+export const flowOperationsByOwner = /* GraphQL */ `
+  query FlowOperationsByOwner(
+    $owner: String
+    $dateIssued: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFlowOperationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    flowOperationsByOwner(
+      owner: $owner
+      dateIssued: $dateIssued
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        amount
+        dateIssued
+        description
+        tags
+        bankNote
+        issuerCashAccountID
+        issuerCashAccount {
+          id
+          name
+          balance
+          type
+          credit
+          closingDay
+          paymentDay
+          last4
+          active
+          currency
+          precision
+          owner
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
