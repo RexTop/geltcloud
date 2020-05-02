@@ -1,4 +1,3 @@
-import React from 'react';
 import {FlowOperationCard, FlowOperationFormDialog} from './components';
 import {CreateFlowOperationModel, FlowOperationModel} from "../../models/FlowOperationModel";
 import {onCreateFlowOperation, onDeleteFlowOperation, onUpdateFlowOperation} from "../../graphql/subscriptions";
