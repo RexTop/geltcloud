@@ -32,21 +32,21 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     open: boolean,
     handleClose: () => void,
-    item: TradeOperationModel,
+    model: TradeOperationModel,
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, item}: Props) => {
+export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(item);
+    const [dirty, setDirty] = React.useState(model);
     const [notesSectionHeight, setNotesSectionHeight] = React.useState(0 as string | number);
     const [datesSectionHeight, setDatesSectionHeight] = React.useState(0 as string | number);
     const [accountsSectionHeight, setAccountsSectionHeight] = React.useState('auto' as string | number);
     const [priceSectionHeight, setPriceSectionHeight] = React.useState('auto' as string | number);
 
     React.useEffect(() => {
-        setDirty(item);
-    }, [item]);
+        setDirty(model);
+    }, [model]);
 
     const onTextFieldChange = (value: string, key: keyof TradeOperationModel) => {
         const updatedDirty = {...dirty, [key]: value};
@@ -71,21 +71,21 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     };
 
     const isDirty = () => {
-        if (item.note !== dirty.note) return true;
-        if (item.issuerNote !== dirty.issuerNote) return true;
-        if (item.acquirerNote !== dirty.acquirerNote) return true;
-        if (item.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
-        if (item.issuerCurrency !== dirty.issuerCurrency) return true;
-        if (item.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
-        if (item.acquirerCurrency !== dirty.acquirerCurrency) return true;
-        if (item.amount !== dirty.amount) return true;
-        if (item.price !== dirty.price) return true;
-        if (item.fee !== dirty.fee) return true;
-        if (item.exchangeRate !== dirty.exchangeRate) return true;
-        if (item.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
-        if (item.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
-        if (item.dateIssued !== dirty.dateIssued) return true;
-        if (item.dateAcquired !== dirty.dateAcquired) return true;
+        if (model.note !== dirty.note) return true;
+        if (model.issuerNote !== dirty.issuerNote) return true;
+        if (model.acquirerNote !== dirty.acquirerNote) return true;
+        if (model.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
+        if (model.issuerCurrency !== dirty.issuerCurrency) return true;
+        if (model.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
+        if (model.acquirerCurrency !== dirty.acquirerCurrency) return true;
+        if (model.amount !== dirty.amount) return true;
+        if (model.price !== dirty.price) return true;
+        if (model.fee !== dirty.fee) return true;
+        if (model.exchangeRate !== dirty.exchangeRate) return true;
+        if (model.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
+        if (model.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
+        if (model.dateIssued !== dirty.dateIssued) return true;
+        if (model.dateAcquired !== dirty.dateAcquired) return true;
         return false;
     };
 
@@ -146,7 +146,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} trade operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} trade operation</DialogTitle>
             <DialogContent>
 
                 <h2 style={{cursor: 'pointer'}}
@@ -332,7 +332,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     Cancel
                 </Button>
                 <Button onClick={onSaveClick} color="primary" disabled={!isDirty()}>
-                    {item.id ? 'Update' : 'Create'}
+                    {model.id ? 'Update' : 'Create'}
                 </Button>
             </DialogActions>
         </Dialog>
