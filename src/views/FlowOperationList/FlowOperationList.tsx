@@ -13,9 +13,9 @@ import {
     DeleteFlowOperationInput,
     ListCashAccountsQuery,
     ListCashAccountsQueryVariables,
-    ListFlowOperationsQuery,
-    ListFlowOperationsQueryVariables,
-    ModelFlowOperationFilterInput,
+    ListFlowOperationsByOwnerQuery,
+    ListFlowOperationsByOwnerQueryVariables,
+    ModelSortDirection,
     OnCreateFlowOperationSubscription,
     OnCreateFlowOperationSubscriptionVariables,
     OnDeleteFlowOperationSubscription,
@@ -23,7 +23,7 @@ import {
     OnUpdateFlowOperationSubscription,
     OnUpdateFlowOperationSubscriptionVariables,
 } from "../../API";
-import {listCashAccounts, listFlowOperations} from "../../graphql/queries";
+import {listCashAccounts, listFlowOperationsByOwner} from "../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {deleteFlowOperation} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
@@ -148,24 +148,25 @@ export class FlowOperationList extends React.Component<Props, State> {
                 this.setState({loading: true});
             }
 
-            const filter: ModelFlowOperationFilterInput = {
+            const variables: ListFlowOperationsByOwnerQueryVariables = {
+                owner: currentUsername(),
                 dateIssued: {
-                    ge: moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
-                    le: moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    between: [
+                        moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+                        moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                    ],
                 },
-            };
-            const variables: ListFlowOperationsQueryVariables = {
-                filter,
+                sortDirection: ModelSortDirection.DESC,
                 limit: 50,
-                nextToken: reset ? null : this.state.nextToken
+                nextToken: reset ? null : this.state.nextToken,
             };
-            const result = await API.graphql(graphqlOperation(listFlowOperations, variables)) as GraphQLResult<ListFlowOperationsQuery>;
-            if (!result.data || !result.data.listFlowOperations) return;
-            this.setState({nextToken: result.data.listFlowOperations.nextToken});
+            const result = await API.graphql(graphqlOperation(listFlowOperationsByOwner, variables)) as GraphQLResult<ListFlowOperationsByOwnerQuery>;
+            if (!result.data || !result.data.listFlowOperationsByOwner) return;
+            this.setState({nextToken: result.data.listFlowOperationsByOwner.nextToken});
             if (reset) {
-                this.setState({items: result.data.listFlowOperations.items as any});
+                this.setState({items: result.data.listFlowOperationsByOwner.items as any});
             } else {
-                this.setState({items: [...this.state.items, ...result.data.listFlowOperations.items as any]});
+                this.setState({items: [...this.state.items, ...result.data.listFlowOperationsByOwner.items as any]});
             }
         } catch (error) {
             console.error("Could not load flow operations", {error});

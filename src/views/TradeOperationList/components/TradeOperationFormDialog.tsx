@@ -90,7 +90,6 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     };
 
     const onSaveClick = async () => {
-        console.log("Save", dirty);
         try {
             handleClose();
             if (dirty.id) {

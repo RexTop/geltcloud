@@ -63,7 +63,6 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
     };
 
     const onSaveClick = async () => {
-        console.log("Save", dirty);
         try {
             handleClose();
             if (dirty.id) {

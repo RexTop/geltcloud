@@ -67,7 +67,6 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
     };
 
     const onSaveClick = async () => {
-        console.log("Save", dirty);
         try {
             handleClose();
             if (dirty.id) {
