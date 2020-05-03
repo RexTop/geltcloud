@@ -17,7 +17,7 @@ import {DateFilter, todayFilter} from "../views/common/DateFiltersWidget/DateFil
 import moment from "moment";
 import {Typography} from "@material-ui/core";
 
-const MAX_ITEMS_PER_PAGE = 3;
+const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
