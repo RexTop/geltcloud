@@ -132,7 +132,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                         model={selectedItem}
                         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     />
-                    <h1>{title} Genial</h1>
+                    <h1>{title}</h1>
                     <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
                     <ComponentContent>
                         {!loading && !items.length && (
