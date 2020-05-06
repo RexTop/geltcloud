@@ -9,6 +9,8 @@ import ImportExportIcon from "@material-ui/icons/ImportExport";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
+export const BOTTOM_NAVIGATION_HEIGHT = 56;
+
 const useStyles = makeStyles(theme => ({
     appBar: {
         top: 'auto',

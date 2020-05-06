@@ -16,20 +16,25 @@ import {DateFiltersWidget} from "../views/common/DateFiltersWidget";
 import {DateFilter, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
 import {Typography} from "@material-ui/core";
+import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        padding: theme.spacing(3)
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
     },
     content: {
-        marginTop: theme.spacing(2)
+        flex: 1,
+        overflowY: 'scroll',
     },
     fab: {
         position: 'fixed',
-        bottom: theme.spacing(2),
+        bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
         right: theme.spacing(2),
     },
 }));
