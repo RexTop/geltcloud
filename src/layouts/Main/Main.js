@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/styles';
 import {useMediaQuery} from '@material-ui/core';
+import {MainBottomNavigation} from "./components/MainBottomNavigation";
 
-import {Sidebar, Topbar} from './components';
+const USES_TOP_BAR = false;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        paddingTop: 56,
+        ...USES_TOP_BAR ? {paddingTop: 56} : {},
         height: '100%',
         [theme.breakpoints.up('sm')]: {
-            paddingTop: 64
+            ...USES_TOP_BAR ? {paddingTop: 64} : {},
         }
     },
     shiftContent: {
@@ -50,12 +51,16 @@ const Main = props => {
                 [classes.shiftContent]: isDesktop
             })}
         >
+            <MainBottomNavigation/>
+            {/*
+            The top bar and sidebar navigation elements are deprecated in favour to the new bottom navigation widget.
             <Topbar onSidebarOpen={handleSidebarOpen}/>
             <Sidebar
                 onClose={handleSidebarClose}
                 open={shouldOpenSidebar}
                 variant={isDesktop ? 'persistent' : 'temporary'}
             />
+            */}
             <main className={classes.content}>
                 {children}
             </main>
