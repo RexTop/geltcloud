@@ -23,6 +23,8 @@ const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
+        padding: theme.spacing(3),
+        paddingBottom: 0,
         height: '100%',
         width: '100%',
         display: 'flex',
@@ -30,7 +32,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     content: {
         flex: 1,
-        overflowY: 'scroll',
+        overflowY: 'auto',
+        paddingBottom: theme.spacing(3),
     },
     fab: {
         position: 'fixed',
