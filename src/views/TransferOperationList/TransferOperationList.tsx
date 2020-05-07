@@ -1,4 +1,4 @@
-import {TransferOperationCard, TransferOperationFormDialog} from './components';
+import {TransferOperationFormDialog} from './components';
 import {CreateTransferOperationModel, TransferOperationModel} from "../../models/TransferOperationModel";
 import {
     onCreateTransferOperation,
@@ -14,6 +14,7 @@ import {
 import {listTransferOperationsByOwner} from "../../graphql/queries";
 import {deleteTransferOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
+import {TransferOperationCardMinimal} from "./components/TransferOperationCard";
 
 export const TransferOperationList = createOperationListComponent<TransferOperationModel, ListTransferOperationsByOwnerQuery, OnCreateTransferOperationSubscription, OnUpdateTransferOperationSubscription, OnDeleteTransferOperationSubscription>({
     modelName: 'TransferOperation',
@@ -25,7 +26,7 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     deleteFailureMessage: 'Can not delete transfer',
     emptyListMessage: 'No transfer operations',
 
-    OperationCard: TransferOperationCard,
+    OperationCard: TransferOperationCardMinimal,
     OperationFormDialog: TransferOperationFormDialog,
 
     listByOwner_QueryString: listTransferOperationsByOwner,
