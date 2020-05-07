@@ -1,7 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from "@material-ui/core/styles";
-import {FetchLoadingButton} from './FetchLoadingButton';
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import {API, graphqlOperation} from "aws-amplify";
@@ -11,34 +10,28 @@ import {listCashAccounts} from "../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {showAlert} from "../utils/ui";
 import {CashAccountModel} from "../models/CashAccountModel";
-import List from '@material-ui/core/List';
 import {DateFiltersWidget} from "../views/common/DateFiltersWidget";
 import {DateFilter, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
-import {Typography} from "@material-ui/core";
 import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
+import {OperationListPaperWidget} from "./OperationListPaperWidget";
+import Paper from "@material-ui/core/Paper";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        padding: theme.spacing(3),
-        paddingBottom: 0,
-        height: '100%',
+    abstractOperationRoot: {
         width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
     },
-    content: {
-        flex: 1,
-        overflowY: 'auto',
-        paddingBottom: theme.spacing(3),
-    },
-    fab: {
+    abstractOperationFab: {
         position: 'fixed',
         bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
         right: theme.spacing(2),
+        zIndex: 10,
     },
 }));
 
@@ -58,11 +51,14 @@ type CreateOperationListComponentParams<TModel extends { id: string }, TListQuer
     modelName: string,
     createNewModel: () => TModel
 
+    // TODO: This is not being used. It might be removed.
     title: string
     confirmDeleteMessage: string
     deleteSuccessMessage: string
     deleteFailureMessage: string
+    noMoreItemsMessage: string
     emptyListMessage: string
+    getGroupingKey: (model: TModel) => string
 
     OperationCard: React.ComponentType<{ model: TModel, onEditClick: () => void, onDeleteClick: () => void }>
     OperationFormDialog: React.ComponentType<{ open: boolean, handleClose: () => void, model: TModel, dropDownDataForCashAccounts: CashAccountModel[] }>
@@ -83,7 +79,6 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
     {
         createNewModel,
         OperationFormDialog,
-        title,
         OperationCard,
         listByOwner_QueryString,
         onCreate_SubscriptionString,
@@ -93,7 +88,9 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
         confirmDeleteMessage,
         deleteSuccessMessage,
         deleteFailureMessage,
+        noMoreItemsMessage,
         emptyListMessage,
+        getGroupingKey,
         getListPayload,
         modelName,
         getOnCreateSubscriptionPayload,
@@ -133,40 +130,34 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
             const {open, loading, items, dateFilter, dropDownDataForCashAccounts, nextToken, selectedItem} = this.state;
 
             return (
-                <ComponentRoot>
+                <>
                     <OperationFormDialog
                         open={open}
                         handleClose={this.handleClose}
                         model={selectedItem}
                         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     />
-                    <h1>{title}</h1>
-                    <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
-                    <ComponentContent>
-                        {!loading && !items.length && (
-                            <Typography color="textSecondary" gutterBottom
-                                        variant="body2">{emptyListMessage}</Typography>
-                        )}
-                        <List component="nav">
-                            {items.map(item => (
-                                <OperationCard
-                                    key={`OperationList-${modelName}-${item.id}`}
-                                    model={item}
-                                    onEditClick={() => this.onEditItemClick(item)}
-                                    onDeleteClick={() => this.handleDeleteClick(item)}
-                                />
-                            ))}
-                        </List>
-                        <FetchLoadingButton
-                            loading={loading}
-                            disabled={!nextToken}
-                            onClick={() => this.fetchOperations(this.state.dateFilter, false)}
+                    <ComponentRoot>
+                        {/*TODO: Create a beautiful section of filters using tabs. Include a day/week/month anc calendar view*/}
+                        <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
+                        <OperationListPaperWidget
+                            items={items}
+                            loadMore={{
+                                onClick: () => this.fetchOperations(this.state.dateFilter, false),
+                                loading,
+                                hasMore: !!nextToken,
+                                emptyListMessage,
+                                noMoreItemsMessage,
+                            }}
+                            cardElement={OperationCard}
+                            onEditClick={this.onEditItemClick}
+                            onDeleteClick={this.handleDeleteClick}
+                            modelName={modelName}
+                            getGroupingKey={getGroupingKey}
                         />
-                    </ComponentContent>
-                    <ComponentFab onClick={this.handleNewClick}>
-                        <AddIcon/>
-                    </ComponentFab>
-                </ComponentRoot>
+                    </ComponentRoot>
+                    <ComponentFab onClick={this.handleNewClick}><AddIcon/></ComponentFab>
+                </>
             );
         }
 
@@ -302,19 +293,9 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
 const ComponentRoot = ({children}: { children: React.ReactNode }) => {
     const classes = useStyles();
     return (
-        <div className={classes.root}>
+        <Paper square className={classes.abstractOperationRoot}>
             {children}
-        </div>
-    );
-};
-
-const ComponentContent = ({children}: { children: React.ReactNode }) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.content}>
-            {children}
-        </div>
+        </Paper>
     );
 };
 
@@ -322,7 +303,7 @@ const ComponentFab = ({onClick, children}: { onClick: () => void, children: Reac
     const classes = useStyles();
 
     return (
-        <Fab aria-label="add" className={classes.fab} color="primary" onClick={onClick}>
+        <Fab aria-label="add" className={classes.abstractOperationFab} color="primary" onClick={onClick}>
             {children}
         </Fab>
     );

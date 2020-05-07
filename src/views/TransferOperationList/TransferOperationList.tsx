@@ -15,6 +15,9 @@ import {listTransferOperationsByOwner} from "../../graphql/queries";
 import {deleteTransferOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
 import {TransferOperationCardMinimal} from "./components/TransferOperationCard";
+import moment from "moment";
+
+const getLocalFormattedDateOfOperation = (item: TransferOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
 
 export const TransferOperationList = createOperationListComponent<TransferOperationModel, ListTransferOperationsByOwnerQuery, OnCreateTransferOperationSubscription, OnUpdateTransferOperationSubscription, OnDeleteTransferOperationSubscription>({
     modelName: 'TransferOperation',
@@ -25,6 +28,8 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     deleteSuccessMessage: 'Transfer deleted',
     deleteFailureMessage: 'Can not delete transfer',
     emptyListMessage: 'No transfer operations',
+    noMoreItemsMessage: 'No more transfers',
+    getGroupingKey: getLocalFormattedDateOfOperation,
 
     OperationCard: TransferOperationCardMinimal,
     OperationFormDialog: TransferOperationFormDialog,

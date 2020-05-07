@@ -10,6 +10,9 @@ import {
 import {listTradeOperationsByOwner} from "../../graphql/queries";
 import {deleteTradeOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
+import moment from "moment";
+
+const getLocalFormattedDateOfOperation = (item: TradeOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
 
 export const TradeOperationList = createOperationListComponent<TradeOperationModel, ListTradeOperationsByOwnerQuery, OnCreateTradeOperationSubscription, OnUpdateTradeOperationSubscription, OnDeleteTradeOperationSubscription>({
     modelName: 'TradeOperation',
@@ -20,6 +23,8 @@ export const TradeOperationList = createOperationListComponent<TradeOperationMod
     deleteSuccessMessage: 'Trade deleted',
     deleteFailureMessage: 'Can not delete trade',
     emptyListMessage: 'No trade operations',
+    noMoreItemsMessage: 'No more trade operations',
+    getGroupingKey: getLocalFormattedDateOfOperation,
 
     OperationCard: TradeOperationCard,
     OperationFormDialog: TradeOperationFormDialog,

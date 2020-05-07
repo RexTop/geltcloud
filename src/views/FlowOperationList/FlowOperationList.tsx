@@ -10,6 +10,9 @@ import {
 import {listFlowOperationsByOwner} from "../../graphql/queries";
 import {deleteFlowOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
+import moment from "moment";
+
+const getLocalFormattedDateOfOperation = (item: FlowOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
 
 export const FlowOperationList = createOperationListComponent<FlowOperationModel, ListFlowOperationsByOwnerQuery, OnCreateFlowOperationSubscription, OnUpdateFlowOperationSubscription, OnDeleteFlowOperationSubscription>({
     modelName: 'FlowOperation',
@@ -20,6 +23,8 @@ export const FlowOperationList = createOperationListComponent<FlowOperationModel
     deleteSuccessMessage: 'Flow deleted',
     deleteFailureMessage: 'Can not delete flow',
     emptyListMessage: 'No flow operations',
+    noMoreItemsMessage: 'No more flow operations',
+    getGroupingKey: getLocalFormattedDateOfOperation,
 
     OperationCard: FlowOperationCard,
     OperationFormDialog: FlowOperationFormDialog,
