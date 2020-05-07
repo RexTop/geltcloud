@@ -15,6 +15,8 @@ import {Theme} from "@material-ui/core/styles";
 import {easyDate} from "../../../utils/date-util";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
 
 type Props = CardProps & {
     model: TransferOperationModel
@@ -79,3 +81,17 @@ export const TransferOperationCard = (props: Props) => {
         </ListItem>
     );
 };
+
+export const TransferOperationCardMinimal = ({model, onDeleteClick, onEditClick}: Props) => (
+    <ListItem button onClick={() => onEditClick(model)}>
+        <ListItemAvatar>
+            <Avatar alt="Operation Type" src={'/static/images/avatar/1.jpg'}/>
+        </ListItemAvatar>
+        <ListItemText primary={money(model.amount)} secondary={model.description}/>
+        <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(model)}>
+                <DeleteIcon/>
+            </IconButton>
+        </ListItemSecondaryAction>
+    </ListItem>
+);
