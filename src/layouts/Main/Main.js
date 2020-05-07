@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     shiftContent: {
+        // TODO: Find out what this is.
         paddingLeft: 240
     },
     content: {
