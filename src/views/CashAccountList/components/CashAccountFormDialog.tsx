@@ -20,6 +20,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
+import {Transition} from "../../../components/common/Transition";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -121,7 +122,8 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
     const classes = useStyles();
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+                TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} cash account</DialogTitle>
             <DialogContent>
                 <DialogContentText>

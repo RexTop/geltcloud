@@ -19,6 +19,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Divider, Grid} from "@material-ui/core";
 import AnimateHeight from "react-animate-height";
+import {Transition} from "../../../components/common/Transition";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -143,7 +144,8 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     const classes = useStyles();
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+                TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} trade operation</DialogTitle>
             <DialogContent>
 
