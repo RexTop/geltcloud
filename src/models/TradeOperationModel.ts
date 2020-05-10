@@ -1,4 +1,5 @@
 import moment from "moment";
+import {CashAccountModel} from "./CashAccountModel";
 
 export type TradeOperationModel = {
     id: string,
@@ -6,8 +7,10 @@ export type TradeOperationModel = {
     issuerNote: string | null,
     acquirerNote: string | null,
     issuerCashAccountID: string,
+    issuerCashAccount?: CashAccountModel | null,
     issuerCurrency: string,
     acquirerCashAccountID: string,
+    acquirerCashAccount?: CashAccountModel | null,
     acquirerCurrency: string,
     amount: number,
     price: number,
