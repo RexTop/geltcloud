@@ -14,10 +14,10 @@ import {
 import {listTransferOperationsByOwner} from "../../graphql/queries";
 import {deleteTransferOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
-import {TransferOperationCardMinimal} from "./components/TransferOperationCard";
-import moment from "moment";
+import {TransferOperationCard} from "./components/TransferOperationCard";
+import {easyDate} from "../../utils/date-util";
 
-const getLocalFormattedDateOfOperation = (item: TransferOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
+const getLocalFormattedDateOfOperation = (item: TransferOperationModel) => easyDate(item.dateIssued);
 
 export const TransferOperationList = createOperationListComponent<TransferOperationModel, ListTransferOperationsByOwnerQuery, OnCreateTransferOperationSubscription, OnUpdateTransferOperationSubscription, OnDeleteTransferOperationSubscription>({
     modelName: 'TransferOperation',
@@ -31,7 +31,7 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     noMoreItemsMessage: 'No more transfers',
     getGroupingKey: getLocalFormattedDateOfOperation,
 
-    OperationCard: TransferOperationCardMinimal,
+    OperationCard: TransferOperationCard,
     OperationFormDialog: TransferOperationFormDialog,
 
     listByOwner_QueryString: listTransferOperationsByOwner,
