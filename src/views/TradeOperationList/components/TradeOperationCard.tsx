@@ -10,6 +10,7 @@ import {easyTime} from "../../../utils/date-util";
 import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import {naiveMoneyFormat} from "../../../utils/money";
 
 type Props = CardProps & {
     model: TradeOperationModel
@@ -28,20 +29,30 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const FromCurrencyToCurrency = ({model: {amountCurrency, priceCurrency, price, amount}}: { model: TradeOperationModel }) => {
     const classes = useStyles();
+    const right = naiveMoneyFormat({
+        value: amount,
+        currency: amountCurrency,
+        absolute: true,
+    });
+    const left = naiveMoneyFormat({
+        value: price,
+        currency: priceCurrency,
+        absolute: true,
+    });
     return <span>
-        <span className={classes.expenseText}><b>-{Math.abs(price)}</b> {priceCurrency}</span>
-        {' to '}
-        <span className={classes.incomeText}><b>+{Math.abs(amount)}</b> {amountCurrency}</span>
+        <b className={classes.expenseText}>{left}</b>{' to '}<b className={classes.incomeText}>{right}</b>
     </span>;
 };
 
 const ExchangeRate = ({model: {priceCurrency, exchangeRate, amountCurrency}}: { model: TradeOperationModel }) => {
-    return <span>1 {amountCurrency} = {exchangeRate} {priceCurrency}</span>;
+    const right = naiveMoneyFormat({value: exchangeRate, currency: priceCurrency, absolute: true});
+    return <span>1 {amountCurrency} = {right}</span>;
 };
 
 const Fee = ({model: {amountFee, amountCurrency}}: { model: TradeOperationModel }) => {
     const classes = useStyles();
-    return <span className={classes.expenseText}>Fee: {amountFee} {amountCurrency}</span>;
+    const fee = naiveMoneyFormat({value: amountFee, currency: amountCurrency, absolute: true});
+    return <span className={classes.expenseText}>Fee: {fee}</span>;
 };
 
 export const TradeOperationCard = ({model, onDeleteClick, onEditClick}: Props) => {

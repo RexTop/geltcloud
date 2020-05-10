@@ -29,10 +29,12 @@ export const isCryptocurrency = (currencyCode: string) => {
  * expressed as "￥123,457" with a locale "ja-JP", as "123 457 ¥" with "ru-RU", as "JP¥ 123,457" with "ar-AR", however
  * the crypto formatting formula does not take into account those details.
  */
-export const naiveMoneyFormat = ({value, currency}: { value: number, currency: string }) => {
+export const naiveMoneyFormat = ({value, currency, absolute = false}: { value: number, currency: string, absolute?: boolean }) => {
     const iso4217Currency = currencyCodes.code(currency);
 
-    if (!iso4217Currency) {
+    if (absolute) value = Math.abs(value);
+
+    if (iso4217Currency) {
         // TODO: We need to do something with the 'en-US' parameter, and also take into account locales when formatting crypto currencies.
         const formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
