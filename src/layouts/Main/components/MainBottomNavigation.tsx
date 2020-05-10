@@ -30,10 +30,22 @@ export const MainBottomNavigation = () => {
     return (
         <AppBar position="fixed" color="primary" className={classes.appBar}>
             <BottomNavigation showLabels>
-                <BottomNavigationAction label="Wallets" icon={ <AccountBalanceWalletIcon/>} {...{to: '/cash-accounts', activeClassName: classes.active}} component={CustomRouterLink}/>
-                <BottomNavigationAction label="Transfers" icon={<AutorenewIcon/>} {...{to: '/transfer-operations', activeClassName: classes.active}} component={CustomRouterLink}/>
-                <BottomNavigationAction label="Trades" icon={<ShoppingCartIcon/>} {...{to: '/trade-operations', activeClassName: classes.active}} component={CustomRouterLink}/>
-                <BottomNavigationAction label="Flows" icon={<ImportExportIcon/>} {...{to: '/flow-operations', activeClassName: classes.active}} component={CustomRouterLink}/>
+                <BottomNavigationAction label="Wallets" icon={<AccountBalanceWalletIcon/>} {...{
+                    to: '/cash-accounts',
+                    activeClassName: classes.active
+                }} component={CustomRouterLink}/>
+                <BottomNavigationAction label="Transfers" icon={<AutorenewIcon/>} {...{
+                    to: '/transfer-operations',
+                    activeClassName: classes.active
+                }} component={CustomRouterLink}/>
+                <BottomNavigationAction label="Trades" icon={<ShoppingCartIcon/>} {...{
+                    to: '/trade-operations',
+                    activeClassName: classes.active
+                }} component={CustomRouterLink}/>
+                <BottomNavigationAction label="Flows" icon={<ImportExportIcon/>} {...{
+                    to: '/flow-operations',
+                    activeClassName: classes.active
+                }} component={CustomRouterLink}/>
             </BottomNavigation>
         </AppBar>
     );
