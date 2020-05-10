@@ -52,7 +52,7 @@ export const TradeOperationCard = ({model, onDeleteClick, onEditClick}: Props) =
                 secondary={<ExchangeRate model={model}/>}
             />
             <ListItemText
-                primary={easyTime(model.dateAcquired)}
+                primary={easyTime(model.date)}
                 primaryTypographyProps={{align: "right"}}
                 secondary={<Fee model={model}/>}
                 secondaryTypographyProps={{align: "right"}}

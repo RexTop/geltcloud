@@ -15,7 +15,6 @@ export const onCreateCashAccount = /* GraphQL */ `
       last4
       active
       currency
-      precision
       owner
     }
   }
@@ -33,7 +32,6 @@ export const onUpdateCashAccount = /* GraphQL */ `
       last4
       active
       currency
-      precision
       owner
     }
   }
@@ -51,7 +49,6 @@ export const onDeleteCashAccount = /* GraphQL */ `
       last4
       active
       currency
-      precision
       owner
     }
   }
@@ -77,7 +74,6 @@ export const onCreateFlowOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       owner
@@ -105,7 +101,6 @@ export const onUpdateFlowOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       owner
@@ -133,7 +128,6 @@ export const onDeleteFlowOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       owner
@@ -163,7 +157,6 @@ export const onCreateTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerCashAccountID
@@ -178,7 +171,6 @@ export const onCreateTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       fee
@@ -209,7 +201,6 @@ export const onUpdateTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerCashAccountID
@@ -224,7 +215,6 @@ export const onUpdateTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       fee
@@ -255,7 +245,6 @@ export const onDeleteTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerCashAccountID
@@ -270,7 +259,6 @@ export const onDeleteTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       fee
@@ -295,7 +283,6 @@ export const onCreateTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       issuerNote
@@ -311,7 +298,6 @@ export const onCreateTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerNote
@@ -324,8 +310,7 @@ export const onCreateTradeOperation = /* GraphQL */ `
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
-      dateIssued
-      dateAcquired
+      date
       owner
     }
   }
@@ -347,7 +332,6 @@ export const onUpdateTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       issuerNote
@@ -363,7 +347,6 @@ export const onUpdateTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerNote
@@ -376,8 +359,7 @@ export const onUpdateTradeOperation = /* GraphQL */ `
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
-      dateIssued
-      dateAcquired
+      date
       owner
     }
   }
@@ -399,7 +381,6 @@ export const onDeleteTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       issuerNote
@@ -415,7 +396,6 @@ export const onDeleteTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerNote
@@ -428,8 +408,7 @@ export const onDeleteTradeOperation = /* GraphQL */ `
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
-      dateIssued
-      dateAcquired
+      date
       owner
     }
   }

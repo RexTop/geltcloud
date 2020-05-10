@@ -12,7 +12,7 @@ import {deleteTradeOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
 import moment from "moment";
 
-const getLocalFormattedDateOfOperation = (item: TradeOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
+const getLocalFormattedDateOfOperation = (item: TradeOperationModel) => moment(item.date).format('YYYY-MMM-DD');
 
 export const TradeOperationList = createOperationListComponent<TradeOperationModel, ListTradeOperationsByOwnerQuery, OnCreateTradeOperationSubscription, OnUpdateTradeOperationSubscription, OnDeleteTradeOperationSubscription>({
     modelName: 'TradeOperation',

@@ -85,8 +85,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
         if (model.exchangeRate !== dirty.exchangeRate) return true;
         if (model.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
         if (model.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
-        if (model.dateIssued !== dirty.dateIssued) return true;
-        if (model.dateAcquired !== dirty.dateAcquired) return true;
+        if (model.date !== dirty.date) return true;
         return false;
     };
 
@@ -110,8 +109,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
-                    dateIssued: moment(dirty.dateIssued).utc().format(),
-                    dateAcquired: moment(dirty.dateAcquired).utc().format(),
+                    date: moment(dirty.date).utc().format(),
                 };
                 await API.graphql(graphqlOperation(updateTradeOperation, {input}));
                 setDirty(CreateTradeOperationModel());
@@ -132,8 +130,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
-                    dateIssued: moment(dirty.dateIssued).utc().format(),
-                    dateAcquired: moment(dirty.dateAcquired).utc().format(),
+                    date: moment(dirty.date).utc().format(),
                 };
                 await API.graphql(graphqlOperation(createTradeOperation, {input}));
                 setDirty(CreateTradeOperationModel());
@@ -318,22 +315,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                 <Divider/>
 
                 <AnimateHeight duration={500} height={datesSectionHeight}>
-                    {/*Dates*/}
                     <TextField
                         margin="dense"
-                        label="Date Issued"
+                        label="Date"
                         type="date"
                         fullWidth
-                        value={moment(dirty.dateIssued).format('YYYY-MM-DD')}
-                        onChange={e => onTextFieldChange(e.target.value, 'dateIssued')}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Date Acquired"
-                        type="date"
-                        fullWidth
-                        value={moment(dirty.dateAcquired).format('YYYY-MM-DD')}
-                        onChange={e => onTextFieldChange(e.target.value, 'dateAcquired')}
+                        value={moment(dirty.date).format('YYYY-MM-DD')}
+                        onChange={e => onTextFieldChange(e.target.value, 'date')}
                     />
                 </AnimateHeight>
             </DialogContent>

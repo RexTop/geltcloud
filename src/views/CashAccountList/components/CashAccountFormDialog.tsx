@@ -74,7 +74,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
         if (item.paymentDay !== dirty.paymentDay) return true;
         if (item.closingDay !== dirty.closingDay) return true;
         if (item.currency !== dirty.currency) return true;
-        if (item.precision !== dirty.precision) return true;
         return false;
     };
 
@@ -93,7 +92,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
                     paymentDay: dirty.paymentDay,
                     closingDay: dirty.closingDay,
                     currency: dirty.currency,
-                    precision: dirty.precision,
                 };
                 await API.graphql(graphqlOperation(updateCashAccount, {input}));
                 setDirty(CreateCashAccountModel());
@@ -109,7 +107,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
                     paymentDay: dirty.paymentDay,
                     closingDay: dirty.closingDay,
                     currency: dirty.currency,
-                    precision: dirty.precision,
                 };
                 await API.graphql(graphqlOperation(createCashAccount, {input}));
                 setDirty(CreateCashAccountModel());
@@ -175,15 +172,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
                         type="text"
                         value={dirty.currency}
                         onChange={e => onTextFieldChange(e.target.value, 'currency')}
-                    />
-                    {/*TODO: Automatically set the precision for known currencies. If currency is not known, let the user choose the precision manually.*/}
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Precision"
-                        type="number"
-                        value={dirty.precision}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'precision')}
                     />
                 </Grid>
                 {dirty.type === CashAccountType.CREDIT_CARD && (

@@ -25,8 +25,7 @@ export type TradeOperationModel = {
     issuerExchangeRateInUsd: number,
     acquirerExchangeRateInUsd: number,
 
-    dateIssued: string,
-    dateAcquired: string,
+    date: string,
 
     owner: string | null,
 }
@@ -54,8 +53,7 @@ export const CreateTradeOperationModel = (): TradeOperationModel => (
         issuerExchangeRateInUsd: 0,
         acquirerExchangeRateInUsd: 0,
 
-        dateIssued: moment().startOf('day').utc().format(),
-        dateAcquired: moment().startOf('day').utc().format(),
+        date: moment().startOf('day').utc().format(),
 
         owner: '',
     }
