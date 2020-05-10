@@ -26,22 +26,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const FromCurrencyToCurrency = ({model: {issuerCurrency, acquirerCurrency, price, amount}}: { model: TradeOperationModel }) => {
+const FromCurrencyToCurrency = ({model: {amountCurrency, priceCurrency, price, amount}}: { model: TradeOperationModel }) => {
     const classes = useStyles();
     return <span>
-        <span className={classes.expenseText}><b>-{Math.abs(price)}</b> {issuerCurrency}</span>
+        <span className={classes.expenseText}><b>-{Math.abs(price)}</b> {priceCurrency}</span>
         {' to '}
-        <span className={classes.incomeText}><b>+{Math.abs(amount)}</b> {acquirerCurrency}</span>
+        <span className={classes.incomeText}><b>+{Math.abs(amount)}</b> {amountCurrency}</span>
     </span>;
 };
 
-const ExchangeRate = ({model: {issuerCurrency, exchangeRate, acquirerCurrency}}: { model: TradeOperationModel }) => {
-    return <span>1 {acquirerCurrency} = {exchangeRate} {issuerCurrency}</span>;
+const ExchangeRate = ({model: {priceCurrency, exchangeRate, amountCurrency}}: { model: TradeOperationModel }) => {
+    return <span>1 {amountCurrency} = {exchangeRate} {priceCurrency}</span>;
 };
 
-const Fee = ({model: {fee, acquirerCurrency}}: { model: TradeOperationModel }) => {
+const Fee = ({model: {amountFee, amountCurrency}}: { model: TradeOperationModel }) => {
     const classes = useStyles();
-    return <span className={classes.expenseText}>Fee: {fee} {acquirerCurrency}</span>;
+    return <span className={classes.expenseText}>Fee: {amountFee} {amountCurrency}</span>;
 };
 
 export const TradeOperationCard = ({model, onDeleteClick, onEditClick}: Props) => {

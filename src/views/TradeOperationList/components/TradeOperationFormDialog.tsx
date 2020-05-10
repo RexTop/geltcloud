@@ -54,12 +54,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
         if (key === "acquirerCashAccountID") {
             const account = dropDownDataForCashAccounts.find(account => account.id === value);
             if (account) {
-                updatedDirty.acquirerCurrency = account.currency;
+                updatedDirty.amountCurrency = account.currency;
             }
         } else if (key === "issuerCashAccountID") {
             const account = dropDownDataForCashAccounts.find(account => account.id === value);
             if (account) {
-                updatedDirty.issuerCurrency = account.currency;
+                updatedDirty.priceCurrency = account.currency;
             }
         }
 
@@ -75,12 +75,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
         if (model.issuerNote !== dirty.issuerNote) return true;
         if (model.acquirerNote !== dirty.acquirerNote) return true;
         if (model.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
-        if (model.issuerCurrency !== dirty.issuerCurrency) return true;
+        if (model.amountCurrency !== dirty.amountCurrency) return true;
         if (model.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
-        if (model.acquirerCurrency !== dirty.acquirerCurrency) return true;
+        if (model.priceCurrency !== dirty.priceCurrency) return true;
         if (model.amount !== dirty.amount) return true;
         if (model.price !== dirty.price) return true;
-        if (model.fee !== dirty.fee) return true;
+        if (model.amountFee !== dirty.amountFee) return true;
+        if (model.priceFee !== dirty.priceFee) return true;
         if (model.exchangeRate !== dirty.exchangeRate) return true;
         if (model.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
         if (model.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
@@ -99,12 +100,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     issuerNote: dirty.issuerNote || '-',
                     acquirerNote: dirty.acquirerNote || '-',
                     issuerCashAccountID: dirty.issuerCashAccountID,
-                    issuerCurrency: dirty.issuerCurrency,
+                    priceCurrency: dirty.priceCurrency,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
-                    acquirerCurrency: dirty.acquirerCurrency,
+                    amountCurrency: dirty.amountCurrency,
                     amount: dirty.amount,
                     price: dirty.price,
-                    fee: dirty.fee,
+                    amountFee: dirty.amountFee,
+                    priceFee: dirty.priceFee,
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
@@ -120,12 +122,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     issuerNote: dirty.issuerNote || '-',
                     acquirerNote: dirty.acquirerNote || '-',
                     issuerCashAccountID: dirty.issuerCashAccountID,
-                    issuerCurrency: dirty.issuerCurrency,
+                    priceCurrency: dirty.priceCurrency,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
-                    acquirerCurrency: dirty.acquirerCurrency,
+                    amountCurrency: dirty.amountCurrency,
                     amount: dirty.amount,
                     price: dirty.price,
-                    fee: dirty.fee,
+                    amountFee: dirty.amountFee,
+                    priceFee: dirty.priceFee,
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
@@ -182,9 +185,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         <TextField
                             disabled
                             margin="dense"
-                            label="Issuer currency"
+                            label="Price currency"
                             type="text"
-                            value={dirty.issuerCurrency}
+                            value={dirty.priceCurrency}
                             onChange={() => void 0}
                         />
                     </Grid>
@@ -218,9 +221,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         <TextField
                             disabled
                             margin="dense"
-                            label="Acquirer currency"
+                            label="Amount currency"
                             type="text"
-                            value={dirty.acquirerCurrency}
+                            value={dirty.amountCurrency}
                             onChange={() => void 0}
                         />
                     </Grid>
@@ -235,10 +238,17 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     <FormControl className={classes.formControl}>
                         <TextField
                             margin="dense"
-                            label="Fee"
+                            label="Price fee"
                             type="number"
-                            value={dirty.fee}
-                            onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
+                            value={dirty.priceFee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'priceFee')}
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Amount fee"
+                            type="number"
+                            value={dirty.amountFee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'amountFee')}
                         />
                     </FormControl>
                     {/*Exchange Rates*/}
