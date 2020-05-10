@@ -39,10 +39,8 @@ type Props = {
 export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
     const [dirty, setDirty] = React.useState(model);
-    const [notesSectionHeight, setNotesSectionHeight] = React.useState(0 as string | number);
-    const [datesSectionHeight, setDatesSectionHeight] = React.useState(0 as string | number);
-    const [accountsSectionHeight, setAccountsSectionHeight] = React.useState('auto' as string | number);
-    const [priceSectionHeight, setPriceSectionHeight] = React.useState('auto' as string | number);
+    const [sectionOneHeight, setSectionOneHeight] = React.useState('auto' as string | number);
+    const [sectionTwoHeight, setSectionTwoHeight] = React.useState(0 as string | number);
 
     React.useEffect(() => {
         setDirty(model);
@@ -150,9 +148,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
             <DialogContent>
 
                 <h2 style={{cursor: 'pointer'}}
-                    onClick={() => setAccountsSectionHeight(accountsSectionHeight === 0 ? 'auto' : 0)}>Accounts</h2>
+                    onClick={() => setSectionOneHeight(sectionOneHeight === 0 ? 'auto' : 0)}>Amounts</h2>
                 <Divider/>
-                <AnimateHeight duration={500} height={accountsSectionHeight}>
+                <AnimateHeight duration={500} height={sectionOneHeight}>
                     <Grid container justify="flex-start">
                         {/*Issuer*/}
                         <FormControl className={classes.formControl}>
@@ -187,6 +185,16 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             value={dirty.priceCurrency}
                             onChange={() => void 0}
                         />
+                        <FormControl className={classes.formControl}>
+                            <TextField
+                                margin="dense"
+                                label="Price fee"
+                                type="number"
+                                value={dirty.priceFee}
+                                onChange={e => onNumericFieldChange(+e.target.value, 'priceFee')}
+                            />
+
+                        </FormControl>
                     </Grid>
 
                     <Grid container justify="flex-start">
@@ -223,23 +231,6 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             value={dirty.amountCurrency}
                             onChange={() => void 0}
                         />
-                    </Grid>
-
-                </AnimateHeight>
-
-                <h2 style={{cursor: 'pointer'}}
-                    onClick={() => setPriceSectionHeight(priceSectionHeight === 0 ? 'auto' : 0)}>Fee and exchanges</h2>
-                <Divider/>
-                <AnimateHeight duration={500} height={priceSectionHeight}>
-                    {/*Fee*/}
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            margin="dense"
-                            label="Price fee"
-                            type="number"
-                            value={dirty.priceFee}
-                            onChange={e => onNumericFieldChange(+e.target.value, 'priceFee')}
-                        />
                         <TextField
                             margin="dense"
                             label="Amount fee"
@@ -247,8 +238,17 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             value={dirty.amountFee}
                             onChange={e => onNumericFieldChange(+e.target.value, 'amountFee')}
                         />
-                    </FormControl>
-                    {/*Exchange Rates*/}
+                    </Grid>
+
+                    <TextField
+                        margin="dense"
+                        label="Date"
+                        type="date"
+                        fullWidth
+                        value={moment(dirty.date).format('YYYY-MM-DD')}
+                        onChange={e => onTextFieldChange(e.target.value, 'date')}
+                    />
+
                     <FormControl className={classes.formControl}>
                         <TextField
                             margin="dense"
@@ -258,31 +258,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                             onChange={e => onNumericFieldChange(+e.target.value, 'exchangeRate')}
                         />
                     </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            margin="dense"
-                            label="Issuer exchange rate (USD)"
-                            type="number"
-                            value={dirty.issuerExchangeRateInUsd}
-                            onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            margin="dense"
-                            label="Acquirer exchange rate (USD)"
-                            type="number"
-                            value={dirty.acquirerExchangeRateInUsd}
-                            onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
-                        />
-                    </FormControl>
                 </AnimateHeight>
 
                 <h2 style={{cursor: 'pointer'}}
-                    onClick={() => setNotesSectionHeight(notesSectionHeight === 0 ? 'auto' : 0)}>Notes</h2>
+                    onClick={() => setSectionTwoHeight(sectionTwoHeight === 0 ? 'auto' : 0)}>Details</h2>
                 <Divider/>
-                <AnimateHeight duration={500} height={notesSectionHeight}>
-                    {/*Notes*/}
+
+                <AnimateHeight duration={500} height={sectionTwoHeight}>
                     <TextField
                         autoFocus
                         margin="dense"
@@ -308,21 +290,24 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         value={dirty.acquirerNote}
                         onChange={e => onTextFieldChange(e.target.value, 'acquirerNote')}
                     />
-                </AnimateHeight>
-
-                <h2 style={{cursor: 'pointer'}}
-                    onClick={() => setDatesSectionHeight(datesSectionHeight === 0 ? 'auto' : 0)}>Dates</h2>
-                <Divider/>
-
-                <AnimateHeight duration={500} height={datesSectionHeight}>
-                    <TextField
-                        margin="dense"
-                        label="Date"
-                        type="date"
-                        fullWidth
-                        value={moment(dirty.date).format('YYYY-MM-DD')}
-                        onChange={e => onTextFieldChange(e.target.value, 'date')}
-                    />
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Issuer exchange rate (USD)"
+                            type="number"
+                            value={dirty.issuerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'issuerExchangeRateInUsd')}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            margin="dense"
+                            label="Acquirer exchange rate (USD)"
+                            type="number"
+                            value={dirty.acquirerExchangeRateInUsd}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'acquirerExchangeRateInUsd')}
+                        />
+                    </FormControl>
                 </AnimateHeight>
             </DialogContent>
             <DialogActions>
