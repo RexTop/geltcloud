@@ -10,7 +10,7 @@ amplify push
 
 npm run build
 
-firebase deploy -m "v0.0.1 (versioning was reset) New navigation design"
+firebase deploy -m "v0.0.2 Full screen modals and fix money format on trades"
 ```
 
 That's it. Enjoy!
