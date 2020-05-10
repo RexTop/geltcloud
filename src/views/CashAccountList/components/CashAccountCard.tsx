@@ -72,7 +72,7 @@ const CreditCardInfo = ({item}: { item: CashAccountModel }) => {
             <Typography align="center" gutterBottom variant="h4" className={classes.title}>
                 <CashAccountTypeIcon type={item.type} className={classes.titleIcon}/>
                 {item.name} ****{item.last4}
-                <Chip className={classes.currency} label={`${item.currency}@${item.precision}`}/>
+                <Chip className={classes.currency} label={item.currency}/>
             </Typography>
             <Typography align="center" variant="body1">Balance: {money(item.balance)}</Typography>
             <Typography align="center" variant="body1">Credit: {money(item.credit)}</Typography>
@@ -87,7 +87,7 @@ const CashAccountInfo = ({item}: { item: CashAccountModel }) => {
             <Typography align="center" gutterBottom variant="h4" className={classes.title}>
                 <CashAccountTypeIcon type={item.type} className={classes.titleIcon}/>
                 {item.name}
-                <Chip className={classes.currency} label={`${item.currency}@${item.precision}`}/>
+                <Chip className={classes.currency} label={item.currency}/>
             </Typography>
             <Typography align="center" variant="body1">{money(item.balance)}</Typography>
         </CardContent>

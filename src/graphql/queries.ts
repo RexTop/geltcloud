@@ -15,7 +15,6 @@ export const getCashAccount = /* GraphQL */ `
       last4
       active
       currency
-      precision
       owner
     }
   }
@@ -38,7 +37,6 @@ export const listCashAccounts = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       nextToken
@@ -66,7 +64,6 @@ export const getFlowOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       owner
@@ -99,7 +96,6 @@ export const listFlowOperations = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         owner
@@ -131,7 +127,6 @@ export const getTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerCashAccountID
@@ -146,7 +141,6 @@ export const getTransferOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       fee
@@ -186,7 +180,6 @@ export const listTransferOperations = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         acquirerCashAccountID
@@ -201,7 +194,6 @@ export const listTransferOperations = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         fee
@@ -228,7 +220,6 @@ export const getTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       issuerNote
@@ -244,7 +235,6 @@ export const getTradeOperation = /* GraphQL */ `
         last4
         active
         currency
-        precision
         owner
       }
       acquirerNote
@@ -257,8 +247,7 @@ export const getTradeOperation = /* GraphQL */ `
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
-      dateIssued
-      dateAcquired
+      date
       owner
     }
   }
@@ -285,7 +274,6 @@ export const listTradeOperations = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         issuerNote
@@ -301,7 +289,6 @@ export const listTradeOperations = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         acquirerNote
@@ -314,8 +301,7 @@ export const listTradeOperations = /* GraphQL */ `
         exchangeRate
         issuerExchangeRateInUsd
         acquirerExchangeRateInUsd
-        dateIssued
-        dateAcquired
+        date
         owner
       }
       nextToken
@@ -358,7 +344,6 @@ export const listFlowOperationsByOwner = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         owner
@@ -405,7 +390,6 @@ export const listTransferOperationsByOwner = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         acquirerCashAccountID
@@ -420,7 +404,6 @@ export const listTransferOperationsByOwner = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         fee
@@ -433,7 +416,7 @@ export const listTransferOperationsByOwner = /* GraphQL */ `
 export const listTradeOperationsByOwner = /* GraphQL */ `
   query ListTradeOperationsByOwner(
     $owner: String
-    $dateIssued: ModelStringKeyConditionInput
+    $date: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelTradeOperationFilterInput
     $limit: Int
@@ -441,7 +424,7 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
   ) {
     listTradeOperationsByOwner(
       owner: $owner
-      dateIssued: $dateIssued
+      date: $date
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -462,7 +445,6 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         issuerNote
@@ -478,7 +460,6 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
           last4
           active
           currency
-          precision
           owner
         }
         acquirerNote
@@ -491,8 +472,7 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
         exchangeRate
         issuerExchangeRateInUsd
         acquirerExchangeRateInUsd
-        dateIssued
-        dateAcquired
+        date
         owner
       }
       nextToken
