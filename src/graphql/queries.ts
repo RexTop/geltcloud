@@ -216,8 +216,6 @@ export const getTradeOperation = /* GraphQL */ `
     getTradeOperation(id: $id) {
       id
       note
-      issuerNote
-      acquirerNote
       issuerCashAccountID
       issuerCashAccount {
         id
@@ -233,7 +231,7 @@ export const getTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      issuerCurrency
+      issuerNote
       acquirerCashAccountID
       acquirerCashAccount {
         id
@@ -249,10 +247,13 @@ export const getTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      acquirerCurrency
+      acquirerNote
       amount
+      amountCurrency
+      amountFee
       price
-      fee
+      priceCurrency
+      priceFee
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
@@ -272,8 +273,6 @@ export const listTradeOperations = /* GraphQL */ `
       items {
         id
         note
-        issuerNote
-        acquirerNote
         issuerCashAccountID
         issuerCashAccount {
           id
@@ -289,7 +288,7 @@ export const listTradeOperations = /* GraphQL */ `
           precision
           owner
         }
-        issuerCurrency
+        issuerNote
         acquirerCashAccountID
         acquirerCashAccount {
           id
@@ -305,10 +304,13 @@ export const listTradeOperations = /* GraphQL */ `
           precision
           owner
         }
-        acquirerCurrency
+        acquirerNote
         amount
+        amountCurrency
+        amountFee
         price
-        fee
+        priceCurrency
+        priceFee
         exchangeRate
         issuerExchangeRateInUsd
         acquirerExchangeRateInUsd
@@ -448,8 +450,6 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
       items {
         id
         note
-        issuerNote
-        acquirerNote
         issuerCashAccountID
         issuerCashAccount {
           id
@@ -465,7 +465,7 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
           precision
           owner
         }
-        issuerCurrency
+        issuerNote
         acquirerCashAccountID
         acquirerCashAccount {
           id
@@ -481,10 +481,13 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
           precision
           owner
         }
-        acquirerCurrency
+        acquirerNote
         amount
+        amountCurrency
+        amountFee
         price
-        fee
+        priceCurrency
+        priceFee
         exchangeRate
         issuerExchangeRateInUsd
         acquirerExchangeRateInUsd
