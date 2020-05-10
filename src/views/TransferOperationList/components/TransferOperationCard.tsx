@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import {makeStyles} from "@material-ui/styles";
 import {Theme} from "@material-ui/core/styles";
-import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import {notStonksTextColor} from "../../../theme/colors";
 import {Avatar, ListItemAvatar} from "@material-ui/core";
 
 type Props = CardProps & {
@@ -24,11 +24,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     unknownAccount: {
         color: theme.palette.error.main,
     },
+    expense: {
+        color: notStonksTextColor,
+    },
 }));
 
 const Amount = ({model: {amount}}: { model: TransferOperationModel }) => {
-    const color = amount < 0 ? notStonksTextColor : stonksTextColor;
-    return <span style={{color}}>{money(amount)}</span>
+    const classes = useStyles();
+    return <span className={amount < 0 ? classes.expense : ''}>{money(amount)}</span>
 };
 
 const Description = ({model: {description}}: { model: TransferOperationModel }) => {
