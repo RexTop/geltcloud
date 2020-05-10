@@ -24,37 +24,42 @@ const useStyles = makeStyles((theme: Theme) => ({
     unknownAccount: {
         color: theme.palette.error.main,
     },
-    expense: {
+    expenseText: {
         color: notStonksTextColor,
     },
+    expenseAvatar: {
+        backgroundColor: notStonksTextColor,
+    },
+    neutralText: {},
+    neutralAvatar: {},
 }));
 
 const Amount = ({model: {amount}}: { model: TransferOperationModel }) => {
     const classes = useStyles();
-    return <span className={amount < 0 ? classes.expense : ''}>{money(amount)}</span>
-};
-
-const Description = ({model: {description}}: { model: TransferOperationModel }) => {
-    return <b>{description}</b>
+    return <span className={amount < 0 ? classes.expenseText : classes.neutralText}>{money(amount)}</span>
 };
 
 const FromAccountToAccountText = ({model}: { model: TransferOperationModel }) => {
     const classes = useStyles();
     const fromText = model?.issuerCashAccount?.name || <span className={classes.unknownAccount}>Unknown account</span>;
     const toText = model?.acquirerCashAccount?.name || <span className={classes.unknownAccount}>Unknown account</span>;
-    return <span>
-        {fromText} to {toText}
-    </span>;
+    return <span>{fromText} to {toText}</span>;
 };
 
-export const TransferOperationCard = ({model, onDeleteClick, onEditClick}: Props) => (
+export const TransferOperationCard = ({model, onDeleteClick, onEditClick}: Props) => {
+    const classes = useStyles();
+    return (
     <ListItem button onClick={() => onEditClick(model)}>
         <ListItemAvatar>
-            <Avatar alt="Operation Type">
+            <Avatar alt="Operation Type"
+                    className={model.amount < 0 ? classes.expenseAvatar : classes.neutralAvatar}>
                 {model.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
             </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={<Description model={model}/>} secondary={<FromAccountToAccountText model={model}/>}/>
+        <ListItemText
+            primary={model.description}
+            secondary={<FromAccountToAccountText model={model}/>}
+        />
         <ListItemText
             primary={<Amount model={model}/>}
             primaryTypographyProps={{align: "right"}}
@@ -65,4 +70,5 @@ export const TransferOperationCard = ({model, onDeleteClick, onEditClick}: Props
             </IconButton>
         </ListItemSecondaryAction>
     </ListItem>
-);
+    );
+};
