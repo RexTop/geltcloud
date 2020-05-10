@@ -75,23 +75,24 @@ type TradeOperation
 {
     id: ID!
     note: String
-    issuerNote: String
-    acquirerNote: String
 
     issuerCashAccountID: ID!
     issuerCashAccount: CashAccount @connection(fields: ["issuerCashAccountID"])
-    issuerCurrency: String!
+    issuerNote: String
 
     acquirerCashAccountID: ID!
     acquirerCashAccount: CashAccount @connection(fields: ["acquirerCashAccountID"])
-    acquirerCurrency: String!
+    acquirerNote: String
 
     # Amount bought
     amount: Float!
+    amountCurrency: String!
+    amountFee: Float!
+
     # Price payed
     price: Float!
-    # Fee payed. Expressed in the currency of the 'amount' value.
-    fee: Float!
+    priceCurrency: String!
+    priceFee: Float!
 
     exchangeRate: Float!
     issuerExchangeRateInUsd: Float!

@@ -313,8 +313,6 @@ export const createTradeOperation = /* GraphQL */ `
     createTradeOperation(input: $input, condition: $condition) {
       id
       note
-      issuerNote
-      acquirerNote
       issuerCashAccountID
       issuerCashAccount {
         id
@@ -330,7 +328,7 @@ export const createTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      issuerCurrency
+      issuerNote
       acquirerCashAccountID
       acquirerCashAccount {
         id
@@ -346,10 +344,13 @@ export const createTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      acquirerCurrency
+      acquirerNote
       amount
+      amountCurrency
+      amountFee
       price
-      fee
+      priceCurrency
+      priceFee
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
@@ -367,8 +368,6 @@ export const updateTradeOperation = /* GraphQL */ `
     updateTradeOperation(input: $input, condition: $condition) {
       id
       note
-      issuerNote
-      acquirerNote
       issuerCashAccountID
       issuerCashAccount {
         id
@@ -384,7 +383,7 @@ export const updateTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      issuerCurrency
+      issuerNote
       acquirerCashAccountID
       acquirerCashAccount {
         id
@@ -400,10 +399,13 @@ export const updateTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      acquirerCurrency
+      acquirerNote
       amount
+      amountCurrency
+      amountFee
       price
-      fee
+      priceCurrency
+      priceFee
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd
@@ -421,8 +423,6 @@ export const deleteTradeOperation = /* GraphQL */ `
     deleteTradeOperation(input: $input, condition: $condition) {
       id
       note
-      issuerNote
-      acquirerNote
       issuerCashAccountID
       issuerCashAccount {
         id
@@ -438,7 +438,7 @@ export const deleteTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      issuerCurrency
+      issuerNote
       acquirerCashAccountID
       acquirerCashAccount {
         id
@@ -454,10 +454,13 @@ export const deleteTradeOperation = /* GraphQL */ `
         precision
         owner
       }
-      acquirerCurrency
+      acquirerNote
       amount
+      amountCurrency
+      amountFee
       price
-      fee
+      priceCurrency
+      priceFee
       exchangeRate
       issuerExchangeRateInUsd
       acquirerExchangeRateInUsd

@@ -17,13 +17,12 @@ const browserHistory = createBrowserHistory();
 
 class App extends React.Component {
     render() {
-
         return (
             <ThemeProvider theme={theme}>
+                <CssBaseline/>
                 <Router history={browserHistory}>
                     <Routes/>
                 </Router>
-                <CssBaseline/>
                 <SnackbarComponent/>
             </ThemeProvider>
         );

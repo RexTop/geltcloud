@@ -17,7 +17,6 @@ export const todayFilter = (): DateFilter => ({
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {},
     datesContainer: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -100,7 +99,7 @@ export const DateFiltersWidget = ({onDatesChange, dates}: Props) => {
     };
 
     return (
-        <div className={classes.root}>
+        <div>
             <ButtonGroup color="primary">
                 <Button
                     variant={tab === DateFiltersWidgetTab.TODAY ? 'contained' : void 0}

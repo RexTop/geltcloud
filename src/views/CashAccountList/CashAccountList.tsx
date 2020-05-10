@@ -25,17 +25,19 @@ import {listCashAccounts} from "../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {deleteCashAccount} from "../../graphql/mutations";
 import {showAlert} from "../../utils/ui";
+import {BOTTOM_NAVIGATION_HEIGHT} from "../../layouts/Main/components/MainBottomNavigation";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+        paddingBottom: theme.spacing(3) + BOTTOM_NAVIGATION_HEIGHT,
     },
     content: {
         marginTop: theme.spacing(2)
     },
     fab: {
         position: 'fixed',
-        bottom: theme.spacing(2),
+        bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
         right: theme.spacing(2),
     },
 }));

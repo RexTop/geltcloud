@@ -1,12 +1,13 @@
 {
   "name": "geltcloud",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "App to track personal cash flow.",
   "main": "index.js",
   "author": "ok.codes",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "fhost": "firebase serve --only hosting",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

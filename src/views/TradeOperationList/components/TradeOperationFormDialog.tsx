@@ -32,21 +32,21 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     open: boolean,
     handleClose: () => void,
-    item: TradeOperationModel,
+    model: TradeOperationModel,
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, item}: Props) => {
+export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(item);
+    const [dirty, setDirty] = React.useState(model);
     const [notesSectionHeight, setNotesSectionHeight] = React.useState(0 as string | number);
     const [datesSectionHeight, setDatesSectionHeight] = React.useState(0 as string | number);
     const [accountsSectionHeight, setAccountsSectionHeight] = React.useState('auto' as string | number);
     const [priceSectionHeight, setPriceSectionHeight] = React.useState('auto' as string | number);
 
     React.useEffect(() => {
-        setDirty(item);
-    }, [item]);
+        setDirty(model);
+    }, [model]);
 
     const onTextFieldChange = (value: string, key: keyof TradeOperationModel) => {
         const updatedDirty = {...dirty, [key]: value};
@@ -54,12 +54,12 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
         if (key === "acquirerCashAccountID") {
             const account = dropDownDataForCashAccounts.find(account => account.id === value);
             if (account) {
-                updatedDirty.acquirerCurrency = account.currency;
+                updatedDirty.amountCurrency = account.currency;
             }
         } else if (key === "issuerCashAccountID") {
             const account = dropDownDataForCashAccounts.find(account => account.id === value);
             if (account) {
-                updatedDirty.issuerCurrency = account.currency;
+                updatedDirty.priceCurrency = account.currency;
             }
         }
 
@@ -71,21 +71,22 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     };
 
     const isDirty = () => {
-        if (item.note !== dirty.note) return true;
-        if (item.issuerNote !== dirty.issuerNote) return true;
-        if (item.acquirerNote !== dirty.acquirerNote) return true;
-        if (item.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
-        if (item.issuerCurrency !== dirty.issuerCurrency) return true;
-        if (item.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
-        if (item.acquirerCurrency !== dirty.acquirerCurrency) return true;
-        if (item.amount !== dirty.amount) return true;
-        if (item.price !== dirty.price) return true;
-        if (item.fee !== dirty.fee) return true;
-        if (item.exchangeRate !== dirty.exchangeRate) return true;
-        if (item.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
-        if (item.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
-        if (item.dateIssued !== dirty.dateIssued) return true;
-        if (item.dateAcquired !== dirty.dateAcquired) return true;
+        if (model.note !== dirty.note) return true;
+        if (model.issuerNote !== dirty.issuerNote) return true;
+        if (model.acquirerNote !== dirty.acquirerNote) return true;
+        if (model.issuerCashAccountID !== dirty.issuerCashAccountID) return true;
+        if (model.amountCurrency !== dirty.amountCurrency) return true;
+        if (model.acquirerCashAccountID !== dirty.acquirerCashAccountID) return true;
+        if (model.priceCurrency !== dirty.priceCurrency) return true;
+        if (model.amount !== dirty.amount) return true;
+        if (model.price !== dirty.price) return true;
+        if (model.amountFee !== dirty.amountFee) return true;
+        if (model.priceFee !== dirty.priceFee) return true;
+        if (model.exchangeRate !== dirty.exchangeRate) return true;
+        if (model.issuerExchangeRateInUsd !== dirty.issuerExchangeRateInUsd) return true;
+        if (model.acquirerExchangeRateInUsd !== dirty.acquirerExchangeRateInUsd) return true;
+        if (model.dateIssued !== dirty.dateIssued) return true;
+        if (model.dateAcquired !== dirty.dateAcquired) return true;
         return false;
     };
 
@@ -99,12 +100,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     issuerNote: dirty.issuerNote || '-',
                     acquirerNote: dirty.acquirerNote || '-',
                     issuerCashAccountID: dirty.issuerCashAccountID,
-                    issuerCurrency: dirty.issuerCurrency,
+                    priceCurrency: dirty.priceCurrency,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
-                    acquirerCurrency: dirty.acquirerCurrency,
+                    amountCurrency: dirty.amountCurrency,
                     amount: dirty.amount,
                     price: dirty.price,
-                    fee: dirty.fee,
+                    amountFee: dirty.amountFee,
+                    priceFee: dirty.priceFee,
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
@@ -120,12 +122,13 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     issuerNote: dirty.issuerNote || '-',
                     acquirerNote: dirty.acquirerNote || '-',
                     issuerCashAccountID: dirty.issuerCashAccountID,
-                    issuerCurrency: dirty.issuerCurrency,
+                    priceCurrency: dirty.priceCurrency,
                     acquirerCashAccountID: dirty.acquirerCashAccountID,
-                    acquirerCurrency: dirty.acquirerCurrency,
+                    amountCurrency: dirty.amountCurrency,
                     amount: dirty.amount,
                     price: dirty.price,
-                    fee: dirty.fee,
+                    amountFee: dirty.amountFee,
+                    priceFee: dirty.priceFee,
                     exchangeRate: dirty.exchangeRate,
                     issuerExchangeRateInUsd: dirty.issuerExchangeRateInUsd,
                     acquirerExchangeRateInUsd: dirty.acquirerExchangeRateInUsd,
@@ -146,7 +149,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} trade operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} trade operation</DialogTitle>
             <DialogContent>
 
                 <h2 style={{cursor: 'pointer'}}
@@ -182,9 +185,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         <TextField
                             disabled
                             margin="dense"
-                            label="Issuer currency"
+                            label="Price currency"
                             type="text"
-                            value={dirty.issuerCurrency}
+                            value={dirty.priceCurrency}
                             onChange={() => void 0}
                         />
                     </Grid>
@@ -218,9 +221,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                         <TextField
                             disabled
                             margin="dense"
-                            label="Acquirer currency"
+                            label="Amount currency"
                             type="text"
-                            value={dirty.acquirerCurrency}
+                            value={dirty.amountCurrency}
                             onChange={() => void 0}
                         />
                     </Grid>
@@ -235,10 +238,17 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     <FormControl className={classes.formControl}>
                         <TextField
                             margin="dense"
-                            label="Fee"
+                            label="Price fee"
                             type="number"
-                            value={dirty.fee}
-                            onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
+                            value={dirty.priceFee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'priceFee')}
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Amount fee"
+                            type="number"
+                            value={dirty.amountFee}
+                            onChange={e => onNumericFieldChange(+e.target.value, 'amountFee')}
                         />
                     </FormControl>
                     {/*Exchange Rates*/}
@@ -332,7 +342,7 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
                     Cancel
                 </Button>
                 <Button onClick={onSaveClick} color="primary" disabled={!isDirty()}>
-                    {item.id ? 'Update' : 'Create'}
+                    {model.id ? 'Update' : 'Create'}
                 </Button>
             </DialogActions>
         </Dialog>
