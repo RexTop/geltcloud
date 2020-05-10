@@ -49,26 +49,26 @@ const FromAccountToAccountText = ({model}: { model: TransferOperationModel }) =>
 export const TransferOperationCard = ({model, onDeleteClick, onEditClick}: Props) => {
     const classes = useStyles();
     return (
-    <ListItem button onClick={() => onEditClick(model)}>
-        <ListItemAvatar>
-            <Avatar alt="Operation Type"
-                    className={model.amount < 0 ? classes.expenseAvatar : classes.neutralAvatar}>
-                {model.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
-            </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-            primary={model.description}
-            secondary={<FromAccountToAccountText model={model}/>}
-        />
-        <ListItemText
-            primary={<Amount model={model}/>}
-            primaryTypographyProps={{align: "right"}}
-        />
-        <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(model)}>
-                <DeleteIcon/>
-            </IconButton>
-        </ListItemSecondaryAction>
-    </ListItem>
+        <ListItem button onClick={() => onEditClick(model)}>
+            <ListItemAvatar>
+                <Avatar alt="Operation Type"
+                        className={model.amount < 0 ? classes.expenseAvatar : classes.neutralAvatar}>
+                    {model.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+                primary={model.description}
+                secondary={<FromAccountToAccountText model={model}/>}
+            />
+            <ListItemText
+                primary={<Amount model={model}/>}
+                primaryTypographyProps={{align: "right"}}
+            />
+            <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(model)}>
+                    <DeleteIcon/>
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
     );
 };
