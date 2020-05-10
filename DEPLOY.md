@@ -10,7 +10,7 @@ amplify push
 
 npm run build
 
-firebase deploy -m ""
+firebase deploy -m "v0.0.1 (versioning was reset) New navigation design"
 ```
 
 That's it. Enjoy!
