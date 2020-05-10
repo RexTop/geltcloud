@@ -1,4 +1,5 @@
 import moment from "moment";
+import {CashAccountModel} from "./CashAccountModel";
 
 export type FlowOperationModel = {
     id: string
@@ -8,6 +9,7 @@ export type FlowOperationModel = {
     tags: string[]
     bankNote?: string | null
     issuerCashAccountID: string
+    issuerCashAccount?: CashAccountModel | null
     owner: string | null
 }
 
