@@ -10,23 +10,15 @@ import {listCashAccounts} from "../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {showAlert} from "../utils/ui";
 import {CashAccountModel} from "../models/CashAccountModel";
-import {DateFiltersWidget} from "../views/common/DateFiltersWidget";
-import {DateFilter, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
+import {DateFilter, DateFiltersWidget, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
 import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
-import {OperationListPaperWidget} from "./OperationListPaperWidget";
-import Paper from "@material-ui/core/Paper";
+import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
-    abstractOperationRoot: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
     abstractOperationFab: {
         position: 'fixed',
         bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
@@ -137,10 +129,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                         model={selectedItem}
                         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     />
-                    <ComponentRoot>
-                        {/*TODO: Create a beautiful section of filters using tabs. Include a day/week/month anc calendar view*/}
-                        <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
-                        <OperationListPaperWidget
+                    <OperationListTabbedWidget
                             items={items}
                             loadMore={{
                                 onClick: () => this.fetchOperations(this.state.dateFilter, false),
@@ -155,7 +144,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                             modelName={modelName}
                             getGroupingKey={getGroupingKey}
                         />
-                    </ComponentRoot>
+                    <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
                     <ComponentFab onClick={this.handleNewClick}><AddIcon/></ComponentFab>
                 </>
             );
@@ -288,15 +277,6 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
     // TODO: Try setting this with a static getter inside the class to avoid the use of 'any'.
     (AbstractOperationList as any).displayName = `WithSubscription(${modelName})`;
     return AbstractOperationList;
-};
-
-const ComponentRoot = ({children}: { children: React.ReactNode }) => {
-    const classes = useStyles();
-    return (
-        <Paper square className={classes.abstractOperationRoot}>
-            {children}
-        </Paper>
-    );
 };
 
 const ComponentFab = ({onClick, children}: { onClick: () => void, children: React.ReactNode }) => {
