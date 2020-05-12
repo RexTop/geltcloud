@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         padding: theme.spacing(1),
     },
     subHeader: {
-        margin: theme.spacing(0, 0, 1, 0),
+        maxWidth: 500,
+        margin: theme.spacing(0, 'auto', 1, 'auto'),
         backgroundColor: theme.palette.background.paper,
     },
 }));
@@ -92,7 +93,6 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(
                 onChangeIndex={handleChangeIndex}
                 className={classes.tabs}
             >
-                {/*TODO*/}
                 <TabPanel value={value} index={0} dir={theme.direction} className={classes.tab}>
                     {items.map((model) => (
                         <React.Fragment key={`OperationList-${modelName}-${model.id}`}>
