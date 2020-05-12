@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CashAccountModel, CreateCashAccountModel} from "../../../models/CashAccountModel";
 import {API, graphqlOperation} from "aws-amplify";
@@ -126,9 +125,6 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
                 TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} cash account</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {item.id ? 'Update' : 'Create'} cash account
-                </DialogContentText>
                 <Grid container justify="space-between">
                     <FormControl className={classes.formControl}>
                         <InputLabel id="CashAccountFromDialog-Type-Label">Type</InputLabel>
