@@ -5,24 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {ASkeleton} from "../ASkeleton";
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    dir?: string;
-    index: any;
-    value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const {children, value, index, ...rest} = props;
-
-    return (
-        <div hidden={value !== index} {...rest}>
-            {/*TODO Lazy load children.*/}
-            {value === index && children}
-        </div>
-    );
-}
+import {TabPanel} from "./TabPanel";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
