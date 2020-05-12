@@ -8,6 +8,7 @@ import {PaperOperationCard} from "../ASkeleton";
 import {TabPanel} from "./TabPanel";
 import {getSubheaders} from "../common/UIListUtils";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import {Card as MaterialCard} from '@material-ui/core';
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         padding: theme.spacing(1),
     },
     subHeader: {
+        margin: theme.spacing(0, 0, 1, 0),
         backgroundColor: theme.palette.background.paper,
     },
 }));
@@ -91,9 +93,10 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(
                     {items.map((model) => (
                         <React.Fragment key={`OperationList-${modelName}-${model.id}`}>
                             {headers.hasOwnProperty(model.id) &&
-                            <ListSubheader className={classes.subHeader}>
+                            <ListSubheader className={classes.subHeader} component={MaterialCard}>
                                 {headers[model.id]}
-                            </ListSubheader>}
+                            </ListSubheader>
+                            }
                             <PaperOperationCard/>
                             {/*<Card*/}
                             {/*    model={model}*/}
