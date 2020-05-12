@@ -130,22 +130,22 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     />
                     <OperationListTabbedWidget
-                            items={items}
-                            loadMore={{
-                                onClick: () => this.fetchOperations(this.state.dateFilter, false),
-                                loading,
-                                hasMore: !!nextToken,
-                                emptyListMessage,
-                                noMoreItemsMessage,
-                            }}
-                            cardElement={OperationCard}
-                            onEditClick={this.onEditItemClick}
-                            onDeleteClick={this.handleDeleteClick}
-                            modelName={modelName}
-                            getGroupingKey={getGroupingKey}
-                            onDatesChange={this.onDatesChange}
-                            dates={dateFilter}
-                        />
+                        items={items}
+                        loadMore={{
+                            onClick: () => this.fetchOperations(this.state.dateFilter, false),
+                            loading,
+                            hasMore: !!nextToken,
+                            emptyListMessage,
+                            noMoreItemsMessage,
+                        }}
+                        cardElement={OperationCard}
+                        onEditClick={this.onEditItemClick}
+                        onDeleteClick={this.handleDeleteClick}
+                        modelName={modelName}
+                        getGroupingKey={getGroupingKey}
+                        onDatesChange={this.onDatesChange}
+                        dates={dateFilter}
+                    />
                     <ComponentFab onClick={this.handleNewClick}><AddIcon/></ComponentFab>
                 </>
             );
