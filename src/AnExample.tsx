@@ -18,6 +18,7 @@ function TabPanel(props: TabPanelProps) {
 
     return (
         <div hidden={value !== index} {...rest}>
+            {/*TODO Lazy load children.*/}
             {value === index && children}
         </div>
     );
