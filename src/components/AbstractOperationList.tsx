@@ -10,10 +10,9 @@ import {listCashAccounts} from "../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {showAlert} from "../utils/ui";
 import {CashAccountModel} from "../models/CashAccountModel";
-import {DateFilter, DateFiltersWidget, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
 import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
-import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
+import {DateFilter, OperationListTabbedWidget, todayFilter} from "./OperationListTabbedWidget";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
@@ -143,8 +142,9 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                             onDeleteClick={this.handleDeleteClick}
                             modelName={modelName}
                             getGroupingKey={getGroupingKey}
+                            onDatesChange={this.onDatesChange}
+                            dates={dateFilter}
                         />
-                    <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
                     <ComponentFab onClick={this.handleNewClick}><AddIcon/></ComponentFab>
                 </>
             );

@@ -1,4 +1,6 @@
-export const getSubheaders = <T extends {}>(array: T[], getGroupKey: (item: T) => string, getItemId: (item: T) => string) => {
+export type SubHeadersType = { [key: string]: string }
+
+export const getSubheaders = <T extends {}>(array: T[], getGroupKey: (item: T) => string, getItemId: (item: T) => string): SubHeadersType => {
     return array.reduce((acc, cur, i) => {
         // It's guaranteed that the array is sorted by the field we are interested in.
         const groupKey = getGroupKey(cur);
