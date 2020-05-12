@@ -3,15 +3,15 @@ import React from "react";
 interface TabPanelProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     index: number;
     value: number;
+    lazyChildren?: () => React.ReactNode;
 }
 
 export const TabPanel = (props: TabPanelProps) => {
-    const {children, value, index, ...rest} = props;
+    const {children, lazyChildren, value, index, ...rest} = props;
 
     return (
         <div hidden={value !== index} {...rest}>
-            {/*TODO Lazy load children.*/}
-            {value === index && children}
+            {value === index && (children || (lazyChildren && lazyChildren()))}
         </div>
     );
 };

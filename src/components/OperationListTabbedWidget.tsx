@@ -143,19 +143,34 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                 onChangeIndex={handleChangeIndex}
                 className={classes.tabs}
             >
-                <TabPanel value={value} index={DateFiltersWidgetTab.TODAY} dir={theme.direction}
-                          className={classes.tab}>
-                    <OperationTabPanel {...props}/>
-                </TabPanel>
-                <TabPanel value={value} index={DateFiltersWidgetTab.WEEK} dir={theme.direction}>
-                    <OperationTabPanel {...props}/>
-                </TabPanel>
-                <TabPanel value={value} index={DateFiltersWidgetTab.MONTH} dir={theme.direction}>
-                    <OperationTabPanel {...props}/>
-                </TabPanel>
-                <TabPanel value={value} index={DateFiltersWidgetTab.CUSTOM} dir={theme.direction}>
-                    <OperationTabPanel {...props}/>
-                </TabPanel>
+                <TabPanel
+                    value={value}
+                    index={DateFiltersWidgetTab.TODAY}
+                    dir={theme.direction}
+                    className={classes.tab}
+                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.TODAY}/>}
+                />
+                <TabPanel
+                    value={value}
+                    index={DateFiltersWidgetTab.WEEK}
+                    dir={theme.direction}
+                    className={classes.tab}
+                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.WEEK}/>}
+                />
+                <TabPanel
+                    value={value}
+                    index={DateFiltersWidgetTab.MONTH}
+                    dir={theme.direction}
+                    className={classes.tab}
+                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.MONTH}/>}
+                />
+                <TabPanel
+                    value={value}
+                    index={DateFiltersWidgetTab.CUSTOM}
+                    dir={theme.direction}
+                    className={classes.tab}
+                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>}
+                />
             </SwipeableViews>
         </div>
     );
@@ -171,10 +186,10 @@ const OperationTabPanel = <TModel extends { id: string }>(
             loading,
             onClick: onLoadMoreClick,
             noMoreItemsMessage,
-            emptyListMessage
+            emptyListMessage,
         },
-    }: Props<TModel>) => {
-    console.log('OpTaPa');
+        tab,
+    }: Props<TModel> & { tab: DateFiltersWidgetTab }) => {
     const classes = useStyles();
     const headers = getSubheaders(items, getGroupingKey, getItemId);
 
