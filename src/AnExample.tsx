@@ -77,9 +77,10 @@ export const AnExample = () => {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                 >
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Today" {...a11yProps(0)} />
+                    <Tab label="Week" {...a11yProps(1)} />
+                    <Tab label="Month" {...a11yProps(2)} />
+                    <Tab label="Custom" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -89,13 +90,16 @@ export const AnExample = () => {
                 className={classes.content}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    Item One
+                    Today
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    Item Two
+                    Week
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    Item Three
+                    Month
+                </TabPanel>
+                <TabPanel value={value} index={3} dir={theme.direction}>
+                    Custom
                 </TabPanel>
             </SwipeableViews>
         </div>
