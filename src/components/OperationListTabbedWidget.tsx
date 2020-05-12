@@ -95,29 +95,37 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                     index={DateFiltersWidgetTab.TODAY}
                     dir={theme.direction}
                     className={classes.tab}
-                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.TODAY}/>}
-                />
+
+                >
+                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.TODAY}/>
+                </TabPanel>
                 <TabPanel
                     value={value}
                     index={DateFiltersWidgetTab.WEEK}
                     dir={theme.direction}
                     className={classes.tab}
-                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.WEEK}/>}
-                />
+
+                >
+                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.WEEK}/>
+                </TabPanel>
                 <TabPanel
                     value={value}
                     index={DateFiltersWidgetTab.MONTH}
                     dir={theme.direction}
                     className={classes.tab}
-                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.MONTH}/>}
-                />
+
+                >
+                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.MONTH}/>
+                </TabPanel>
                 <TabPanel
                     value={value}
                     index={DateFiltersWidgetTab.CUSTOM}
                     dir={theme.direction}
                     className={classes.tab}
-                    lazyChildren={() => <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>}
-                />
+
+                >
+                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>
+                </TabPanel>
             </SwipeableViews>
         </div>
     );
