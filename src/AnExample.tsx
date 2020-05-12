@@ -4,8 +4,7 @@ import {makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import {ASkeleton} from "./ASkeleton";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -15,41 +14,24 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const {children, value, index, ...other} = props;
+    const {children, value, index, ...rest} = props;
 
     return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`full-width-tabpanel-${index}`}
-            aria-labelledby={`full-width-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+        <div hidden={value !== index} {...rest}>
+            {value === index && children}
         </div>
     );
 }
 
-function a11yProps(index: any) {
-    return {
-        id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
-    };
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
-        flex: 1,
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
     },
     content: {
         flex: 1,
+        padding: theme.spacing(1),
     },
 }));
 
@@ -75,12 +57,11 @@ export const AnExample = () => {
                     indicatorColor="primary"
                     textColor="primary"
                     variant="fullWidth"
-                    aria-label="full width tabs example"
                 >
-                    <Tab label="Today" {...a11yProps(0)} />
-                    <Tab label="Week" {...a11yProps(1)} />
-                    <Tab label="Month" {...a11yProps(2)} />
-                    <Tab label="Custom" {...a11yProps(3)} />
+                    <Tab label="Today"/>
+                    <Tab label="Week"/>
+                    <Tab label="Month"/>
+                    <Tab label="Custom"/>
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -90,16 +71,16 @@ export const AnExample = () => {
                 className={classes.content}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    Today
+                    <ASkeleton/>
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    Week
+                    <ASkeleton/>
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    Month
+                    <ASkeleton/>
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    Custom
+                    <ASkeleton/>
                 </TabPanel>
             </SwipeableViews>
         </div>
