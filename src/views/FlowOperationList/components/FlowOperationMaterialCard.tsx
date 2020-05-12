@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Skeleton from '@material-ui/lab/Skeleton';
+import {FlowOperationModel} from "../../../models/FlowOperationModel";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,12 +17,20 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface MediaProps {
-    loading?: boolean;
+interface Props {
+    loading?: boolean
+    model: FlowOperationModel
+    onEditClick: (item: FlowOperationModel) => void
+    onDeleteClick: (item: FlowOperationModel) => void
 }
 
-export const PaperOperationCard = (props: MediaProps) => {
-    const {loading = false} = props;
+export const FlowOperationMaterialCard = (
+    {
+        loading = false,
+        onEditClick,
+        onDeleteClick,
+        model
+    }: Props) => {
     const classes = useStyles();
 
     return (
@@ -48,22 +57,11 @@ export const PaperOperationCard = (props: MediaProps) => {
                     loading ? (
                         <Skeleton animation="wave" height={10} width="80%" style={{marginBottom: 6}}/>
                     ) : (
-                        'Ted'
+                        model.description
                     )
                 }
                 subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : '5 hours ago'}
             />
         </Card>
-    );
-}
-
-export const ASkeleton = () => {
-    return (
-        <div>
-            <PaperOperationCard loading/>
-            <PaperOperationCard loading/>
-            <PaperOperationCard/>
-            <PaperOperationCard/>
-        </div>
     );
 };

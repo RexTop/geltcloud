@@ -4,7 +4,6 @@ import {makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {PaperOperationCard} from "../ASkeleton";
 import {TabPanel} from "./TabPanel";
 import {getSubheaders} from "../common/UIListUtils";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -69,7 +68,7 @@ const getDateFilterOfTab = (tab: DateFiltersWidgetTab, localFrom: string, localT
 type Props<TModel extends { id: string }> = {
     items: TModel[]
     loadMore: { hasMore: boolean, loading: boolean, onClick: () => void, emptyListMessage: string, noMoreItemsMessage: string }
-    cardElement: React.ComponentType<{ model: TModel, onEditClick: () => void, onDeleteClick: () => void }>
+    cardElement: React.ComponentType<{ model: TModel, onEditClick: () => void, onDeleteClick: () => void, loading?: boolean }>
     onEditClick: (model: TModel) => void
     onDeleteClick: (model: TModel) => void
     modelName: string
@@ -188,7 +187,9 @@ const OperationTabPanel = <TModel extends { id: string }>(
             noMoreItemsMessage,
             emptyListMessage,
         },
-        tab,
+        cardElement: Card,
+        onDeleteClick,
+        onEditClick,
     }: Props<TModel> & { tab: DateFiltersWidgetTab }) => {
     const classes = useStyles();
     const headers = getSubheaders(items, getGroupingKey, getItemId);
@@ -202,12 +203,11 @@ const OperationTabPanel = <TModel extends { id: string }>(
                         {headers[model.id]}
                     </ListSubheader>
                     }
-                    <PaperOperationCard/>
-                    {/*<Card*/}
-                    {/*    model={model}*/}
-                    {/*    onDeleteClick={() => onDeleteClick(model)}*/}
-                    {/*    onEditClick={() => onEditClick(model)}*/}
-                    {/*/>*/}
+                    <Card
+                        model={model}
+                        onDeleteClick={() => onDeleteClick(model)}
+                        onEditClick={() => onEditClick(model)}
+                    />
                 </React.Fragment>
             ))}
             <ListItem button disabled={!hasMore || loading} onClick={onLoadMoreClick} component={BareButton}>
