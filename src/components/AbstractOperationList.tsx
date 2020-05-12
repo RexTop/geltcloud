@@ -12,7 +12,8 @@ import {showAlert} from "../utils/ui";
 import {CashAccountModel} from "../models/CashAccountModel";
 import moment from "moment";
 import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
-import {DateFilter, OperationListTabbedWidget, todayFilter} from "./OperationListTabbedWidget";
+import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
+import {DateFilter, todayFilter} from "../utils/date-util";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;

@@ -11,59 +11,7 @@ import {Card as MaterialCard} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import {BareButton} from "./common/BareElements";
 import ListItemText from "@material-ui/core/ListItemText";
-import moment from "moment";
-
-export const todayFilter = (): DateFilter => ({
-    fromDateLocal: moment().format('YYYY-MM-DD'),
-    toDateLocal: moment().format('YYYY-MM-DD'),
-});
-
-export type DateFilter = {
-    fromDateLocal: string
-    toDateLocal: string
-}
-
-enum DateFiltersWidgetTab {
-    TODAY,
-    WEEK,
-    MONTH,
-    CUSTOM,
-}
-
-const getDateFilterOfTab = (tab: DateFiltersWidgetTab, localFrom: string, localTo: string) => {
-    switch (tab) {
-        case DateFiltersWidgetTab.TODAY: {
-            const today = moment().format('YYYY-MM-DD');
-            return {
-                fromDateLocal: today,
-                toDateLocal: today,
-            };
-        }
-        case DateFiltersWidgetTab.WEEK: {
-            const aWeekAgo = moment().subtract(7, 'days').format('YYYY-MM-DD');
-            const today = moment().format('YYYY-MM-DD');
-            return {
-                fromDateLocal: aWeekAgo,
-                toDateLocal: today,
-            };
-        }
-        case DateFiltersWidgetTab.MONTH: {
-            const aMonthAgo = moment().subtract(30, 'days').format('YYYY-MM-DD');
-            const today = moment().format('YYYY-MM-DD');
-            return {
-                fromDateLocal: aMonthAgo,
-                toDateLocal: today,
-            };
-        }
-        case DateFiltersWidgetTab.CUSTOM:
-        default: {
-            return {
-                fromDateLocal: moment(localFrom).format('YYYY-MM-DD'),
-                toDateLocal: moment(localTo).format('YYYY-MM-DD'),
-            };
-        }
-    }
-};
+import {DateFilter, DateFiltersWidgetTab, getDateFilterOfTab} from "../utils/date-util";
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
