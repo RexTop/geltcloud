@@ -9,6 +9,9 @@ import {TabPanel} from "./TabPanel";
 import {getSubheaders} from "../common/UIListUtils";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import {Card as MaterialCard} from '@material-ui/core';
+import ListItem from "@material-ui/core/ListItem";
+import {BareButton} from "./common/BareElements";
+import ListItemText from "@material-ui/core/ListItemText";
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
@@ -89,6 +92,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(
                 onChangeIndex={handleChangeIndex}
                 className={classes.tabs}
             >
+                {/*TODO*/}
                 <TabPanel value={value} index={0} dir={theme.direction} className={classes.tab}>
                     {items.map((model) => (
                         <React.Fragment key={`OperationList-${modelName}-${model.id}`}>
@@ -105,6 +109,12 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(
                             {/*/>*/}
                         </React.Fragment>
                     ))}
+                    <ListItem button disabled={!hasMore || loading} onClick={onLoadMoreClick} component={BareButton}>
+                        <ListItemText
+                            secondary={loading ? 'Loading' : hasMore ? 'Load more' : items.length ? noMoreItemsMessage : emptyListMessage}
+                            style={{textAlign: 'center'}}
+                        />
+                    </ListItem>
                     {/*<ASkeleton/>*/}
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
