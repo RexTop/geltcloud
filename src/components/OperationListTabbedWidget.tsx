@@ -4,7 +4,7 @@ import {makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {ASkeleton} from "./ASkeleton";
+import {ASkeleton} from "../ASkeleton";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export const AnExample = () => {
+export const OperationListTabbedWidget = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
