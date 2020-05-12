@@ -4,9 +4,10 @@ import {makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {ASkeleton} from "../ASkeleton";
+import {PaperOperationCard} from "../ASkeleton";
 import {TabPanel} from "./TabPanel";
 import {getSubheaders} from "../common/UIListUtils";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
@@ -24,9 +25,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexDirection: 'column',
         height: '100%',
     },
-    content: {
+    tabs: {
         flex: 1,
+        '&>div': {
+            height: '100%',
+        }
+    },
+    tab: {
         padding: theme.spacing(1),
+    },
+    subHeader: {
+        backgroundColor: theme.palette.background.paper,
     },
 }));
 
@@ -76,19 +85,33 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
                 onChangeIndex={handleChangeIndex}
-                className={classes.content}
+                className={classes.tabs}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ASkeleton/>
+                <TabPanel value={value} index={0} dir={theme.direction} className={classes.tab}>
+                    {items.map((model) => (
+                        <React.Fragment key={`OperationList-${modelName}-${model.id}`}>
+                            {headers.hasOwnProperty(model.id) &&
+                            <ListSubheader className={classes.subHeader}>
+                                {headers[model.id]}
+                            </ListSubheader>}
+                            <PaperOperationCard/>
+                            {/*<Card*/}
+                            {/*    model={model}*/}
+                            {/*    onDeleteClick={() => onDeleteClick(model)}*/}
+                            {/*    onEditClick={() => onEditClick(model)}*/}
+                            {/*/>*/}
+                        </React.Fragment>
+                    ))}
+                    {/*<ASkeleton/>*/}
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <ASkeleton/>
+                    {/*<ASkeleton/>*/}
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <ASkeleton/>
+                    {/*<ASkeleton/>*/}
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    <ASkeleton/>
+                    {/*<ASkeleton/>*/}
                 </TabPanel>
             </SwipeableViews>
         </div>

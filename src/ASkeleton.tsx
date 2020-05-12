@@ -20,7 +20,7 @@ interface MediaProps {
     loading?: boolean;
 }
 
-function Media(props: MediaProps) {
+export const PaperOperationCard = (props: MediaProps) => {
     const {loading = false} = props;
     const classes = useStyles();
 
@@ -60,10 +60,10 @@ function Media(props: MediaProps) {
 export const ASkeleton = () => {
     return (
         <div>
-            <Media loading/>
-            <Media loading/>
-            <Media/>
-            <Media/>
+            <PaperOperationCard loading/>
+            <PaperOperationCard loading/>
+            <PaperOperationCard/>
+            <PaperOperationCard/>
         </div>
     );
 };
