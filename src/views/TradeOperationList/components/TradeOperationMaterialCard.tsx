@@ -10,6 +10,7 @@ import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 import {naiveMoneyFormat} from "../../../utils/money";
 import {Avatar, Box, CardActionArea, Menu, MenuItem, Typography} from "@material-ui/core";
 import {easyTime} from "../../../utils/date-util";
+import {cryptocurrencyIconExists, getCryptocurrencyIcon} from "../../../CryptoIcons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -89,6 +90,8 @@ export const TradeOperationMaterialCard = (
         onDeleteClick(model);
     };
 
+    const currency = `${model.amountCurrency}`.toLowerCase();
+
     return (
         <Card className={classes.card}>
             <CardActionArea>
@@ -97,10 +100,8 @@ export const TradeOperationMaterialCard = (
                     avatar={
                         loading ? (
                             <Skeleton animation="wave" variant="circle" width={40} height={40}/>
-                        ) : (
-                            <Avatar alt="Currency symbols">
-                            </Avatar>
-                        )
+                        ) : cryptocurrencyIconExists(currency) ?
+                            <Avatar alt="Currency symbol" src={getCryptocurrencyIcon(currency)}/> : null
                     }
                     title={
                         loading ? (
