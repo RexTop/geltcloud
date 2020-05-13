@@ -10,7 +10,7 @@ import {FlowOperationModel} from "../../../models/FlowOperationModel";
 import {TrendingDown, TrendingUp} from "@material-ui/icons";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 import {money} from "../../../utils/money";
-import {Box, CardActionArea, Typography} from "@material-ui/core";
+import {Box, CardActionArea, Menu, MenuItem, Typography} from "@material-ui/core";
 import {easyTime} from "../../../utils/date-util";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         incomeAvatar: {
             backgroundColor: stonksTextColor,
+        },
+        deleteButton: {
+            color: theme.palette.error.light,
         },
     }),
 );
@@ -69,6 +72,20 @@ export const FlowOperationMaterialCard = (
         model
     }: Props) => {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const closeContextMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const handleDeleteClick = () => {
+        closeContextMenu();
+        onDeleteClick(model);
+    };
 
     return (
         <Card className={classes.card}>
@@ -110,10 +127,18 @@ export const FlowOperationMaterialCard = (
                 />
             </CardActionArea>
             {loading ? null : (
-                <IconButton onClick={e => onDeleteClick(model)}>
+                <IconButton onClick={handleClick}>
                     <MoreVertIcon/>
                 </IconButton>
             )}
+            <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={closeContextMenu}
+            >
+                <MenuItem onClick={handleDeleteClick} className={classes.deleteButton}>Delete</MenuItem>
+            </Menu>
         </Card>
     );
 };
