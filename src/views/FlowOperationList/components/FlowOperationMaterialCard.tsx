@@ -11,6 +11,7 @@ import {TrendingDown, TrendingUp} from "@material-ui/icons";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 import {money} from "../../../utils/money";
 import {Box, Typography} from "@material-ui/core";
+import {easyTime} from "../../../utils/date-util";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -101,8 +102,14 @@ export const FlowOperationMaterialCard = (
                         </Box>
                     )
                 }
-                subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> :
-                    <AccountText model={model}/>}
+                subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : (
+                    <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <AccountText model={model}/>
+                        <Typography variant="body2">
+                            {easyTime(model.dateIssued)}
+                        </Typography>
+                    </Box>
+                )}
             />
         </Card>
     );
