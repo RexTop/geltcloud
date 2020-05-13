@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     subHeader: {
         maxWidth: 500,
         margin: theme.spacing(0, 'auto', 1, 'auto'),
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
     },
 }));
 
