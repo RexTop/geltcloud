@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CreateTransferOperationModel, TransferOperationModel} from "../../../models/TransferOperationModel";
 import {API, graphqlOperation} from "aws-amplify";
@@ -117,9 +116,6 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                 TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} transfer operation</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {model.id ? 'Update' : 'Create'} transfer operation
-                </DialogContentText>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TransferOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
                     <Select

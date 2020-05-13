@@ -14,8 +14,8 @@ import {
 import {listTransferOperationsByOwner} from "../../graphql/queries";
 import {deleteTransferOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
-import {TransferOperationCard} from "./components/TransferOperationCard";
 import {easyDate} from "../../utils/date-util";
+import {TransferOperationMaterialCard} from "./components/TransferOperationMaterialCard";
 
 const getLocalFormattedDateOfOperation = (item: TransferOperationModel) => easyDate(item.dateIssued);
 
@@ -31,7 +31,7 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     noMoreItemsMessage: 'No more transfers',
     getGroupingKey: getLocalFormattedDateOfOperation,
 
-    OperationCard: TransferOperationCard,
+    OperationCard: TransferOperationMaterialCard,
     OperationFormDialog: TransferOperationFormDialog,
 
     listByOwner_QueryString: listTransferOperationsByOwner,
@@ -44,4 +44,6 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     getOnCreateSubscriptionPayload: result => result.onCreateTransferOperation,
     getOnUpdateSubscriptionPayload: result => result.onUpdateTransferOperation,
     getOnDeleteSubscriptionPayload: result => result.onDeleteTransferOperation,
+
+    sortKeyFieldForDate: "dateIssued",
 });

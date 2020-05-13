@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CreateFlowOperationModel, FlowOperationModel} from "../../../models/FlowOperationModel";
 import {API, graphqlOperation} from "aws-amplify";
@@ -105,9 +104,6 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                 TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} flow operation</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {model.id ? 'Update' : 'Create'} flow operation
-                </DialogContentText>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
                     <Select

@@ -1,4 +1,4 @@
-import {FlowOperationCard, FlowOperationFormDialog} from './components';
+import {FlowOperationFormDialog} from './components';
 import {CreateFlowOperationModel, FlowOperationModel} from "../../models/FlowOperationModel";
 import {onCreateFlowOperation, onDeleteFlowOperation, onUpdateFlowOperation} from "../../graphql/subscriptions";
 import {
@@ -11,6 +11,7 @@ import {listFlowOperationsByOwner} from "../../graphql/queries";
 import {deleteFlowOperation} from "../../graphql/mutations";
 import {createOperationListComponent} from "../../components/AbstractOperationList";
 import moment from "moment";
+import {FlowOperationMaterialCard} from "./components/FlowOperationMaterialCard";
 
 const getLocalFormattedDateOfOperation = (item: FlowOperationModel) => moment(item.dateIssued).format('YYYY-MMM-DD');
 
@@ -26,7 +27,7 @@ export const FlowOperationList = createOperationListComponent<FlowOperationModel
     noMoreItemsMessage: 'No more flow operations',
     getGroupingKey: getLocalFormattedDateOfOperation,
 
-    OperationCard: FlowOperationCard,
+    OperationCard: FlowOperationMaterialCard,
     OperationFormDialog: FlowOperationFormDialog,
 
     listByOwner_QueryString: listFlowOperationsByOwner,
@@ -39,4 +40,6 @@ export const FlowOperationList = createOperationListComponent<FlowOperationModel
     getOnCreateSubscriptionPayload: result => result.onCreateFlowOperation,
     getOnUpdateSubscriptionPayload: result => result.onUpdateFlowOperation,
     getOnDeleteSubscriptionPayload: result => result.onDeleteFlowOperation,
+
+    sortKeyFieldForDate: "dateIssued",
 });

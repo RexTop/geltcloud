@@ -10,23 +10,15 @@ import {listCashAccounts} from "../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api";
 import {showAlert} from "../utils/ui";
 import {CashAccountModel} from "../models/CashAccountModel";
-import {DateFiltersWidget} from "../views/common/DateFiltersWidget";
-import {DateFilter, todayFilter} from "../views/common/DateFiltersWidget/DateFiltersWidget";
 import moment from "moment";
 import {BOTTOM_NAVIGATION_HEIGHT} from "../layouts/Main/components/MainBottomNavigation";
-import {OperationListPaperWidget} from "./OperationListPaperWidget";
-import Paper from "@material-ui/core/Paper";
+import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
+import {DateFilter, todayFilter} from "../utils/date-util";
 
 const MAX_ITEMS_PER_PAGE = 50;
 const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
 
 const useStyles = makeStyles((theme: Theme) => ({
-    abstractOperationRoot: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
     abstractOperationFab: {
         position: 'fixed',
         bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
@@ -73,6 +65,8 @@ type CreateOperationListComponentParams<TModel extends { id: string }, TListQuer
     getOnCreateSubscriptionPayload: (result: TOnCreateSubscription) => TModel | null
     getOnUpdateSubscriptionPayload: (result: TOnUpdateSubscription) => TModel | null
     getOnDeleteSubscriptionPayload: (result: TOnDeleteSubscription) => TModel | null
+
+    sortKeyFieldForDate: keyof TModel,
 }
 
 export const createOperationListComponent = <TModel extends { id: string }, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>(
@@ -96,6 +90,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
         getOnCreateSubscriptionPayload,
         getOnUpdateSubscriptionPayload,
         getOnDeleteSubscriptionPayload,
+        sortKeyFieldForDate,
     }: CreateOperationListComponentParams<TModel, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>) => {
     class AbstractOperationList extends React.Component<Props, State<TModel>> {
 
@@ -137,25 +132,23 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                         model={selectedItem}
                         dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     />
-                    <ComponentRoot>
-                        {/*TODO: Create a beautiful section of filters using tabs. Include a day/week/month anc calendar view*/}
-                        <DateFiltersWidget onDatesChange={this.onDatesChange} dates={dateFilter}/>
-                        <OperationListPaperWidget
-                            items={items}
-                            loadMore={{
-                                onClick: () => this.fetchOperations(this.state.dateFilter, false),
-                                loading,
-                                hasMore: !!nextToken,
-                                emptyListMessage,
-                                noMoreItemsMessage,
-                            }}
-                            cardElement={OperationCard}
-                            onEditClick={this.onEditItemClick}
-                            onDeleteClick={this.handleDeleteClick}
-                            modelName={modelName}
-                            getGroupingKey={getGroupingKey}
-                        />
-                    </ComponentRoot>
+                    <OperationListTabbedWidget
+                        items={items}
+                        loadMore={{
+                            onClick: () => this.fetchOperations(this.state.dateFilter, false),
+                            loading,
+                            hasMore: !!nextToken,
+                            emptyListMessage,
+                            noMoreItemsMessage,
+                        }}
+                        cardElement={OperationCard}
+                        onEditClick={this.onEditItemClick}
+                        onDeleteClick={this.handleDeleteClick}
+                        modelName={modelName}
+                        getGroupingKey={getGroupingKey}
+                        onDatesChange={this.onDatesChange}
+                        dates={dateFilter}
+                    />
                     <ComponentFab onClick={this.handleNewClick}><AddIcon/></ComponentFab>
                 </>
             );
@@ -185,7 +178,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                 // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
                 const variables: any = {
                     owner: currentUsername(),
-                    dateIssued: {
+                    [sortKeyFieldForDate]: {
                         between: [
                             moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
                             moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
@@ -288,15 +281,6 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
     // TODO: Try setting this with a static getter inside the class to avoid the use of 'any'.
     (AbstractOperationList as any).displayName = `WithSubscription(${modelName})`;
     return AbstractOperationList;
-};
-
-const ComponentRoot = ({children}: { children: React.ReactNode }) => {
-    const classes = useStyles();
-    return (
-        <Paper square className={classes.abstractOperationRoot}>
-            {children}
-        </Paper>
-    );
 };
 
 const ComponentFab = ({onClick, children}: { onClick: () => void, children: React.ReactNode }) => {
