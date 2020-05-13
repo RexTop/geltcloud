@@ -82,7 +82,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                     <Tab label="Today"/>
                     <Tab label="Week"/>
                     <Tab label="Month"/>
-                    <Tab label="Custom"/>
+                    {/*<Tab label="Custom"/>*/}
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -118,15 +118,15 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                 >
                     <OperationTabPanel {...props} tab={DateFiltersWidgetTab.MONTH}/>
                 </TabPanel>
-                <TabPanel
-                    value={value}
-                    index={DateFiltersWidgetTab.CUSTOM}
-                    dir={theme.direction}
-                    className={classes.tab}
+                {/*<TabPanel*/}
+                {/*    value={value}*/}
+                {/*    index={DateFiltersWidgetTab.CUSTOM}*/}
+                {/*    dir={theme.direction}*/}
+                {/*    className={classes.tab}*/}
 
-                >
-                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>
-                </TabPanel>
+                {/*>*/}
+                {/*    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>*/}
+                {/*</TabPanel>*/}
             </SwipeableViews>
         </div>
     );
