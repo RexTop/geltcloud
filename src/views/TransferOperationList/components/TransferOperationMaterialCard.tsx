@@ -7,8 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {TransferOperationModel} from "../../../models/TransferOperationModel";
-import {TrendingDown, TrendingUp} from "@material-ui/icons";
-import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
+import {Autorenew as AutorenewIcon, TrendingDown} from "@material-ui/icons";
+import {notStonksTextColor} from "../../../theme/colors";
 import {money} from "../../../utils/money";
 import {Box, CardActionArea, Menu, MenuItem, Typography} from "@material-ui/core";
 import {easyTime} from "../../../utils/date-util";
@@ -31,12 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
         expenseAvatar: {
             backgroundColor: notStonksTextColor,
         },
-        incomeText: {
-            color: stonksTextColor,
-        },
-        incomeAvatar: {
-            backgroundColor: stonksTextColor,
-        },
+        neutralText: {},
+        neutralAvatar: {},
         deleteButton: {
             color: theme.palette.error.light,
         },
@@ -50,16 +46,18 @@ interface Props {
     onDeleteClick: (item: TransferOperationModel) => void
 }
 
-const AccountText = ({model}: { model: TransferOperationModel }) => {
+const FromAccountToAccountText = ({model}: { model: TransferOperationModel }) => {
     const classes = useStyles();
-    const accountText = model?.issuerCashAccount?.name ||
-        <Typography variant="body2" className={classes.unknownAccount}>Unknown account</Typography>;
-    return <Typography variant="body2">{accountText}</Typography>;
+    const fromText = model?.issuerCashAccount?.name ||
+        <Box component="div" className={classes.unknownAccount}>Unknown account</Box>;
+    const toText = model?.acquirerCashAccount?.name ||
+        <Box component="div" className={classes.unknownAccount}>Unknown account</Box>;
+    return <Typography variant="body2">{fromText} to {toText}</Typography>;
 };
 
 const Amount = ({model: {amount}}: { model: TransferOperationModel }) => {
     const classes = useStyles();
-    return <Typography variant="body1" className={amount < 0 ? classes.expenseText : classes.incomeText}>
+    return <Typography variant="body1" className={amount < 0 ? classes.expenseText : classes.neutralText}>
         {money(amount)}
     </Typography>
 };
@@ -98,9 +96,9 @@ export const TransferOperationMaterialCard = (
                         ) : (
                             <Avatar
                                 alt="Operation Type"
-                                className={model.amount < 0 ? classes.expenseAvatar : classes.incomeAvatar}
+                                className={model.amount < 0 ? classes.expenseAvatar : classes.neutralAvatar}
                             >
-                                {model.amount < 0 ? <TrendingDown/> : <TrendingUp/>}
+                                {model.amount < 0 ? <TrendingDown/> : <AutorenewIcon/>}
                             </Avatar>
                         )
                     }
@@ -118,7 +116,7 @@ export const TransferOperationMaterialCard = (
                     }
                     subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : (
                         <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
-                            <AccountText model={model}/>
+                            <FromAccountToAccountText model={model}/>
                             <Typography variant="body2">
                                 {easyTime(model.dateIssued)}
                             </Typography>

@@ -53,7 +53,7 @@ interface Props {
 const AccountText = ({model}: { model: FlowOperationModel }) => {
     const classes = useStyles();
     const accountText = model?.issuerCashAccount?.name ||
-        <Typography variant="body2" className={classes.unknownAccount}>Unknown account</Typography>;
+        <Box component="span" className={classes.unknownAccount}>Unknown account</Box>;
     return <Typography variant="body2">{accountText}</Typography>;
 };
 
