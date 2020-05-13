@@ -10,7 +10,7 @@ amplify push
 
 npm run build
 
-firebase deploy -m "v0.0.2 Full screen modals and fix money format on trades"
+firebase deploy -m "v0.0.3 Date filters with tabs and new cards design with crypto icons"
 ```
 
 That's it. Enjoy!

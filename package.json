@@ -1,6 +1,6 @@
 {
   "name": "geltcloud",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "App to track personal cash flow.",
   "main": "index.js",
   "author": "ok.codes",
