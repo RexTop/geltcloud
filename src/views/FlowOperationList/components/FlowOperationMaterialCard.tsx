@@ -73,41 +73,41 @@ export const FlowOperationMaterialCard = (
     return (
         <Card className={classes.card}>
             <CardActionArea>
-            <CardHeader
-                onClick={() => onEditClick(model)}
-                avatar={
-                    loading ? (
-                        <Skeleton animation="wave" variant="circle" width={40} height={40}/>
-                    ) : (
-                        <Avatar
-                            alt="Operation Type"
-                            className={model.amount < 0 ? classes.expenseAvatar : classes.incomeAvatar}
-                        >
-                            {model.amount < 0 ? <TrendingDown/> : <TrendingUp/>}
-                        </Avatar>
-                    )
-                }
-                title={
-                    loading ? (
-                        <Skeleton animation="wave" height={10} width="80%" style={{marginBottom: 6}}/>
-                    ) : (
+                <CardHeader
+                    onClick={() => onEditClick(model)}
+                    avatar={
+                        loading ? (
+                            <Skeleton animation="wave" variant="circle" width={40} height={40}/>
+                        ) : (
+                            <Avatar
+                                alt="Operation Type"
+                                className={model.amount < 0 ? classes.expenseAvatar : classes.incomeAvatar}
+                            >
+                                {model.amount < 0 ? <TrendingDown/> : <TrendingUp/>}
+                            </Avatar>
+                        )
+                    }
+                    title={
+                        loading ? (
+                            <Skeleton animation="wave" height={10} width="80%" style={{marginBottom: 6}}/>
+                        ) : (
+                            <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <Typography variant="body1">
+                                    {model.description}
+                                </Typography>
+                                <Amount model={model}/>
+                            </Box>
+                        )
+                    }
+                    subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : (
                         <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
-                            <Typography variant="body1">
-                                {model.description}
+                            <AccountText model={model}/>
+                            <Typography variant="body2">
+                                {easyTime(model.dateIssued)}
                             </Typography>
-                            <Amount model={model}/>
                         </Box>
-                    )
-                }
-                subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : (
-                    <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <AccountText model={model}/>
-                        <Typography variant="body2">
-                            {easyTime(model.dateIssued)}
-                        </Typography>
-                    </Box>
-                )}
-            />
+                    )}
+                />
             </CardActionArea>
             {loading ? null : (
                 <IconButton onClick={e => onDeleteClick(model)}>
