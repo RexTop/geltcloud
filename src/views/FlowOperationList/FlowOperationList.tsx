@@ -40,4 +40,6 @@ export const FlowOperationList = createOperationListComponent<FlowOperationModel
     getOnCreateSubscriptionPayload: result => result.onCreateFlowOperation,
     getOnUpdateSubscriptionPayload: result => result.onUpdateFlowOperation,
     getOnDeleteSubscriptionPayload: result => result.onDeleteFlowOperation,
+
+    sortKeyFieldForDate: "dateIssued",
 });

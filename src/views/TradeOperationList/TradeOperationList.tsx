@@ -40,4 +40,6 @@ export const TradeOperationList = createOperationListComponent<TradeOperationMod
     getOnCreateSubscriptionPayload: result => result.onCreateTradeOperation,
     getOnUpdateSubscriptionPayload: result => result.onUpdateTradeOperation,
     getOnDeleteSubscriptionPayload: result => result.onDeleteTradeOperation,
+
+    sortKeyFieldForDate: "date",
 });

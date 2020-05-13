@@ -44,4 +44,6 @@ export const TransferOperationList = createOperationListComponent<TransferOperat
     getOnCreateSubscriptionPayload: result => result.onCreateTransferOperation,
     getOnUpdateSubscriptionPayload: result => result.onUpdateTransferOperation,
     getOnDeleteSubscriptionPayload: result => result.onDeleteTransferOperation,
+
+    sortKeyFieldForDate: "dateIssued",
 });

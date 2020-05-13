@@ -65,6 +65,8 @@ type CreateOperationListComponentParams<TModel extends { id: string }, TListQuer
     getOnCreateSubscriptionPayload: (result: TOnCreateSubscription) => TModel | null
     getOnUpdateSubscriptionPayload: (result: TOnUpdateSubscription) => TModel | null
     getOnDeleteSubscriptionPayload: (result: TOnDeleteSubscription) => TModel | null
+
+    sortKeyFieldForDate: keyof TModel,
 }
 
 export const createOperationListComponent = <TModel extends { id: string }, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>(
@@ -88,6 +90,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
         getOnCreateSubscriptionPayload,
         getOnUpdateSubscriptionPayload,
         getOnDeleteSubscriptionPayload,
+        sortKeyFieldForDate,
     }: CreateOperationListComponentParams<TModel, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>) => {
     class AbstractOperationList extends React.Component<Props, State<TModel>> {
 
@@ -175,7 +178,7 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                 // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
                 const variables: any = {
                     owner: currentUsername(),
-                    dateIssued: {
+                    [sortKeyFieldForDate]: {
                         between: [
                             moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
                             moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
