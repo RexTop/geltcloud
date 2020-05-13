@@ -10,7 +10,7 @@ import {FlowOperationModel} from "../../../models/FlowOperationModel";
 import {TrendingDown, TrendingUp} from "@material-ui/icons";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 import {money} from "../../../utils/money";
-import {Box, Typography} from "@material-ui/core";
+import {Box, CardActionArea, Typography} from "@material-ui/core";
 import {easyTime} from "../../../utils/date-util";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
         card: {
             maxWidth: 500,
             margin: theme.spacing(0, 'auto', 1, 'auto'),
+            display: 'flex',
+            alignItems: 'center',
         },
 
         unknownAccount: {
@@ -70,7 +72,9 @@ export const FlowOperationMaterialCard = (
 
     return (
         <Card className={classes.card}>
+            <CardActionArea>
             <CardHeader
+                onClick={() => onEditClick(model)}
                 avatar={
                     loading ? (
                         <Skeleton animation="wave" variant="circle" width={40} height={40}/>
@@ -81,13 +85,6 @@ export const FlowOperationMaterialCard = (
                         >
                             {model.amount < 0 ? <TrendingDown/> : <TrendingUp/>}
                         </Avatar>
-                    )
-                }
-                action={
-                    loading ? null : (
-                        <IconButton onClick={() => onEditClick(model)}>
-                            <MoreVertIcon/>
-                        </IconButton>
                     )
                 }
                 title={
@@ -111,6 +108,12 @@ export const FlowOperationMaterialCard = (
                     </Box>
                 )}
             />
+            </CardActionArea>
+            {loading ? null : (
+                <IconButton onClick={e => onDeleteClick(model)}>
+                    <MoreVertIcon/>
+                </IconButton>
+            )}
         </Card>
     );
 };
