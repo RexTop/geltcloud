@@ -2,15 +2,13 @@ import React from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {TradeOperationModel} from "../../../models/TradeOperationModel";
-import {TrendingDown, TrendingUp} from "@material-ui/icons";
 import {notStonksTextColor, stonksTextColor} from "../../../theme/colors";
 import {naiveMoneyFormat} from "../../../utils/money";
-import {Box, CardActionArea, Menu, MenuItem, Typography} from "@material-ui/core";
+import {Avatar, Box, CardActionArea, Menu, MenuItem, Typography} from "@material-ui/core";
 import {easyTime} from "../../../utils/date-util";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,10 +38,9 @@ interface Props {
     onDeleteClick: (item: TradeOperationModel) => void
 }
 
-const Fee = ({model: {amountFee, amountCurrency}}: { model: TradeOperationModel }) => {
-    const classes = useStyles();
+const feeText = ({model: {amountFee, amountCurrency}}: { model: TradeOperationModel }) => {
     const fee = naiveMoneyFormat({value: amountFee, currency: amountCurrency, absolute: true});
-    return <Typography variant="body2" className={classes.expenseText}>-{fee}</Typography>;
+    return `-${fee}`;
 };
 
 const FromCurrencyToCurrency = ({model: {amountCurrency, priceCurrency, price, amount}}: { model: TradeOperationModel }) => {
@@ -58,14 +55,15 @@ const FromCurrencyToCurrency = ({model: {amountCurrency, priceCurrency, price, a
         currency: priceCurrency,
         absolute: true,
     });
-    return <Typography variant="body1">
-        <span className={classes.expenseText}>{left}</span>{' to '}<b className={classes.incomeText}>{right}</b>
+    return <Typography component="div" variant="body1" gutterBottom>
+        <span className={classes.expenseText} style={{whiteSpace: 'nowrap'}}>{left}</span>
+        {' to '}
+        <b className={classes.incomeText} style={{whiteSpace: 'nowrap'}}>{right}</b>
     </Typography>;
 };
 
-const ExchangeRate = ({model: {priceCurrency, exchangeRate, amountCurrency}}: { model: TradeOperationModel }) => {
-    const right = naiveMoneyFormat({value: exchangeRate, currency: priceCurrency, absolute: true});
-    return <Typography variant="body2">1 {amountCurrency} = {right}</Typography>;
+const exchangeRateText = ({model: {priceCurrency, exchangeRate}}: { model: TradeOperationModel }) => {
+    return naiveMoneyFormat({value: exchangeRate, currency: priceCurrency, absolute: true});
 };
 
 export const TradeOperationMaterialCard = (
@@ -101,7 +99,6 @@ export const TradeOperationMaterialCard = (
                             <Skeleton animation="wave" variant="circle" width={40} height={40}/>
                         ) : (
                             <Avatar alt="Currency symbols">
-                                {model.amount < 0 ? <TrendingDown/> : <TrendingUp/>}
                             </Avatar>
                         )
                     }
@@ -109,17 +106,24 @@ export const TradeOperationMaterialCard = (
                         loading ? (
                             <Skeleton animation="wave" height={10} width="80%" style={{marginBottom: 6}}/>
                         ) : (
-                            <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <Box component="div">
                                 <FromCurrencyToCurrency model={model}/>
-                                <Fee model={model}/>
                             </Box>
                         )
                     }
                     subheader={loading ? <Skeleton animation="wave" height={10} width="40%"/> : (
-                        <Box component='div' style={{display: 'flex', justifyContent: 'space-between'}}>
-                            <ExchangeRate model={model}/>
-                            <Typography variant="body2">
-                                {easyTime(model.date)}
+                        <Box component="div" style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <Typography component="div" variant="body2" style={{whiteSpace: 'nowrap'}}>
+                                {exchangeRateText({model})}
+                            </Typography>
+                            <Typography component="div" variant="body2">
+                                <span className={classes.expenseText} style={{whiteSpace: 'nowrap'}}>
+                                    {feeText({model})}
+                                </span>
+                                {' • '}
+                                <span style={{whiteSpace: 'nowrap'}}>
+                                    {easyTime(model.date)}
+                                </span>
                             </Typography>
                         </Box>
                     )}
