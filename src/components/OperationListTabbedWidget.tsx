@@ -11,7 +11,10 @@ import {Card, Card as MaterialCard} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import {BareButton} from "./common/BareElements";
 import ListItemText from "@material-ui/core/ListItemText";
-import {DateFilter, DateFiltersWidgetTab, getDateFilterOfTab} from "../utils/date-util";
+import {DateFilter, DateFiltersWidgetTab, easyDateFormat, getDateFilterOfTab} from "../utils/date-util";
+import {DatePicker} from '@material-ui/pickers';
+import {MaterialUiPickersDate} from "@material-ui/pickers/typings/date";
+
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
@@ -58,7 +61,21 @@ const useStyles = makeStyles((theme: Theme) => ({
         flex: 1,
         overflowY: 'auto',
     },
-    bottomBar: {},
+    bottomBar: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 10, 0, 1),
+        zIndex: 10,
+    },
+    datePicker: {
+        padding: theme.spacing(0, 1, 0, 1),
+        '&>div::before': {
+            display: 'none',
+        },
+        '&>div::after': {
+            display: 'none',
+        },
+    },
     slide: {
         position: 'relative',
     },
@@ -71,6 +88,16 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
     const theme = useTheme();
 
     const [value, setValue] = React.useState(DateFiltersWidgetTab.CUSTOM);
+
+    const handleFromDateChange = (date: MaterialUiPickersDate | null) => {
+        if (date)
+            props.onDatesChange({toDateLocal: props.dates.toDateLocal, fromDateLocal: date.utc().format()});
+    };
+
+    const handleToDateChange = (date: MaterialUiPickersDate | null) => {
+        if (date)
+            props.onDatesChange({toDateLocal: date.utc().format(), fromDateLocal: props.dates.fromDateLocal});
+    };
 
     const updateDate = (newTab: DateFiltersWidgetTab) => {
         setValue(newTab);
@@ -144,7 +171,20 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                 >
                     <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>
                     <Card className={classes.bottomBar}>
-                        Date Filters Here
+                        From:
+                        <DatePicker
+                            value={props.dates.fromDateLocal}
+                            format={easyDateFormat}
+                            onChange={handleFromDateChange}
+                            className={classes.datePicker}
+                        />
+                        To:
+                        <DatePicker
+                            value={props.dates.toDateLocal}
+                            format={easyDateFormat}
+                            onChange={handleToDateChange}
+                            className={classes.datePicker}
+                        />
                     </Card>
                 </TabPanel>
             </SwipeableViews>
