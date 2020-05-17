@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import {TabPanel} from "./TabPanel";
 import {getSubheaders} from "../common/UIListUtils";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import {Card as MaterialCard} from '@material-ui/core';
+import {Card, Card as MaterialCard} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import {BareButton} from "./common/BareElements";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -38,13 +38,29 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
     },
     tab: {
-        padding: theme.spacing(1),
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
     },
     subHeader: {
         maxWidth: 500,
         margin: theme.spacing(0, 'auto', 1, 'auto'),
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
+    },
+    operationCard: {
+        padding: theme.spacing(0, 1, 1, 1),
+        flex: 1,
+        overflowY: 'auto',
+    },
+    bottomBar: {},
+    slide: {
+        position: 'relative',
     },
 }));
 
@@ -54,7 +70,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
     const classes = useStyles();
     const theme = useTheme();
 
-    const [value, setValue] = React.useState(DateFiltersWidgetTab.TODAY);
+    const [value, setValue] = React.useState(DateFiltersWidgetTab.CUSTOM);
 
     const updateDate = (newTab: DateFiltersWidgetTab) => {
         setValue(newTab);
@@ -82,7 +98,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                     <Tab label="Today"/>
                     <Tab label="Week"/>
                     <Tab label="Month"/>
-                    {/*<Tab label="Custom"/>*/}
+                    <Tab label="Custom"/>
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -90,6 +106,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                 index={value}
                 onChangeIndex={handleChangeIndex}
                 className={classes.tabs}
+                slideClassName={classes.slide}
             >
                 <TabPanel
                     value={value}
@@ -118,15 +135,18 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                 >
                     <OperationTabPanel {...props} tab={DateFiltersWidgetTab.MONTH}/>
                 </TabPanel>
-                {/*<TabPanel*/}
-                {/*    value={value}*/}
-                {/*    index={DateFiltersWidgetTab.CUSTOM}*/}
-                {/*    dir={theme.direction}*/}
-                {/*    className={classes.tab}*/}
+                <TabPanel
+                    value={value}
+                    index={DateFiltersWidgetTab.CUSTOM}
+                    dir={theme.direction}
+                    className={classes.tab}
 
-                {/*>*/}
-                {/*    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>*/}
-                {/*</TabPanel>*/}
+                >
+                    <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>
+                    <Card className={classes.bottomBar}>
+                        Date Filters Here
+                    </Card>
+                </TabPanel>
             </SwipeableViews>
         </div>
     );
@@ -144,7 +164,7 @@ const OperationTabPanel = <TModel extends { id: string }>(
             noMoreItemsMessage,
             emptyListMessage,
         },
-        cardElement: Card,
+        cardElement: OperationCard,
         onDeleteClick,
         onEditClick,
     }: Props<TModel> & { tab: DateFiltersWidgetTab }) => {
@@ -152,7 +172,7 @@ const OperationTabPanel = <TModel extends { id: string }>(
     const headers = getSubheaders(items, getGroupingKey, getItemId);
 
     return (
-        <>
+        <div className={classes.operationCard}>
             {items.map((model) => (
                 <React.Fragment key={`OperationList-${modelName}-${model.id}`}>
                     {headers.hasOwnProperty(model.id) &&
@@ -160,7 +180,7 @@ const OperationTabPanel = <TModel extends { id: string }>(
                         {headers[model.id]}
                     </ListSubheader>
                     }
-                    <Card
+                    <OperationCard
                         model={model}
                         onDeleteClick={() => onDeleteClick(model)}
                         onEditClick={() => onEditClick(model)}
@@ -173,6 +193,6 @@ const OperationTabPanel = <TModel extends { id: string }>(
                     style={{textAlign: 'center'}}
                 />
             </ListItem>
-        </>
+        </div>
     );
 };
