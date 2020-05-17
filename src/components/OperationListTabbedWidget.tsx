@@ -87,7 +87,7 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
     const classes = useStyles();
     const theme = useTheme();
 
-    const [value, setValue] = React.useState(DateFiltersWidgetTab.CUSTOM);
+    const [value, setValue] = React.useState(DateFiltersWidgetTab.TODAY);
 
     const handleFromDateChange = (date: MaterialUiPickersDate | null) => {
         if (date)
