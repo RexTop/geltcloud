@@ -10,7 +10,7 @@ import theme from './theme';
 import {Router} from 'react-router-dom';
 import {createBrowserHistory} from "history";
 import {Routes} from "./Routes";
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 
 Amplify.configure(awsconfig);
@@ -22,11 +22,11 @@ class App extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
-                <CssBaseline/>
-                <Router history={browserHistory}>
-                    <Routes/>
-                </Router>
-                <SnackbarComponent/>
+                    <CssBaseline/>
+                    <Router history={browserHistory}>
+                        <Routes/>
+                    </Router>
+                    <SnackbarComponent/>
                 </MuiPickersUtilsProvider>
             </ThemeProvider>
         );
