@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2) + BOTTOM_NAVIGATION_HEIGHT,
         right: theme.spacing(2),
-        zIndex: 10,
+        zIndex: 50,
     },
 }));
 

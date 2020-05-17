@@ -10,7 +10,7 @@ amplify push
 
 npm run build
 
-firebase deploy -m "v0.0.3 Date filters with tabs and new cards design with crypto icons"
+firebase deploy -m "v0.0.4 Add custom date filter"
 ```
 
 That's it. Enjoy!
