@@ -449,3 +449,42 @@ export const deleteTradeOperation = /* GraphQL */ `
     }
   }
 `;
+export const createUserSecret = /* GraphQL */ `
+  mutation CreateUserSecret(
+    $input: CreateUserSecretInput!
+    $condition: ModelUserSecretConditionInput
+  ) {
+    createUserSecret(input: $input, condition: $condition) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
+export const updateUserSecret = /* GraphQL */ `
+  mutation UpdateUserSecret(
+    $input: UpdateUserSecretInput!
+    $condition: ModelUserSecretConditionInput
+  ) {
+    updateUserSecret(input: $input, condition: $condition) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
+export const deleteUserSecret = /* GraphQL */ `
+  mutation DeleteUserSecret(
+    $input: DeleteUserSecretInput!
+    $condition: ModelUserSecretConditionInput
+  ) {
+    deleteUserSecret(input: $input, condition: $condition) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
