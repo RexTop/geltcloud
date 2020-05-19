@@ -12,6 +12,7 @@ import {CreateUserSecretInput, UpdateUserSecretInput} from "../../../API";
 import {showAlert} from "../../../utils/ui";
 import {CashAccountModel} from "../../../models/CashAccountModel";
 import {Transition} from "../../../components/common/Transition";
+import {decrypt, encrypt} from "../../../utils/crypto-util";
 
 type Props = {
     open: boolean,
@@ -30,6 +31,10 @@ export const UserSecretFormDialog = ({open, handleClose, dropDownDataForCashAcco
 
     const onTextFieldChange = (value: string, key: keyof UserSecretModel) => {
         setDirty({...dirty, [key]: value});
+    };
+
+    const onDecryptedTextFieldChange = (decryptedValue: string, key: keyof UserSecretModel) => {
+        setDirty({...dirty, [key]: encrypt(decryptedValue)});
     };
 
     const isDirty = () => {
@@ -84,8 +89,8 @@ export const UserSecretFormDialog = ({open, handleClose, dropDownDataForCashAcco
                     fullWidth
                     label="Value"
                     type="text"
-                    value={dirty.value}
-                    onChange={e => onTextFieldChange(e.target.value, 'value')}
+                    value={decrypt(dirty.value || '')}
+                    onChange={e => onDecryptedTextFieldChange(e.target.value, 'value')}
                 />
             </DialogContent>
             <DialogActions>
