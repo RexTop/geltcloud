@@ -66,7 +66,7 @@ type CreateOperationListComponentParams<TModel extends { id: string }, TListQuer
     getOnUpdateSubscriptionPayload: (result: TOnUpdateSubscription) => TModel | null
     getOnDeleteSubscriptionPayload: (result: TOnDeleteSubscription) => TModel | null
 
-    sortKeyFieldForDate: keyof TModel,
+    sortKeyFieldForDate?: keyof TModel,
 }
 
 export const createOperationListComponent = <TModel extends { id: string }, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>(
@@ -175,19 +175,22 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                     this.setState({loading: true});
                 }
 
-                // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
                 const variables: any = {
                     owner: currentUsername(),
-                    [sortKeyFieldForDate]: {
-                        between: [
-                            moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
-                            moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
-                        ],
-                    },
                     sortDirection: ModelSortDirection.DESC,
                     limit: MAX_ITEMS_PER_PAGE,
                     nextToken: reset ? null : this.state.nextToken,
                 };
+
+                if (sortKeyFieldForDate) {
+                    // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
+                    variables[sortKeyFieldForDate] = {
+                        between: [
+                            moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+                            moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                        ],
+                    };
+                }
 
                 const result = await API.graphql(graphqlOperation(listByOwner_QueryString, variables)) as GraphQLResult<TListQueryResult>;
                 if (!result.data) return;
