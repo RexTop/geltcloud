@@ -7,92 +7,41 @@
 Amplify Params - DO NOT EDIT */
 
 const express = require('express');
-const bodyParser = require('body-parser');
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-const AWS = require('aws-sdk');
+const applyMiddleware = require('./middleware').applyMiddleware;
 
 const app = express();
-app.use(bodyParser.json());
-app.use(awsServerlessExpressMiddleware.eventContext());
-
-// Enable CORS for all methods
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next()
-});
-
-/**********************
- * Example get method *
- **********************/
+applyMiddleware(app);
 
 app.get('/bitso/v1', function (req, res) {
-    // Add your code here
-    res.json({success: 'get call succeed!', url: req.url});
+    res.json({success: 'get call succeed!', url: req.url, user: req.user});
 });
 
 app.get('/bitso/v1/*', function (req, res) {
-    // Add your code here
-    res.json({success: 'get call succeed!', url: req.url});
+    res.json({success: 'get call succeed!', url: req.url, user: req.user});
 });
 
-/****************************
- * Example post method *
- ****************************/
-
 app.post('/bitso/v1', function (req, res) {
-    // Add your code here
-    res.json({success: 'post call succeed!', url: req.url, body: req.body})
+    res.json({success: 'post call succeed!', url: req.url, body: req.body, user: req.user});
 });
 
 app.post('/bitso/v1/*', async (req, res) => {
-    try {
-        const IDP_REGEX = /.*\/.*,(.*)\/(.*):CognitoSignIn:(.*)/;
-        const authProvider = req.apiGateway.event.requestContext.identity.cognitoAuthenticationProvider;
-        const [, , , userId] = authProvider.match(IDP_REGEX);
-        const cognito = new AWS.CognitoIdentityServiceProvider();
-        const listUsersResponse = await cognito
-            .listUsers({
-                UserPoolId: process.env.AUTH_GELTCLOUDDDDAACE8_USERPOOLID,
-                Filter: `sub = "${userId}"`,
-                Limit: 1,
-            })
-            .promise();
-        const user = listUsersResponse.Users[0];
-        // Add your code here
-        res.json({success: 'post call succeed!', url: req.url, body: req.body, user});
-    } catch (error) {
-        console.log(error);
-        res.json({error, message: 'get call failed'});
-    }
+    res.json({success: 'post call succeed!', url: req.url, body: req.body, user: req.user});
 });
 
-/****************************
- * Example put method *
- ****************************/
-
 app.put('/bitso/v1', function (req, res) {
-    // Add your code here
-    res.json({success: 'put call succeed!', url: req.url, body: req.body})
+    res.json({success: 'put call succeed!', url: req.url, body: req.body, user: req.user});
 });
 
 app.put('/bitso/v1/*', function (req, res) {
-    // Add your code here
-    res.json({success: 'put call succeed!', url: req.url, body: req.body})
+    res.json({success: 'put call succeed!', url: req.url, body: req.body, user: req.user});
 });
 
-/****************************
- * Example delete method *
- ****************************/
-
 app.delete('/bitso/v1', function (req, res) {
-    // Add your code here
-    res.json({success: 'delete call succeed!', url: req.url});
+    res.json({success: 'delete call succeed!', url: req.url, user: req.user});
 });
 
 app.delete('/bitso/v1/*', function (req, res) {
-    // Add your code here
-    res.json({success: 'delete call succeed!', url: req.url});
+    res.json({success: 'delete call succeed!', url: req.url, user: req.user});
 });
 
 app.listen(3000, function () {
