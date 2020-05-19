@@ -1,0 +1,14 @@
+{
+    "permissions": {
+        "auth": {
+            "geltclouddddaace8": [
+                "read"
+            ]
+        },
+        "api": {
+            "geltcloud": [
+                "read"
+            ]
+        }
+    }
+}
