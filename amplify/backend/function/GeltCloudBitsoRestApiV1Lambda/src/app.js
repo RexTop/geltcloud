@@ -16,86 +16,86 @@ app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next()
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next()
 });
 
 /**********************
  * Example get method *
  **********************/
 
-app.get('/bitso/v1', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+app.get('/bitso/v1', function (req, res) {
+    // Add your code here
+    res.json({success: 'get call succeed!', url: req.url});
 });
 
-app.get('/bitso/v1/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+app.get('/bitso/v1/*', function (req, res) {
+    // Add your code here
+    res.json({success: 'get call succeed!', url: req.url});
 });
 
 /****************************
-* Example post method *
-****************************/
+ * Example post method *
+ ****************************/
 
-app.post('/bitso/v1', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.post('/bitso/v1', function (req, res) {
+    // Add your code here
+    res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
 
 app.post('/bitso/v1/*', async (req, res) => {
-  try {
-    const IDP_REGEX = /.*\/.*,(.*)\/(.*):CognitoSignIn:(.*)/;
-    const authProvider = req.apiGateway.event.requestContext.identity.cognitoAuthenticationProvider;
-    const [, , , userId] = authProvider.match(IDP_REGEX);
-    const cognito = new AWS.CognitoIdentityServiceProvider();
-    const listUsersResponse = await cognito
-        .listUsers({
-          UserPoolId: process.env.AUTH_GELTCLOUDDDDAACE8_USERPOOLID,
-          Filter: `sub = "${userId}"`,
-          Limit: 1,
-        })
-        .promise();
-    const user = listUsersResponse.Users[0];
+    try {
+        const IDP_REGEX = /.*\/.*,(.*)\/(.*):CognitoSignIn:(.*)/;
+        const authProvider = req.apiGateway.event.requestContext.identity.cognitoAuthenticationProvider;
+        const [, , , userId] = authProvider.match(IDP_REGEX);
+        const cognito = new AWS.CognitoIdentityServiceProvider();
+        const listUsersResponse = await cognito
+            .listUsers({
+                UserPoolId: process.env.AUTH_GELTCLOUDDDDAACE8_USERPOOLID,
+                Filter: `sub = "${userId}"`,
+                Limit: 1,
+            })
+            .promise();
+        const user = listUsersResponse.Users[0];
+        // Add your code here
+        res.json({success: 'post call succeed!', url: req.url, body: req.body, user});
+    } catch (error) {
+        console.log(error);
+        res.json({error, message: 'get call failed'});
+    }
+});
+
+/****************************
+ * Example put method *
+ ****************************/
+
+app.put('/bitso/v1', function (req, res) {
     // Add your code here
-    res.json({success: 'post call succeed!', url: req.url, body: req.body, user});
-  } catch (error) {
-    console.log(error);
-    res.json({error, message: 'get call failed'});
-  }
+    res.json({success: 'put call succeed!', url: req.url, body: req.body})
+});
+
+app.put('/bitso/v1/*', function (req, res) {
+    // Add your code here
+    res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
 /****************************
-* Example put method *
-****************************/
+ * Example delete method *
+ ****************************/
 
-app.put('/bitso/v1', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.delete('/bitso/v1', function (req, res) {
+    // Add your code here
+    res.json({success: 'delete call succeed!', url: req.url});
 });
 
-app.put('/bitso/v1/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.delete('/bitso/v1/*', function (req, res) {
+    // Add your code here
+    res.json({success: 'delete call succeed!', url: req.url});
 });
 
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/bitso/v1', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/bitso/v1/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.listen(3000, function() {
+app.listen(3000, function () {
     console.log("App started")
 });
 
