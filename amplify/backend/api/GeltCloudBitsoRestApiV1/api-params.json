@@ -1,0 +1,41 @@
+{
+    "paths": [
+        {
+            "name": "/bitso/v1",
+            "lambdaFunction": "GeltCloudBitsoRestApiV1Lambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "GeltCloudBitsoRestApiV1",
+    "apiName": "GeltCloudBitsoRestApiV1",
+    "functionArns": [
+        {
+            "lambdaFunction": "GeltCloudBitsoRestApiV1Lambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-geltcloud-dev-224033-authRole",
+        "unAuthRoleName": "amplify-geltcloud-dev-224033-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "GeltCloudBitsoRestApiV1Lambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
