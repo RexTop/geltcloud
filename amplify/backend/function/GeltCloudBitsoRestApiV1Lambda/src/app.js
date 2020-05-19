@@ -18,6 +18,7 @@ Amplify Params - DO NOT EDIT */
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const AWS = require('aws-sdk');
 
 // declare a new express app
 var app = express()
@@ -55,9 +56,26 @@ app.post('/bitso/v1', function(req, res) {
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
 
-app.post('/bitso/v1/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.post('/bitso/v1/*', async (req, res) => {
+  try {
+    const IDP_REGEX = /.*\/.*,(.*)\/(.*):CognitoSignIn:(.*)/;
+    const authProvider = req.apiGateway.event.requestContext.identity.cognitoAuthenticationProvider;
+    const [, , , userId] = authProvider.match(IDP_REGEX);
+    const cognito = new AWS.CognitoIdentityServiceProvider();
+    const listUsersResponse = await cognito
+        .listUsers({
+          UserPoolId: process.env.AUTH_GELTCLOUDDDDAACE8_USERPOOLID,
+          Filter: `sub = "${userId}"`,
+          Limit: 1,
+        })
+        .promise();
+    const user = listUsersResponse.Users[0];
+    // Add your code here
+    res.json({success: 'post call succeed!', url: req.url, body: req.body, user});
+  } catch (error) {
+    console.log(error);
+    res.json({error, message: 'get call failed'});
+  }
 });
 
 /****************************
