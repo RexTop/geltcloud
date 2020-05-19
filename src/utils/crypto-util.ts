@@ -1,6 +1,7 @@
 import {AES, enc} from 'crypto-js';
 
 const secretPassphrase = () => {
+    // TODO: Allow user to choose their custom passphrase.
     return 'Secret passphrase';
 };
 
