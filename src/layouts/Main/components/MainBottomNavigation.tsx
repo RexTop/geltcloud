@@ -8,6 +8,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import {Extension as ExtensionIcon} from '@material-ui/icons';
 
 export const BOTTOM_NAVIGATION_HEIGHT = 56;
 
@@ -44,6 +45,10 @@ export const MainBottomNavigation = () => {
                 }} component={CustomRouterLink}/>
                 <BottomNavigationAction label="Flows" icon={<ImportExportIcon/>} {...{
                     to: '/flow-operations',
+                    activeClassName: classes.active
+                }} component={CustomRouterLink}/>
+                <BottomNavigationAction label="Bitso" icon={<ExtensionIcon/>} {...{
+                    to: '/bitso',
                     activeClassName: classes.active
                 }} component={CustomRouterLink}/>
             </BottomNavigation>

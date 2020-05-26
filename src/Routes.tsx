@@ -7,6 +7,7 @@ import {NotFound as NotFoundView,} from './example-views';
 
 import {CashAccountList, FlowOperationList, TradeOperationList, TransferOperationList} from './views';
 import {UserSecretList} from "./views/UserSecretList/UserSecretList";
+import {BitsoFundingList} from "./views/BitsoFundingList/BitsoFundingList";
 
 export const Routes = () => {
     return (
@@ -45,6 +46,12 @@ export const Routes = () => {
                 exact
                 layout={MainLayout}
                 path="/user-secrets"
+            />
+            <RouteWithLayout
+                component={BitsoFundingList}
+                exact
+                layout={MainLayout}
+                path="/bitso"
             />
             <RouteWithLayout
                 component={NotFoundView}
