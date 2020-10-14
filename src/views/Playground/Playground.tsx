@@ -39,3 +39,43 @@ export function Playground() {
         </TreeView>
     );
 }
+
+
+(() => {
+    var xx = [
+        {name: "Bitso / TUSD",},
+        {name: "Cash / MXN",},
+        {name: "Banamex / Credit",},
+        {name: "Mercado Pago",},
+        {name: "Cold Wallet / One / LTC 1 (segwit)",},
+        {name: "Cold Wallet / One / BTC 1 (native segwit)",},
+        {name: "Bitso / ETH",},
+        {name: "Santander / Credit",},
+        {name: "Banamex / Premia / One",},
+        {name: "Banamex / Premia / Two",},
+        {name: "Car Cash",},
+        {name: "Santander / Debit",},
+        {name: "Bitso / LTC",},
+        {name: "BBVA / Debit",},
+        {name: "Bitso / MXN",},
+        {name: "Bitso / BTC",},
+        {name: "Cold Wallet / One / ETH 1",},
+        {name: "Cold Wallet / One / BTC 1 (segwit)",},
+        {name: "Banamex / Maestra",},
+        {name: "Cold Wallet / Two / DAI",},
+        {name: "Cold Wallet / Two / ETH",},
+        {name: "Cold Wallet / LLC / DAI",},
+        {name: "Cold Wallet / LLC / ETH",},
+    ];
+    const treefy = (stringArray, separator, current = {}) => {
+        return stringArray.reduce((accumulator, current) => {
+            const partsArray = current.split(separator);
+            const key = partsArray.shift().trim();
+            if(!key) return accumulator;
+            const value = partsArray.length ? treefy([partsArray.join(separator)], separator, accumulator[key]) : {};
+            accumulator[key] = {...accumulator[key], ...value};
+            return accumulator;
+        }, current);
+    };
+    console.log(treefy(xx.map(_ => _.name), '/'));
+})();
