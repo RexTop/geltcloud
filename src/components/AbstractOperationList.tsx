@@ -291,7 +291,7 @@ const ComponentFab = ({onClick, children}: { onClick: () => void, children: Reac
 
     return (
         <Fab aria-label="add" className={classes.abstractOperationFab} color="primary" onClick={onClick}>
-            {children}
+            {children as any}
         </Fab>
     );
 };
