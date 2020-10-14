@@ -1,6 +1,6 @@
 type TreefyArgs = { stringArray: string[], separator: string };
 
-type TreefyObject = { [key: string]: TreefyObject };
+export type TreefyObject = { [key: string]: TreefyObject };
 
 export const treefy = ({separator, stringArray}: TreefyArgs) => {
     return treefyInternal({separator, stringArray, _current: {}})
