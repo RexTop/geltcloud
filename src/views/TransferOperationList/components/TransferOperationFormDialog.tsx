@@ -173,7 +173,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                         onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
                     />
                 </FormControl>
-                <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
+                {/*<ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>*/}
                 <TextField
                     margin="dense"
                     label="Issuer Note"

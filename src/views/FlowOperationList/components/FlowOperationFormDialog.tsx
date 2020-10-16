@@ -20,6 +20,8 @@ import Select from '@material-ui/core/Select';
 import {Transition} from "../../../components/common/Transition";
 import accounting from 'accounting';
 import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
+import {ToggleFlowType} from '../../../components/ToggleFlowType';
+import {FlowType} from '../../../models/FlowType';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,17 +41,22 @@ type Props = {
 
 export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(model as Omit<FlowOperationModel, "amount">);
-    const [amount, setAmount] = React.useState(`${model.amount}`);
+    const [dirty, setDirty] = React.useState<Omit<FlowOperationModel, 'amount'>>(model);
+    const [amount, setAmount] = React.useState(`${Math.abs(model.amount)}`);
+    const [type, setType] = React.useState<FlowType>(model.amount < 0 ? 'expense' : 'income');
 
-    const amountAsNumber = () => accounting.unformat(amount, '.');
+    const amountAsNumber = () => {
+        const absAmount = Math.abs(accounting.unformat(amount, '.'));
+        return type === 'income' ? absAmount : -absAmount;
+    }
 
     React.useEffect(() => {
         setDirty(model);
     }, [model]);
 
     React.useEffect(() => {
-        setAmount(`${model.amount}`);
+        setAmount(`${Math.abs(model.amount)}`);
+        setType(model.amount < 0 ? 'expense' : 'income');
     }, [model.amount]);
 
     const onTextFieldChange = (value: string, key: keyof FlowOperationModel) => {
@@ -147,7 +154,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     value={dirty.description}
                     onChange={e => onTextFieldChange(e.target.value, 'description')}
                 />
-                {/*<ToggleFlowType amount={amountAsNumber()} onChange={amount => setDirty({...dirty, amount})}/>*/}
+                <ToggleFlowType type={type} onChange={value => setType(value)}/>
                 <TextField
                     margin="dense"
                     label="Note"
