@@ -33,16 +33,24 @@ const TreeInternal = ({tree, baseNodeId, parentBranch, separator, onClick}: Tree
                 const subBranches = Object.keys(tree[currentBranch]);
                 const fullPath = (parentBranch ? parentBranch + separator : '') + currentBranch;
                 return (
-                    <TreeItem key={nodeId} nodeId={nodeId} label={(
-                        // TODO: We might not need a 'div' but another element.
-                        <div onClick={() => {
-                            onClick({
-                                subBranches, currentBranch, separator, tree, baseNodeId, parentBranch, fullPath, nodeId,
-                            });
-                        }}>
-                            {currentBranch}
-                        </div>
-                    )}>
+                    <TreeItem
+                        key={nodeId}
+                        nodeId={nodeId}
+                        onClick={() => onClick({
+                            subBranches,
+                            currentBranch,
+                            separator,
+                            tree,
+                            baseNodeId,
+                            parentBranch,
+                            fullPath,
+                            nodeId,
+                        })}
+                        label={(
+                            <>
+                                {currentBranch}
+                            </>
+                        )}>
                         {subBranches.map(subBranch =>
                             <TreeInternal
                                 key={`${baseNodeId}${separator}${currentBranch}${separator}${subBranch}`}
