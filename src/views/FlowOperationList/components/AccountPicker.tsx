@@ -57,18 +57,19 @@ export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: a
         <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} className={classes.dialogRoot}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-                <AccountPickerTree accountNames={accounts.map(account => account.name)} separator={'/'}
-                                   onClick={data => {
-                                       const isLeaf = !data.subBranches.length;
-                                       if (isLeaf) {
-                                           const account = accounts.find(account => normalizePath(account.name) === data.fullPath);
-                                           if (account) {
-                                               onAccountPicked(account);
-                                           } else {
-                                               console.error('Could not find account', {account, data, accounts});
-                                           }
-                                       }
-                                   }}
+                <AccountPickerTree
+                    accountNames={accounts.map(account => account.name)} separator={'/'}
+                    onClick={data => {
+                        const isLeaf = !data.subBranches.length;
+                        if (isLeaf) {
+                            const account = accounts.find(account => normalizePath(account.name) === data.fullPath);
+                            if (account) {
+                                onAccountPicked(account);
+                            } else {
+                                console.error('Could not find account', {account, data, accounts});
+                            }
+                        }
+                    }}
                 />
             </DialogContent>
             <DialogActions>
