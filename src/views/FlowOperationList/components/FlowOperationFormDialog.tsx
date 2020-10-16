@@ -22,12 +22,19 @@ import accounting from 'accounting';
 import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
 import {ToggleFlowType} from '../../../components/ToggleFlowType';
 import {FlowType} from '../../../models/FlowType';
+import {notStonksTextColor, stonksTextColor} from '../../../theme/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
             margin: theme.spacing(1),
             minWidth: 120,
+        },
+        stonks: {
+            color: stonksTextColor,
+        },
+        notStonks: {
+            color: notStonksTextColor,
         },
     }),
 );
@@ -144,6 +151,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     onChange={onAmountChange}
                     InputProps={{
                         inputComponent: NumberFormatCustom as any,
+                        className: type === 'income' ? classes.stonks : classes.notStonks,
                     }}
                 />
                 <TextField
