@@ -12,6 +12,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {BranchClickArgs, Tree} from '../../../lib/Tree';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,59 +33,6 @@ type Props = {
     value: string
 };
 
-type BranchClickArgs = {
-    subBranches: string[]
-    currentBranch: string
-    separator: string
-    tree: TreefyObject
-    baseNodeId: string
-    parentBranch: string
-    fullPath: string
-    nodeId: string
-}
-
-type BranchProps = {
-    tree: TreefyObject
-    baseNodeId: string
-    parentBranch: string
-    separator: string
-    onClick: (data: BranchClickArgs) => void
-}
-
-const Branch = ({tree, baseNodeId, parentBranch, separator, onClick}: BranchProps) => {
-    if (!Object.keys(tree).length) return null;
-    return (
-        <>
-            {Object.keys(tree).map(currentBranch => {
-                const nodeId = `${baseNodeId}${separator}${currentBranch}`;
-                const subBranches = Object.keys(tree[currentBranch]);
-                const fullPath = (parentBranch ? parentBranch + separator : '') + currentBranch;
-                return (
-                    <TreeItem key={nodeId} nodeId={nodeId} label={(
-                        <div onClick={() => {
-                            onClick({
-                                subBranches, currentBranch, separator, tree, baseNodeId, parentBranch, fullPath, nodeId,
-                            });
-                        }}>
-                            {currentBranch}
-                        </div>
-                    )}>
-                        {subBranches.map(subBranch =>
-                            <Branch
-                                key={`${baseNodeId}${separator}${currentBranch}${separator}${subBranch}`}
-                                tree={{[subBranch]: tree[currentBranch][subBranch]}}
-                                baseNodeId={nodeId}
-                                parentBranch={(parentBranch ? parentBranch + separator : '') + currentBranch}
-                                separator={separator}
-                                onClick={onClick}
-                            />)}
-                    </TreeItem>
-                );
-            })}
-        </>
-    );
-};
-
 const AccountPickerTree = ({accountNames, separator, onClick}: { accountNames: string[], separator: string, onClick: (data: BranchClickArgs) => void }) => {
     const classes = useStyles();
     const tree = treefy({stringArray: accountNames, separator});
@@ -94,8 +42,7 @@ const AccountPickerTree = ({accountNames, separator, onClick}: { accountNames: s
             defaultCollapseIcon={<ExpandMoreIcon/>}
             defaultExpandIcon={<ChevronRightIcon/>}
         >
-            <Branch tree={tree} baseNodeId={'account-picker-tree'} parentBranch={''} separator={separator}
-                    onClick={onClick}/>
+            <Tree tree={tree} baseNodeId={'account-picker-tree'} separator={separator} onClick={onClick}/>
         </TreeView>
     );
 };
