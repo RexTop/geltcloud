@@ -60,15 +60,8 @@ const Branch = ({tree, baseNodeId, parentBranch, separator, onClick}: BranchProp
                 return (
                     <TreeItem key={nodeId} nodeId={nodeId} label={(
                         <div onClick={() => {
-                            console.log('%c click', 'background: white; color: black', {
-                                subBranches,
-                                currentBranch,
-                                separator,
-                                tree,
-                                baseNodeId,
-                                parentBranch,
-                                fullPath,
-                                nodeId,
+                            onClick({
+                                subBranches, currentBranch, separator, tree, baseNodeId, parentBranch, fullPath, nodeId,
                             });
                         }}>
                             {currentBranch}
@@ -100,7 +93,7 @@ const TreefyExample = ({accountNames, separator}: { accountNames: string[], sepa
             defaultExpandIcon={<ChevronRightIcon/>}
         >
             <Branch tree={tree} baseNodeId={'account-picker-tree'} parentBranch={''} separator={separator}
-                    onClick={() => void 0}/>
+                    onClick={data => console.log('%c click', 'background: white; color: black', data)}/>
         </TreeView>
     );
 };
