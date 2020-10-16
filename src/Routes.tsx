@@ -6,6 +6,8 @@ import {Main as MainLayout, Minimal as MinimalLayout} from './layouts';
 import {NotFound as NotFoundView,} from './example-views';
 
 import {CashAccountList, FlowOperationList, TradeOperationList, TransferOperationList} from './views';
+import {UserSecretList} from "./views/UserSecretList/UserSecretList";
+import {Playground} from './views/Playground/Playground';
 
 export const Routes = () => {
     return (
@@ -38,6 +40,18 @@ export const Routes = () => {
                 exact
                 layout={MainLayout}
                 path="/transfer-operations"
+            />
+            <RouteWithLayout
+                component={UserSecretList}
+                exact
+                layout={MainLayout}
+                path="/user-secrets"
+            />
+            <RouteWithLayout
+                component={Playground}
+                exact
+                layout={MainLayout}
+                path="/playground"
             />
             <RouteWithLayout
                 component={NotFoundView}

@@ -144,9 +144,9 @@ export const TradeOperationFormDialog = ({open, handleClose, dropDownDataForCash
     const classes = useStyles();
 
     return (
-        <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
-            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} trade operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'New'} trade operation</DialogTitle>
             <DialogContent>
 
                 <h2 style={{cursor: 'pointer'}}

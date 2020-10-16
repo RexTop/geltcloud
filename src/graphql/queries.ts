@@ -308,6 +308,33 @@ export const listTradeOperations = /* GraphQL */ `
     }
   }
 `;
+export const getUserSecret = /* GraphQL */ `
+  query GetUserSecret($id: ID!) {
+    getUserSecret(id: $id) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
+export const listUserSecrets = /* GraphQL */ `
+  query ListUserSecrets(
+    $filter: ModelUserSecretFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSecrets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        key
+        value
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const listFlowOperationsByOwner = /* GraphQL */ `
   query ListFlowOperationsByOwner(
     $owner: String
@@ -473,6 +500,33 @@ export const listTradeOperationsByOwner = /* GraphQL */ `
         issuerExchangeRateInUsd
         acquirerExchangeRateInUsd
         date
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const listUserSecretsByOwner = /* GraphQL */ `
+  query ListUserSecretsByOwner(
+    $owner: String
+    $key: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserSecretFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSecretsByOwner(
+      owner: $owner
+      key: $key
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        key
+        value
         owner
       }
       nextToken

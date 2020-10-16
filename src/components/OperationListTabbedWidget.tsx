@@ -11,10 +11,10 @@ import {Card, Card as MaterialCard} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import {BareButton} from "./common/BareElements";
 import ListItemText from "@material-ui/core/ListItemText";
-import {DateFilter, DateFiltersWidgetTab, easyDateFormat, getDateFilterOfTab} from "../utils/date-util";
-import {DatePicker} from '@material-ui/pickers';
+import {DateFilter, DateFiltersWidgetTab, getDateFilterOfTab} from "../utils/date-util";
+import {KeyboardDatePicker,} from '@material-ui/pickers';
 import {MaterialUiPickersDate} from "@material-ui/pickers/typings/date";
-
+import moment from 'moment';
 
 type Props<TModel extends { id: string }> = {
     items: TModel[]
@@ -87,16 +87,16 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
     const classes = useStyles();
     const theme = useTheme();
 
-    const [value, setValue] = React.useState(DateFiltersWidgetTab.CUSTOM);
+    const [value, setValue] = React.useState(DateFiltersWidgetTab.TODAY);
 
     const handleFromDateChange = (date: MaterialUiPickersDate | null) => {
         if (date)
-            props.onDatesChange({toDateLocal: props.dates.toDateLocal, fromDateLocal: date.utc().format()});
+            props.onDatesChange({toDateLocal: props.dates.toDateLocal, fromDateLocal: moment(date).utc().format()});
     };
 
     const handleToDateChange = (date: MaterialUiPickersDate | null) => {
         if (date)
-            props.onDatesChange({toDateLocal: date.utc().format(), fromDateLocal: props.dates.fromDateLocal});
+            props.onDatesChange({toDateLocal: moment(date).utc().format(), fromDateLocal: props.dates.fromDateLocal});
     };
 
     const updateDate = (newTab: DateFiltersWidgetTab) => {
@@ -172,16 +172,16 @@ export const OperationListTabbedWidget = <TModel extends { id: string }>(props: 
                     <OperationTabPanel {...props} tab={DateFiltersWidgetTab.CUSTOM}/>
                     <Card className={classes.bottomBar}>
                         From:
-                        <DatePicker
+                        <KeyboardDatePicker
                             value={props.dates.fromDateLocal}
-                            format={easyDateFormat}
+                            format={'MM/dd/yyyy'}
                             onChange={handleFromDateChange}
                             className={classes.datePicker}
                         />
                         To:
-                        <DatePicker
+                        <KeyboardDatePicker
                             value={props.dates.toDateLocal}
-                            format={easyDateFormat}
+                            format={'MM/dd/yyyy'}
                             onChange={handleToDateChange}
                             className={classes.datePicker}
                         />

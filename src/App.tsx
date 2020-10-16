@@ -1,3 +1,4 @@
+import 'date-fns';
 import React from 'react';
 import {default as Amplify} from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -11,7 +12,7 @@ import {Router} from 'react-router-dom';
 import {createBrowserHistory} from "history";
 import {Routes} from "./Routes";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import DateFnsUtils from '@date-io/date-fns';
 
 Amplify.configure(awsconfig);
 
@@ -21,7 +22,7 @@ class App extends React.Component {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <CssBaseline/>
                     <Router history={browserHistory}>
                         <Routes/>

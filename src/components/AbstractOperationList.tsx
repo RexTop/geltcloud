@@ -16,7 +16,8 @@ import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
 import {DateFilter, todayFilter} from "../utils/date-util";
 
 const MAX_ITEMS_PER_PAGE = 50;
-const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
+// TODO: Show the user some UI if there are more than these accounts:
+const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 200;
 
 const useStyles = makeStyles((theme: Theme) => ({
     abstractOperationFab: {
@@ -66,7 +67,7 @@ type CreateOperationListComponentParams<TModel extends { id: string }, TListQuer
     getOnUpdateSubscriptionPayload: (result: TOnUpdateSubscription) => TModel | null
     getOnDeleteSubscriptionPayload: (result: TOnDeleteSubscription) => TModel | null
 
-    sortKeyFieldForDate: keyof TModel,
+    sortKeyFieldForDate?: keyof TModel,
 }
 
 export const createOperationListComponent = <TModel extends { id: string }, TListQueryResult, TOnCreateSubscription, TOnUpdateSubscription, TOnDeleteSubscription>(
@@ -175,19 +176,22 @@ export const createOperationListComponent = <TModel extends { id: string }, TLis
                     this.setState({loading: true});
                 }
 
-                // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
                 const variables: any = {
                     owner: currentUsername(),
-                    [sortKeyFieldForDate]: {
-                        between: [
-                            moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
-                            moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
-                        ],
-                    },
                     sortDirection: ModelSortDirection.DESC,
                     limit: MAX_ITEMS_PER_PAGE,
                     nextToken: reset ? null : this.state.nextToken,
                 };
+
+                if (sortKeyFieldForDate) {
+                    // TODO: Strongly type the original value: ListFlowOperationsByOwnerQueryVariables
+                    variables[sortKeyFieldForDate] = {
+                        between: [
+                            moment(withLocalDateFilter.fromDateLocal).startOf('day').utc().format(),
+                            moment(withLocalDateFilter.toDateLocal).endOf('day').utc().format(),
+                        ],
+                    };
+                }
 
                 const result = await API.graphql(graphqlOperation(listByOwner_QueryString, variables)) as GraphQLResult<TListQueryResult>;
                 if (!result.data) return;
@@ -288,7 +292,7 @@ const ComponentFab = ({onClick, children}: { onClick: () => void, children: Reac
 
     return (
         <Fab aria-label="add" className={classes.abstractOperationFab} color="primary" onClick={onClick}>
-            {children}
+            {children as any}
         </Fab>
     );
 };

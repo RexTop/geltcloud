@@ -413,3 +413,33 @@ export const onDeleteTradeOperation = /* GraphQL */ `
     }
   }
 `;
+export const onCreateUserSecret = /* GraphQL */ `
+  subscription OnCreateUserSecret($owner: String!) {
+    onCreateUserSecret(owner: $owner) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
+export const onUpdateUserSecret = /* GraphQL */ `
+  subscription OnUpdateUserSecret($owner: String!) {
+    onUpdateUserSecret(owner: $owner) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;
+export const onDeleteUserSecret = /* GraphQL */ `
+  subscription OnDeleteUserSecret($owner: String!) {
+    onDeleteUserSecret(owner: $owner) {
+      id
+      key
+      value
+      owner
+    }
+  }
+`;

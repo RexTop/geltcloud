@@ -299,6 +299,32 @@ export type DeleteTradeOperationInput = {
   id?: string | null,
 };
 
+export type CreateUserSecretInput = {
+  id?: string | null,
+  key: string,
+  value?: string | null,
+  owner?: string | null,
+};
+
+export type ModelUserSecretConditionInput = {
+  key?: ModelStringInput | null,
+  value?: ModelStringInput | null,
+  and?: Array< ModelUserSecretConditionInput | null > | null,
+  or?: Array< ModelUserSecretConditionInput | null > | null,
+  not?: ModelUserSecretConditionInput | null,
+};
+
+export type UpdateUserSecretInput = {
+  id: string,
+  key?: string | null,
+  value?: string | null,
+  owner?: string | null,
+};
+
+export type DeleteUserSecretInput = {
+  id?: string | null,
+};
+
 export type ModelCashAccountFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -368,6 +394,16 @@ export type ModelTradeOperationFilterInput = {
   and?: Array< ModelTradeOperationFilterInput | null > | null,
   or?: Array< ModelTradeOperationFilterInput | null > | null,
   not?: ModelTradeOperationFilterInput | null,
+};
+
+export type ModelUserSecretFilterInput = {
+  id?: ModelIDInput | null,
+  key?: ModelStringInput | null,
+  value?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelUserSecretFilterInput | null > | null,
+  or?: Array< ModelUserSecretFilterInput | null > | null,
+  not?: ModelUserSecretFilterInput | null,
 };
 
 export type ModelStringKeyConditionInput = {
@@ -872,6 +908,51 @@ export type DeleteTradeOperationMutation = {
   } | null,
 };
 
+export type CreateUserSecretMutationVariables = {
+  input: CreateUserSecretInput,
+  condition?: ModelUserSecretConditionInput | null,
+};
+
+export type CreateUserSecretMutation = {
+  createUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
+export type UpdateUserSecretMutationVariables = {
+  input: UpdateUserSecretInput,
+  condition?: ModelUserSecretConditionInput | null,
+};
+
+export type UpdateUserSecretMutation = {
+  updateUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
+export type DeleteUserSecretMutationVariables = {
+  input: DeleteUserSecretInput,
+  condition?: ModelUserSecretConditionInput | null,
+};
+
+export type DeleteUserSecretMutation = {
+  deleteUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
 export type GetCashAccountQueryVariables = {
   id: string,
 };
@@ -1212,6 +1293,40 @@ export type ListTradeOperationsQuery = {
   } | null,
 };
 
+export type GetUserSecretQueryVariables = {
+  id: string,
+};
+
+export type GetUserSecretQuery = {
+  getUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
+export type ListUserSecretsQueryVariables = {
+  filter?: ModelUserSecretFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUserSecretsQuery = {
+  listUserSecrets:  {
+    __typename: "ModelUserSecretConnection",
+    items:  Array< {
+      __typename: "UserSecret",
+      id: string,
+      key: string,
+      value: string | null,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type ListFlowOperationsByOwnerQueryVariables = {
   owner?: string | null,
   dateIssued?: ModelStringKeyConditionInput | null,
@@ -1370,6 +1485,29 @@ export type ListTradeOperationsByOwnerQuery = {
       issuerExchangeRateInUsd: number,
       acquirerExchangeRateInUsd: number,
       date: string,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type ListUserSecretsByOwnerQueryVariables = {
+  owner?: string | null,
+  key?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserSecretFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUserSecretsByOwnerQuery = {
+  listUserSecretsByOwner:  {
+    __typename: "ModelUserSecretConnection",
+    items:  Array< {
+      __typename: "UserSecret",
+      id: string,
+      key: string,
+      value: string | null,
       owner: string | null,
     } | null > | null,
     nextToken: string | null,
@@ -1846,6 +1984,48 @@ export type OnDeleteTradeOperationSubscription = {
     issuerExchangeRateInUsd: number,
     acquirerExchangeRateInUsd: number,
     date: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnCreateUserSecretSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateUserSecretSubscription = {
+  onCreateUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
+export type OnUpdateUserSecretSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateUserSecretSubscription = {
+  onUpdateUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
+    owner: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSecretSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteUserSecretSubscription = {
+  onDeleteUserSecret:  {
+    __typename: "UserSecret",
+    id: string,
+    key: string,
+    value: string | null,
     owner: string | null,
   } | null,
 };

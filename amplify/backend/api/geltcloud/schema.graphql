@@ -101,3 +101,17 @@ type TradeOperation
 
     owner: String
 }
+
+type UserSecret
+@model
+@key(name: "byOwner", fields: ["owner", "key"], queryField: "listUserSecretsByOwner")
+@auth(
+    rules: [
+        {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+    ])
+{
+    id: ID!
+    key: String!
+    value: String
+    owner: String
+}
