@@ -58,6 +58,8 @@ TODO: Search functionality to easily find items in tree.
 TODO: Fee currency input in "Update transfer operation" should use a mask. (Find other currency inputs and update them).
 TODO: New design to display "from account" and "to account" in list of transfers and flows.
 TODO: Apply new design to forms (see Adobe XD mockups).
+TODO: Handle when an account matches the partial route of another. e.g. 'Cash` and `Cash / Car`.
+TODO: New interface to manage accounts in a folder-like view. Remember to trim spaces.
  */
 const normalizePathRegex = /(\s*\/\s*)/gm;
 const normalizePath = (value: string) => value.replace(normalizePathRegex, '/');
