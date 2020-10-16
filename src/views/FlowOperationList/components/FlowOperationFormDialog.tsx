@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -58,20 +58,21 @@ type Props = {
 
 export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState<Omit<FlowOperationModel, 'amount'>>(model);
-    const [amount, setAmount] = React.useState(`${Math.abs(model.amount)}`);
-    const [type, setType] = React.useState<FlowType>(model.amount < 0 ? 'expense' : 'income');
+    const [dirty, setDirty] = useState<Omit<FlowOperationModel, 'amount'>>(model);
+    const [amount, setAmount] = useState(`${Math.abs(model.amount)}`);
+    const [type, setType] = useState<FlowType>(model.amount < 0 ? 'expense' : 'income');
+    const [showAccountPicker, setShowAccountPicker] = useState(false);
 
     const amountAsNumber = () => {
         const absAmount = Math.abs(accounting.unformat(amount, '.'));
         return type === 'income' ? absAmount : -absAmount;
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         setDirty(model);
     }, [model]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setAmount(`${Math.abs(model.amount)}`);
         setType(model.amount < 0 ? 'expense' : 'income');
     }, [model.amount]);
@@ -80,7 +81,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
         setDirty({...dirty, [key]: value});
     };
 
-    const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
         setAmount(event.target.value);
     };
 
@@ -131,7 +132,6 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
 
     const classes = useStyles();
 
-    console.log('%c Amount', 'background: white; color: black', {amount, 'model.amount': model.amount});
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
@@ -151,7 +151,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     }}
                 />
                 <Card className={classes.root}>
-                    <CardContent>
+                    <CardContent onClick={() => setShowAccountPicker(true)}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                             Account
                         </Typography>
