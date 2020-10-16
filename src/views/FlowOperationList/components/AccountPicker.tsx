@@ -47,6 +47,18 @@ const AccountPickerTree = ({accountNames, separator, onClick}: { accountNames: s
     );
 };
 
+/*
+TODO: Extend tree by default to show currently selected item.
+TODO: Highlight currently selected item in tree.
+TODO: Add custom styles to tree.
+TODO: Min width to account picker modal.
+TODO: Animations to account picker modal and trees (see animations of https://material-ui.com/components/tree-view/#customized-tree-view).
+TODO: Make tree branches wider to ease usage in mobile devices.
+TODO: Search functionality to easily find items in tree.
+TODO: Fee currency input in "Update transfer operation" should use a mask. (Find other currency inputs and update them).
+TODO: New design to display "from account" and "to account" in list of transfers and flows.
+TODO: Apply new design to forms (see Adobe XD mockups).
+ */
 const normalizePathRegex = /(\s*\/\s*)/gm;
 const normalizePath = (value: string) => value.replace(normalizePathRegex, '/');
 
