@@ -23,9 +23,19 @@ import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom'
 import {ToggleFlowType} from '../../../components/ToggleFlowType';
 import {FlowType} from '../../../models/FlowType';
 import {notStonksTextColor, stonksTextColor} from '../../../theme/colors';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        root: {
+            minWidth: 275,
+            margin: theme.spacing(1, 0, 1, 0),
+        },
+        title: {
+            fontSize: 14,
+        },
         formControl: {
             margin: theme.spacing(1, 0, 1, 0),
             minWidth: 120,
@@ -140,6 +150,16 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                         className: type === 'income' ? classes.stonks : classes.notStonks,
                     }}
                 />
+                <Card className={classes.root}>
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Account
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                            {dirty.issuerCashAccount?.name}
+                        </Typography>
+                    </CardContent>
+                </Card>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
                     <Select
