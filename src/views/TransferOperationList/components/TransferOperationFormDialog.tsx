@@ -114,7 +114,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
-            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} transfer operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'New'} transfer operation</DialogTitle>
             <DialogContent>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TransferOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>

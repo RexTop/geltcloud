@@ -123,7 +123,7 @@ export const CashAccountFormDialog = ({open, handleClose, item}: Props) => {
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
-            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'Create'} cash account</DialogTitle>
+            <DialogTitle id="form-dialog-title">{item.id ? 'Update' : 'New'} cash account</DialogTitle>
             <DialogContent>
                 <Grid container justify="space-between">
                     <FormControl className={classes.formControl}>
