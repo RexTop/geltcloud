@@ -26,11 +26,11 @@ import {AccountPicker} from './AccountPicker';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
+        cardRoot: {
             minWidth: 275,
             margin: theme.spacing(1, 0, 1, 0),
         },
-        title: {
+        cardTitle: {
             fontSize: 14,
         },
         stonks: {
@@ -143,9 +143,9 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                         className: type === 'income' ? classes.stonks : classes.notStonks,
                     }}
                 />
-                <Card className={classes.root}>
+                <Card className={classes.cardRoot}>
                     <CardContent onClick={() => setShowAccountPicker(true)}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
                             Account
                         </Typography>
                         <Typography variant="h5" component="h2">

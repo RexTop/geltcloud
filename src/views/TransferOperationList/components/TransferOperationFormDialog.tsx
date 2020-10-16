@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,19 +13,27 @@ import {showAlert} from "../../../utils/ui";
 import moment from 'moment';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {CashAccountModel} from "../../../models/CashAccountModel";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import {Transition} from "../../../components/common/Transition";
 import {FlowType} from '../../../models/FlowType';
 import accounting from 'accounting';
 import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
 import {notStonksTextColor, stonksTextColor} from '../../../theme/colors';
 import {ToggleFlowType} from '../../../components/ToggleFlowType';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import {AccountPicker} from '../../FlowOperationList/components/AccountPicker';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        cardRoot: {
+            minWidth: 275,
+            margin: theme.spacing(1, 0, 1, 0),
+        },
+        cardTitle: {
+            fontSize: 14,
+        },
         formControl: {
             margin: theme.spacing(1, 0, 1, 0),
             minWidth: 120,
@@ -51,6 +59,8 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
     const [dirty, setDirty] = React.useState<Omit<TransferOperationModel, 'amount'>>(model);
     const [amount, setAmount] = React.useState(`${Math.abs(model.amount)}`);
     const [type, setType] = React.useState<FlowType>(model.amount < 0 ? 'expense' : 'income');
+    const [showIssuerAccountPicker, setShowIssuerAccountPicker] = useState(false);
+    const [showAcquirerAccountPicker, setShowAcquirerAccountPicker] = useState(false);
 
     const amountAsNumber = () => {
         const absAmount = Math.abs(accounting.unformat(amount, '.'));
@@ -155,36 +165,42 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                         className: type === 'income' ? classes.stonks : classes.notStonks,
                     }}
                 />
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="TransferOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
-                    <Select
-                        labelId="TransferOperationFromDialog-IssuerCashAccountId-Label"
-                        value={dirty.issuerCashAccountID}
-                        onChange={e => onTextFieldChange(e.target.value + '', 'issuerCashAccountID')}
-                    >
-                        {dropDownDataForCashAccounts.map(cashAccount => (
-                            <MenuItem key={`TransferOperationFormDialog-Issuer-${cashAccount.id}`}
-                                      value={cashAccount.id}>
-                                {cashAccount.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="TransferOperationFromDialog-AcquirerCashAccountId-Label">Acquirer</InputLabel>
-                    <Select
-                        labelId="TransferOperationFromDialog-AcquirerCashAccountId-Label"
-                        value={dirty.acquirerCashAccountID}
-                        onChange={e => onTextFieldChange(e.target.value + '', 'acquirerCashAccountID')}
-                    >
-                        {dropDownDataForCashAccounts.map(cashAccount => (
-                            <MenuItem key={`TransferOperationFormDialog-Acquirer-${cashAccount.id}`}
-                                      value={cashAccount.id}>
-                                {cashAccount.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                {/*Issuer Account*/}
+                <Card className={classes.cardRoot}>
+                    <CardContent onClick={() => setShowIssuerAccountPicker(true)}>
+                        <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
+                            From
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                            {dropDownDataForCashAccounts.find(x => x.id === dirty.issuerCashAccountID)?.name || ''}
+                        </Typography>
+                    </CardContent>
+                </Card>
+                <AccountPicker
+                    open={showIssuerAccountPicker}
+                    handleClose={() => setShowIssuerAccountPicker(false)}
+                    dropDownDataForCashAccounts={dropDownDataForCashAccounts}
+                    onAccountPicked={account => onTextFieldChange(account.id, 'issuerCashAccountID')}
+                    value={dirty.issuerCashAccountID}
+                />
+                {/*Acquirer Account*/}
+                <Card className={classes.cardRoot}>
+                    <CardContent onClick={() => setShowAcquirerAccountPicker(true)}>
+                        <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
+                            To
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                            {dropDownDataForCashAccounts.find(x => x.id === dirty.acquirerCashAccountID)?.name || ''}
+                        </Typography>
+                    </CardContent>
+                </Card>
+                <AccountPicker
+                    open={showAcquirerAccountPicker}
+                    handleClose={() => setShowAcquirerAccountPicker(false)}
+                    dropDownDataForCashAccounts={dropDownDataForCashAccounts}
+                    onAccountPicked={account => onTextFieldChange(account.id, 'acquirerCashAccountID')}
+                    value={dirty.acquirerCashAccountID}
+                />
                 <TextField
                     margin="dense"
                     label="Description"
