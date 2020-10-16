@@ -27,7 +27,7 @@ import {ToggleFlowType} from '../../../components/ToggleFlowType';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
-            margin: theme.spacing(1),
+            margin: theme.spacing(1, 0, 1, 0),
             minWidth: 120,
         },
         stonks: {
@@ -142,6 +142,19 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                 TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'New'} transfer operation</DialogTitle>
             <DialogContent>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label="Amount"
+                    type="text"
+                    fullWidth
+                    value={amount}
+                    onChange={onAmountChange}
+                    InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                        className: type === 'income' ? classes.stonks : classes.notStonks,
+                    }}
+                />
                 <FormControl className={classes.formControl}>
                     <InputLabel id="TransferOperationFromDialog-IssuerCashAccountId-Label">Issuer</InputLabel>
                     <Select
@@ -172,19 +185,6 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                         ))}
                     </Select>
                 </FormControl>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    label="Amount"
-                    type="text"
-                    fullWidth
-                    value={amount}
-                    onChange={onAmountChange}
-                    InputProps={{
-                        inputComponent: NumberFormatCustom as any,
-                        className: type === 'income' ? classes.stonks : classes.notStonks,
-                    }}
-                />
                 <TextField
                     margin="dense"
                     label="Description"
