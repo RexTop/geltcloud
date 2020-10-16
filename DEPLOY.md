@@ -36,3 +36,11 @@ firebase serve --only hosting
 npm run build
 firebase deploy -m "v0.0.5 Account picker in tree view"
 ```
+
+## Post deploy
+
+Remember to checkout amplify dev environment
+
+```shell script
+amplify env checkout dev
+```
