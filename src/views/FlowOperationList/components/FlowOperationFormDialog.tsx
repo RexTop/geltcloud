@@ -154,6 +154,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     </CardContent>
                 </Card>
                 <AccountPicker
+                    title="Account"
                     open={showAccountPicker}
                     handleClose={() => setShowAccountPicker(false)}
                     dropDownDataForCashAccounts={dropDownDataForCashAccounts}

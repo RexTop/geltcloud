@@ -165,7 +165,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                         className: type === 'income' ? classes.stonks : classes.notStonks,
                     }}
                 />
-                {/*Issuer Account*/}
+                {/*Issuer Account (From)*/}
                 <Card className={classes.cardRoot}>
                     <CardContent onClick={() => setShowIssuerAccountPicker(true)}>
                         <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
@@ -177,13 +177,14 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     </CardContent>
                 </Card>
                 <AccountPicker
+                    title="From"
                     open={showIssuerAccountPicker}
                     handleClose={() => setShowIssuerAccountPicker(false)}
                     dropDownDataForCashAccounts={dropDownDataForCashAccounts}
                     onAccountPicked={account => onTextFieldChange(account.id, 'issuerCashAccountID')}
                     value={dirty.issuerCashAccountID}
                 />
-                {/*Acquirer Account*/}
+                {/*Acquirer Account (To)*/}
                 <Card className={classes.cardRoot}>
                     <CardContent onClick={() => setShowAcquirerAccountPicker(true)}>
                         <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
@@ -195,6 +196,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                     </CardContent>
                 </Card>
                 <AccountPicker
+                    title="To"
                     open={showAcquirerAccountPicker}
                     handleClose={() => setShowAcquirerAccountPicker(false)}
                     dropDownDataForCashAccounts={dropDownDataForCashAccounts}

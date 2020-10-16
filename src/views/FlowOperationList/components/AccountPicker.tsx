@@ -7,8 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {CashAccountModel} from "../../../models/CashAccountModel";
 import {Transition} from "../../../components/common/Transition";
-import {treefy, TreefyObject} from '../../../lib/Treefy';
-import TreeItem from '@material-ui/lab/TreeItem';
+import {treefy} from '../../../lib/Treefy';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -26,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
+    title: string
     open: boolean
     handleClose: () => void
     dropDownDataForCashAccounts: CashAccountModel[]
@@ -50,12 +50,12 @@ const AccountPickerTree = ({accountNames, separator, onClick}: { accountNames: s
 const normalizePathRegex = /(\s*\/\s*)/gm;
 const normalizePath = (value: string) => value.replace(normalizePathRegex, '/');
 
-export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: accounts, onAccountPicked, value}: Props) => {
+export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: accounts, onAccountPicked, value, title}: Props) => {
     const classes = useStyles();
 
     return (
         <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} className={classes.dialogRoot}>
-            <DialogTitle>Account</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <AccountPickerTree accountNames={accounts.map(account => account.name)} separator={'/'}
                                    onClick={data => {
