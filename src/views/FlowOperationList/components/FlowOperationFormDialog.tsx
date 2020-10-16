@@ -102,7 +102,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
-            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} flow operation</DialogTitle>
+            <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'New'} flow operation</DialogTitle>
             <DialogContent>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
