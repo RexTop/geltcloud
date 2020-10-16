@@ -30,34 +30,77 @@ type Props = {
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-const Branch = ({tree, baseKey}: { tree: TreefyObject, baseKey: string }) => {
+type BranchClickArgs = {
+    subBranches: string[]
+    currentBranch: string
+    separator: string
+    tree: TreefyObject
+    baseNodeId: string
+    parentBranch: string
+    fullPath: string
+    nodeId: string
+}
+
+type BranchProps = {
+    tree: TreefyObject
+    baseNodeId: string
+    parentBranch: string
+    separator: string
+    onClick: (data: BranchClickArgs) => void
+}
+
+const Branch = ({tree, baseNodeId, parentBranch, separator, onClick}: BranchProps) => {
     if (!Object.keys(tree).length) return null;
     return (
         <>
-            {Object.keys(tree).map(key => (
-                <TreeItem key={`${baseKey}-${key}`} nodeId={`${baseKey}-${key}`} label={key}>
-                    {Object.keys(tree[key]).map(subKey =>
-                        <Branch
-                            key={`${baseKey}-${key}-${subKey}`}
-                            tree={{[subKey]: tree[key][subKey]}}
-                            baseKey={`${baseKey}-${key}`}
-                        />)}
-                </TreeItem>
-            ))}
+            {Object.keys(tree).map(currentBranch => {
+                const nodeId = `${baseNodeId}${separator}${currentBranch}`;
+                const subBranches = Object.keys(tree[currentBranch]);
+                const fullPath = (parentBranch ? parentBranch + separator : '') + currentBranch;
+                return (
+                    <TreeItem key={nodeId} nodeId={nodeId} label={(
+                        <div onClick={() => {
+                            console.log('%c click', 'background: white; color: black', {
+                                subBranches,
+                                currentBranch,
+                                separator,
+                                tree,
+                                baseNodeId,
+                                parentBranch,
+                                fullPath,
+                                nodeId,
+                            });
+                        }}>
+                            {currentBranch}
+                        </div>
+                    )}>
+                        {subBranches.map(subBranch =>
+                            <Branch
+                                key={`${baseNodeId}${separator}${currentBranch}${separator}${subBranch}`}
+                                tree={{[subBranch]: tree[currentBranch][subBranch]}}
+                                baseNodeId={nodeId}
+                                parentBranch={(parentBranch ? parentBranch + separator : '') + currentBranch}
+                                separator={separator}
+                                onClick={onClick}
+                            />)}
+                    </TreeItem>
+                );
+            })}
         </>
     );
 };
 
-const TreefyExample = ({accountNames}: { accountNames: string[] }) => {
+const TreefyExample = ({accountNames, separator}: { accountNames: string[], separator: string }) => {
     const classes = useStyles();
-    const tree = treefy({stringArray: accountNames, separator: '/'});
+    const tree = treefy({stringArray: accountNames, separator});
     return (
         <TreeView
             className={classes.treeRoot}
             defaultCollapseIcon={<ExpandMoreIcon/>}
             defaultExpandIcon={<ChevronRightIcon/>}
         >
-            <Branch tree={tree} baseKey={'account-picker-tree'}/>
+            <Branch tree={tree} baseNodeId={'account-picker-tree'} parentBranch={''} separator={separator}
+                    onClick={() => void 0}/>
         </TreeView>
     );
 };
@@ -69,7 +112,7 @@ export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: a
         <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} className={classes.dialogRoot}>
             <DialogTitle>Account</DialogTitle>
             <DialogContent>
-                <TreefyExample accountNames={accounts.map(account => account.name)}/>
+                <TreefyExample accountNames={accounts.map(account => account.name)} separator={'/'}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
