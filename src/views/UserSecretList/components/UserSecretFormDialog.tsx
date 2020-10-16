@@ -71,7 +71,7 @@ export const UserSecretFormDialog = ({open, handleClose, dropDownDataForCashAcco
     };
 
     return (
-        <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
             <DialogTitle id="form-dialog-title">{model.id ? 'Update' : 'Create'} user secret</DialogTitle>
             <DialogContent>
