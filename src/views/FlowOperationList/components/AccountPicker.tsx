@@ -30,32 +30,6 @@ type Props = {
     dropDownDataForCashAccounts: CashAccountModel[],
 };
 
-const slashSeparatedValues = [
-    'Bitso / TUSD',
-    'Cash / MXN',
-    'Banamex / Credit',
-    'Mercado Pago',
-    'Cold Wallet / One / LTC 1 (segwit)',
-    'Cold Wallet / One / BTC 1 (native segwit)',
-    'Bitso / ETH',
-    'Santander / Credit',
-    'Banamex / Premia / One',
-    'Banamex / Premia / Two',
-    'Car Cash',
-    'Santander / Debit',
-    'Bitso / LTC',
-    'BBVA / Debit',
-    'Bitso / MXN',
-    'Bitso / BTC',
-    'Cold Wallet / One / ETH 1',
-    'Cold Wallet / One / BTC 1 (segwit)',
-    'Banamex / Maestra',
-    'Cold Wallet / Two / DAI',
-    'Cold Wallet / Two / ETH',
-    'Cold Wallet / LLC / DAI',
-    'Cold Wallet / LLC / ETH',
-];
-
 const Branch = ({tree, baseKey}: { tree: TreefyObject, baseKey: string }) => {
     if (!Object.keys(tree).length) return null;
     return (
@@ -74,9 +48,9 @@ const Branch = ({tree, baseKey}: { tree: TreefyObject, baseKey: string }) => {
     );
 };
 
-const TreefyExample = () => {
+const TreefyExample = ({accountNames}: { accountNames: string[] }) => {
     const classes = useStyles();
-    const tree = treefy({stringArray: slashSeparatedValues, separator: '/'});
+    const tree = treefy({stringArray: accountNames, separator: '/'});
     return (
         <TreeView
             className={classes.treeRoot}
@@ -88,14 +62,14 @@ const TreefyExample = () => {
     );
 };
 
-export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts}: Props) => {
+export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: accounts}: Props) => {
     const classes = useStyles();
 
     return (
         <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} className={classes.dialogRoot}>
             <DialogTitle>Account</DialogTitle>
             <DialogContent>
-                <TreefyExample/>
+                <TreefyExample accountNames={accounts.map(account => account.name)}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
