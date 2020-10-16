@@ -121,19 +121,19 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                 <TextField
                     autoFocus
                     margin="dense"
-                    label="Description"
-                    type="text"
-                    fullWidth
-                    value={dirty.description}
-                    onChange={e => onTextFieldChange(e.target.value, 'description')}
-                />
-                <TextField
-                    margin="dense"
                     label="Amount"
                     type="number"
                     fullWidth
                     value={dirty.amount}
                     onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
+                />
+                <TextField
+                    margin="dense"
+                    label="Description"
+                    type="text"
+                    fullWidth
+                    value={dirty.description}
+                    onChange={e => onTextFieldChange(e.target.value, 'description')}
                 />
                 <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
                 <TextField
