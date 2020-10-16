@@ -17,14 +17,24 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {ToggleFlowType} from "../../../components/ToggleFlowType";
 import {Transition} from "../../../components/common/Transition";
+import {FlowType} from '../../../models/FlowType';
+import accounting from 'accounting';
+import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
+import {notStonksTextColor, stonksTextColor} from '../../../theme/colors';
+import {ToggleFlowType} from '../../../components/ToggleFlowType';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
             margin: theme.spacing(1),
             minWidth: 120,
+        },
+        stonks: {
+            color: stonksTextColor,
+        },
+        notStonks: {
+            color: notStonksTextColor,
         },
     }),
 );
@@ -38,14 +48,30 @@ type Props = {
 
 export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(model);
+    const [dirty, setDirty] = React.useState<Omit<TransferOperationModel, 'amount'>>(model);
+    const [amount, setAmount] = React.useState(`${Math.abs(model.amount)}`);
+    const [type, setType] = React.useState<FlowType>(model.amount < 0 ? 'expense' : 'income');
+
+    const amountAsNumber = () => {
+        const absAmount = Math.abs(accounting.unformat(amount, '.'));
+        return type === 'income' ? absAmount : -absAmount;
+    }
 
     React.useEffect(() => {
         setDirty(model);
     }, [model]);
 
+    React.useEffect(() => {
+        setAmount(`${Math.abs(model.amount)}`);
+        setType(model.amount < 0 ? 'expense' : 'income');
+    }, [model.amount]);
+
     const onTextFieldChange = (value: string, key: keyof TransferOperationModel) => {
         setDirty({...dirty, [key]: value});
+    };
+
+    const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAmount(event.target.value);
     };
 
     const onNumericFieldChange = (value: number, key: keyof TransferOperationModel) => {
@@ -53,7 +79,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
     };
 
     const isDirty = () => {
-        if (model.amount !== dirty.amount) return true;
+        if (model.amount !== amountAsNumber()) return true;
         if (model.dateIssued !== dirty.dateIssued) return true;
         if (model.description !== dirty.description) return true;
         if (model.acquirerBankNote !== dirty.acquirerBankNote) return true;
@@ -72,7 +98,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
             if (dirty.id) {
                 const input: UpdateTransferOperationInput = {
                     id: dirty.id,
-                    amount: dirty.amount,
+                    amount: amountAsNumber(),
                     dateIssued: moment(dirty.dateIssued).utc().format(),
                     description: dirty.description,
                     acquirerBankNote: dirty.acquirerBankNote || '-',
@@ -88,7 +114,7 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                 showAlert({message: 'Transfer operation updated', severity: 'success'});
             } else {
                 const input: CreateTransferOperationInput = {
-                    amount: dirty.amount,
+                    amount: amountAsNumber(),
                     dateIssued: moment(dirty.dateIssued).utc().format(),
                     description: dirty.description,
                     acquirerBankNote: dirty.acquirerBankNote || '-',
@@ -149,6 +175,18 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                 <TextField
                     autoFocus
                     margin="dense"
+                    label="Amount"
+                    type="text"
+                    fullWidth
+                    value={amount}
+                    onChange={onAmountChange}
+                    InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                        className: type === 'income' ? classes.stonks : classes.notStonks,
+                    }}
+                />
+                <TextField
+                    margin="dense"
                     label="Description"
                     type="text"
                     fullWidth
@@ -158,22 +196,13 @@ export const TransferOperationFormDialog = ({open, handleClose, dropDownDataForC
                 <FormControl className={classes.formControl}>
                     <TextField
                         margin="dense"
-                        label="Amount"
-                        type="number"
-                        value={dirty.amount}
-                        onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
-                    />
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <TextField
-                        margin="dense"
                         label="Fee"
                         type="number"
                         value={dirty.fee}
                         onChange={e => onNumericFieldChange(+e.target.value, 'fee')}
                     />
                 </FormControl>
-                {/*<ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>*/}
+                <ToggleFlowType type={type} onChange={value => setType(value)}/>
                 <TextField
                     margin="dense"
                     label="Issuer Note"
