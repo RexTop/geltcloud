@@ -17,8 +17,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {ToggleFlowType} from "../../../components/ToggleFlowType";
 import {Transition} from "../../../components/common/Transition";
+import accounting from 'accounting';
+import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,22 +39,29 @@ type Props = {
 
 export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashAccounts, model}: Props) => {
 
-    const [dirty, setDirty] = React.useState(model);
+    const [dirty, setDirty] = React.useState(model as Omit<FlowOperationModel, "amount">);
+    const [amount, setAmount] = React.useState(`${model.amount}`);
+
+    const amountAsNumber = () => accounting.unformat(amount, '.');
 
     React.useEffect(() => {
         setDirty(model);
     }, [model]);
 
+    React.useEffect(() => {
+        setAmount(`${model.amount}`);
+    }, [model.amount]);
+
     const onTextFieldChange = (value: string, key: keyof FlowOperationModel) => {
         setDirty({...dirty, [key]: value});
     };
 
-    const onNumericFieldChange = (value: number, key: keyof FlowOperationModel) => {
-        setDirty({...dirty, [key]: value});
+    const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAmount(event.target.value);
     };
 
     const isDirty = () => {
-        if (model.amount !== dirty.amount) return true;
+        if (model.amount !== amountAsNumber()) return true;
         if (model.dateIssued !== dirty.dateIssued) return true;
         if (model.description !== dirty.description) return true;
         if (model.bankNote !== dirty.bankNote) return true;
@@ -68,7 +76,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
             if (dirty.id) {
                 const input: UpdateFlowOperationInput = {
                     id: dirty.id,
-                    amount: dirty.amount,
+                    amount: amountAsNumber(),
                     dateIssued: moment(dirty.dateIssued).utc().format(),
                     description: dirty.description,
                     bankNote: dirty.bankNote || '-',
@@ -80,7 +88,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                 showAlert({message: 'Flow operation updated', severity: 'success'});
             } else {
                 const input: CreateFlowOperationInput = {
-                    amount: dirty.amount,
+                    amount: amountAsNumber(),
                     dateIssued: moment(dirty.dateIssued).utc().format(),
                     description: dirty.description,
                     bankNote: dirty.bankNote || '-',
@@ -99,6 +107,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
 
     const classes = useStyles();
 
+    console.log('%c Amount', 'background: white; color: black', {amount, 'model.amount': model.amount});
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
                 TransitionComponent={Transition}>
@@ -122,10 +131,13 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     autoFocus
                     margin="dense"
                     label="Amount"
-                    type="number"
+                    type="text"
                     fullWidth
-                    value={dirty.amount}
-                    onChange={e => onNumericFieldChange(+e.target.value, 'amount')}
+                    value={amount}
+                    onChange={onAmountChange}
+                    InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                    }}
                 />
                 <TextField
                     margin="dense"
@@ -135,7 +147,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     value={dirty.description}
                     onChange={e => onTextFieldChange(e.target.value, 'description')}
                 />
-                <ToggleFlowType amount={dirty.amount} onChange={amount => setDirty({...dirty, amount})}/>
+                {/*<ToggleFlowType amount={amountAsNumber()} onChange={amount => setDirty({...dirty, amount})}/>*/}
                 <TextField
                     margin="dense"
                     label="Note"
