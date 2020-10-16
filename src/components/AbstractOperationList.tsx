@@ -16,7 +16,8 @@ import {OperationListTabbedWidget} from "./OperationListTabbedWidget";
 import {DateFilter, todayFilter} from "../utils/date-util";
 
 const MAX_ITEMS_PER_PAGE = 50;
-const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 100;
+// TODO: Show the user some UI if there are more than these accounts:
+const MAX_CASH_ACCOUNTS_IN_DROPDOWN = 200;
 
 const useStyles = makeStyles((theme: Theme) => ({
     abstractOperationFab: {
