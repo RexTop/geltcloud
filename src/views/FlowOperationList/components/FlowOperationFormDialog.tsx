@@ -13,10 +13,6 @@ import {showAlert} from "../../../utils/ui";
 import moment from 'moment';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {CashAccountModel} from "../../../models/CashAccountModel";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import {Transition} from "../../../components/common/Transition";
 import accounting from 'accounting';
 import {NumberFormatCustom} from '../../../components/common/NumberFormatCusrom';
@@ -36,10 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             fontSize: 14,
-        },
-        formControl: {
-            margin: theme.spacing(1, 0, 1, 0),
-            minWidth: 120,
         },
         stonks: {
             color: stonksTextColor,
@@ -157,7 +149,7 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                             Account
                         </Typography>
                         <Typography variant="h5" component="h2">
-                            {dirty.issuerCashAccount?.name}
+                            {dropDownDataForCashAccounts.find(x => x.id === dirty.issuerCashAccountID)?.name || ''}
                         </Typography>
                     </CardContent>
                 </Card>
@@ -165,21 +157,9 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                     open={showAccountPicker}
                     handleClose={() => setShowAccountPicker(false)}
                     dropDownDataForCashAccounts={dropDownDataForCashAccounts}
+                    onAccountPicked={account => onTextFieldChange(account.id, 'issuerCashAccountID')}
+                    value={dirty.issuerCashAccountID}
                 />
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
-                    <Select
-                        labelId="FlowOperationFromDialog-IssuerCashAccountId-Label"
-                        value={dirty.issuerCashAccountID}
-                        onChange={e => onTextFieldChange(e.target.value + '', 'issuerCashAccountID')}
-                    >
-                        {dropDownDataForCashAccounts.map(cashAccount => (
-                            <MenuItem key={`FlowOperationFormDialog-${cashAccount.id}`} value={cashAccount.id}>
-                                {cashAccount.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
                 <TextField
                     margin="dense"
                     label="Description"

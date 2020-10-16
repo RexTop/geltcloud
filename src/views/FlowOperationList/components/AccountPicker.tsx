@@ -25,9 +25,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-    open: boolean,
-    handleClose: () => void,
-    dropDownDataForCashAccounts: CashAccountModel[],
+    open: boolean
+    handleClose: () => void
+    dropDownDataForCashAccounts: CashAccountModel[]
+    onAccountPicked: (account: CashAccountModel) => void
+    value: string
 };
 
 type BranchClickArgs = {
@@ -83,7 +85,7 @@ const Branch = ({tree, baseNodeId, parentBranch, separator, onClick}: BranchProp
     );
 };
 
-const TreefyExample = ({accountNames, separator}: { accountNames: string[], separator: string }) => {
+const AccountPickerTree = ({accountNames, separator, onClick}: { accountNames: string[], separator: string, onClick: (data: BranchClickArgs) => void }) => {
     const classes = useStyles();
     const tree = treefy({stringArray: accountNames, separator});
     return (
@@ -93,19 +95,34 @@ const TreefyExample = ({accountNames, separator}: { accountNames: string[], sepa
             defaultExpandIcon={<ChevronRightIcon/>}
         >
             <Branch tree={tree} baseNodeId={'account-picker-tree'} parentBranch={''} separator={separator}
-                    onClick={data => console.log('%c click', 'background: white; color: black', data)}/>
+                    onClick={onClick}/>
         </TreeView>
     );
 };
 
-export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: accounts}: Props) => {
+const normalizePathRegex = /(\s*\/\s*)/gm;
+const normalizePath = (value: string) => value.replace(normalizePathRegex, '/');
+
+export const AccountPicker = ({open, handleClose, dropDownDataForCashAccounts: accounts, onAccountPicked, value}: Props) => {
     const classes = useStyles();
 
     return (
         <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} className={classes.dialogRoot}>
             <DialogTitle>Account</DialogTitle>
             <DialogContent>
-                <TreefyExample accountNames={accounts.map(account => account.name)} separator={'/'}/>
+                <AccountPickerTree accountNames={accounts.map(account => account.name)} separator={'/'}
+                                   onClick={data => {
+                                       const isLeaf = !data.subBranches.length;
+                                       if (isLeaf) {
+                                           const account = accounts.find(account => normalizePath(account.name) === data.fullPath);
+                                           if (account) {
+                                               onAccountPicked(account);
+                                           } else {
+                                               console.error('Could not find account', {account, data, accounts});
+                                           }
+                                       }
+                                   }}
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
