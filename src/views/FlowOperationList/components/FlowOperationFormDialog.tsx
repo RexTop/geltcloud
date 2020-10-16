@@ -26,6 +26,7 @@ import {notStonksTextColor, stonksTextColor} from '../../../theme/colors';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import {AccountPicker} from './AccountPicker';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -160,6 +161,11 @@ export const FlowOperationFormDialog = ({open, handleClose, dropDownDataForCashA
                         </Typography>
                     </CardContent>
                 </Card>
+                <AccountPicker
+                    open={showAccountPicker}
+                    handleClose={() => setShowAccountPicker(false)}
+                    dropDownDataForCashAccounts={dropDownDataForCashAccounts}
+                />
                 <FormControl className={classes.formControl}>
                     <InputLabel id="FlowOperationFromDialog-IssuerCashAccountId-Label">Account</InputLabel>
                     <Select
